@@ -17,17 +17,18 @@ export default function AboutPage() {
         {/* Section 1: Header & Intro */}
         <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="max-w-4xl mx-auto text-center mb-16 md:mb-24">
             <motion.h1 variants={itemFadeUp} className="text-5xl md:text-6xl lg:text-7xl font-bold font-display mb-6 text-foreground"> Our Mission: <span className="text-brand-maroon">Clarity</span> in Venture </motion.h1>
+            {/* Line 21 Fix */}
             <motion.p variants={itemFadeUp} transition={{delay: 0.1}} className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
-                We're simplifying the complex world of startup intelligence for investors, founders, and operators worldwide.
+                We&apos;re simplifying the complex world of startup intelligence for investors, founders, and operators worldwide.
             </motion.p>
         </motion.div>
 
         {/* Section 2: Image placeholder */}
          <motion.div variants={itemFadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="relative aspect-16/9 max-w-5xl mx-auto rounded-2xl border border-border shadow-xl overflow-hidden mb-16 md:mb-24">
-            {/* Placeholder Image: Replace with your own */}
+            {/* Placeholder Image: Replace with your own relevant team/office/abstract image */}
             <Image
                 src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Team collaborating or abstract representation"
+                alt="Team collaborating or abstract representation of Brown24 Ventures"
                 layout="fill"
                 objectFit="cover"
                 quality={85}
@@ -35,7 +36,6 @@ export default function AboutPage() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent"></div>
         </motion.div>
-
 
         {/* Section 3: Who We Are / Vision Grid */}
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 max-w-6xl mx-auto mb-16 md:mb-24">
@@ -84,7 +84,6 @@ export default function AboutPage() {
                  </div>
              </div>
          </motion.div>
-
       </div>
     </div>
   );
