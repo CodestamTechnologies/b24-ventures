@@ -1,4 +1,3 @@
-// components/sections/home/CtaSection.tsx
 "use client";
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
@@ -47,16 +46,15 @@ export default function CtaSection() {
                  <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="bg-background/80 p-6 rounded-xl border border-green-500/50 shadow-lg max-w-md mx-auto">
                    <CheckCircle className="h-10 w-10 text-green-600 mx-auto mb-3" />
                    <h3 className="text-xl font-semibold text-foreground mb-1 font-display"> Success! </h3>
-                   {/* Line 51/52 Fix Area */}
                    <p className="text-muted-foreground text-base"> You&apos;re on the list. We&apos;ll be in touch. </p>
                  </motion.div>
                ) : (
                  <form onSubmit={handleSubmit} className="mt-8 max-w-lg mx-auto">
-                    {/* ... form structure ... */}
                      <div className="flex flex-col sm:flex-row gap-3">
                          <Input type="email" placeholder="your.email@example.com" value={email} onChange={handleEmailChange} required disabled={isLoading} className="flex-grow bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 rounded-lg h-12 text-base px-4 shadow-inner-sm" />
-                         <Button type="submit" disabled={isLoading || !email} size="lg" className={cn(/* ... button styles ... */)}>
-                              {/* ... button content ... */}
+                         <Button type="submit" disabled={isLoading || !email} size="lg" className={cn("whitespace-nowrap font-medium transition-all", 
+                         isLoading ? "opacity-80" : "hover:shadow-md")}>
+                              {isLoading ? "Joining..." : "Join Waitlist 🚀"}
                          </Button>
                      </div>
                      <p className="text-xs text-muted-foreground mt-3">Your privacy is important to us.</p>
