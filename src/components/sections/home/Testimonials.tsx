@@ -2,8 +2,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import { cn } from "@/lib/utils";
+// Removed unused Quote import
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils"; // Keep cn
 
 interface Testimonial { quote: string; author: string; position: string; }
 const testimonialsData: Testimonial[] = [
@@ -15,7 +16,13 @@ export default function Testimonials() {
   const [current, setCurrent] = useState<number>(0);
   const [direction, setDirection] = useState(0);
 
-  useEffect(() => { if (testimonialsData.length <= 1) return; const intervalId = setInterval(() => { paginate(1); }, 7000); return () => clearInterval(intervalId); }, [testimonialsData.length]);
+  useEffect(() => {
+    if (testimonialsData.length <= 1) return;
+    const intervalId = setInterval(() => { paginate(1); }, 7000);
+    return () => clearInterval(intervalId);
+    // Keep corrected dependency array
+  }, [testimonialsData.length]);
+
   const paginate = (newDirection: number) => { setDirection(newDirection); setCurrent((prev) => (prev + newDirection + testimonialsData.length) % testimonialsData.length); };
   const goToSlide = (slideIndex: number) => { setDirection(slideIndex > current ? 1 : -1); setCurrent(slideIndex); };
 

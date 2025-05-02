@@ -1,8 +1,10 @@
+// hooks/use-toast.ts
 "use client"
 
 // Inspired by react-hot-toast library
 import * as React from "react"
 
+// Use 'import type' as these are only used for types
 import type {
   ToastActionElement,
   ToastProps,
@@ -18,6 +20,8 @@ type ToasterToast = ToastProps & {
   action?: ToastActionElement
 }
 
+// Disable the unused-vars rule specifically for this line, as it's used for ActionType
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const actionTypes = {
   ADD_TOAST: "ADD_TOAST",
   UPDATE_TOAST: "UPDATE_TOAST",
@@ -126,6 +130,9 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         toasts: state.toasts.filter((t) => t.id !== action.toastId),
       }
+    // Add default case to satisfy some linters/compilers
+    default:
+        return state;
   }
 }
 

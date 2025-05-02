@@ -1,14 +1,15 @@
 // components/layout/Footer.tsx
 import Link from "next/link";
-import { Linkedin, Twitter, Instagram, LucideIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+// Remove Instagram if not used
+import { Linkedin, Twitter, /* Instagram, */ LucideIcon } from "lucide-react";
+// Removed unused 'cn' import
 
 interface SocialLink { name: string; url: string; icon: LucideIcon; }
 // !! REPLACE # with actual social links !!
 const socialLinks: SocialLink[] = [
     { name: "LinkedIn", url: "#", icon: Linkedin },
     { name: "Twitter", url: "#", icon: Twitter },
-    // { name: "Instagram", url: "#", icon: Instagram }, // Uncomment if needed
+    // { name: "Instagram", url: "#", icon: Instagram },
 ];
 
 export default function Footer() {
@@ -42,10 +43,10 @@ export default function Footer() {
                         </ul>
                     </div>
                      {/* Column 3 Social/Legal */}
-                    <div className="col-span-2 md:col-span-1"> {/* Adjusted span for better alignment */}
+                    <div className="col-span-2 md:col-span-1">
                          <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider text-gray-500">Connect</h3>
                         {socialLinks.length > 0 && (
-                            <div className="flex space-x-5 mb-6">
+                            <div className="flex space-x-6 mb-6">
                                 {socialLinks.map((social) => ( <a key={social.name} href={social.url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors duration-200" aria-label={`Follow on ${social.name}`}> <social.icon className="h-5 w-5" /> </a> ))}
                             </div>
                          )}

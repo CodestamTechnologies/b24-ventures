@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { LucideIcon } from "lucide-react";
 import { Handshake, Cpu, Globe, MessagesSquare, ListChecks, TrendingUp, DollarSign, Bookmark, Users, Bell } from "lucide-react";
-import { cn } from "@/lib/utils";
+// Removed unused 'cn' import
 
 interface FeatureItem { title: string; description: string; icon: LucideIcon; }
 interface SnapshotItem { name: string; icon: LucideIcon; }
@@ -22,6 +22,8 @@ const snapshotFeatures: SnapshotItem[] = [
 ];
 
 const itemFadeUp = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } };
+const staggerContainer = { hidden: {}, visible: { transition: { staggerChildren: 0.07 } } };
+
 
 export default function Features() {
     if (!whyFeatures.length && !snapshotFeatures.length) return null;
@@ -35,7 +37,7 @@ export default function Features() {
                  </motion.div>
 
                 {whyFeatures.length > 0 && (
-                    <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-20 md:mb-24" initial="hidden" whileInView="visible" variants={{ visible: { transition: { staggerChildren: 0.07 } } }} viewport={{ once: true, amount: 0.1 }}>
+                    <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-20 md:mb-24" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
                         {whyFeatures.map((feature) => (
                             <motion.div key={feature.title} variants={itemFadeUp} className="group bg-background rounded-xl border border-border p-6 md:p-8 text-left transition-all duration-300 ease-out hover:shadow-lg">
                                 <div className="flex flex-col h-full">
@@ -49,7 +51,7 @@ export default function Features() {
                 )}
 
                 {snapshotFeatures.length > 0 && (
-                    <motion.div className="max-w-4xl mx-auto" initial="hidden" whileInView="visible" variants={{ visible: { transition: { staggerChildren: 0.05 } } }} viewport={{ once: true, amount: 0.1 }}>
+                    <motion.div className="max-w-4xl mx-auto" initial="hidden" whileInView="visible" variants={staggerContainer} viewport={{ once: true, amount: 0.1 }}>
                         <motion.h3 variants={itemFadeUp} className="text-3xl md:text-4xl font-semibold text-center mb-12 text-foreground font-display group"> Features Snapshot <span className="section-header-underline"></span> </motion.h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                             {snapshotFeatures.map((item) => (

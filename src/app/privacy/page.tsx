@@ -2,17 +2,32 @@
 import type { Metadata } from 'next';
 import React from "react";
 import { Lock } from 'lucide-react';
-import { cn } from "@/lib/utils"; // Import cn
+import { cn } from "@/lib/utils"; // Keep cn
 
 export const metadata: Metadata = { title: "Privacy Policy - Brown24 Ventures", description: "Read the Brown24 Ventures privacy policy regarding data collection, usage, and protection.", };
 
 export default function PrivacyPage() {
   const lastUpdated: string = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
+  // Define prose classes
+   const proseClasses = cn(
+      "prose max-w-none", // Base prose, remove max-width limit
+      // Heading styles
+      "prose-headings:font-display prose-headings:text-foreground prose-headings:font-semibold prose-headings:mb-4 prose-headings:mt-8 first:prose-headings:mt-0",
+      // Paragraph styles
+      "prose-p:text-foreground/90 prose-p:leading-relaxed prose-p:mb-4 prose-p:max-w-prose", // Limit paragraph width inside article
+      // List styles
+      "prose-ul:list-disc prose-ul:pl-6 prose-li:my-2 prose-li:text-foreground/90 prose-li:marker:text-muted-foreground",
+      // Strong/Bold styles
+      "prose-strong:text-foreground prose-strong:font-semibold",
+       // Link styles
+      "prose-a:text-primary hover:prose-a:text-brand-maroon-dark prose-a:font-medium prose-a:transition-colors prose-a:no-underline hover:prose-a:underline"
+   );
+
   return (
     <div className="bg-gradient-to-b from-background via-secondary to-background min-h-[calc(100vh-100px)] pt-28 pb-24 md:pt-36 md:pb-32 overflow-hidden">
       <div className="container mx-auto px-4">
-         <div className="max-w-4xl mx-auto"> {/* Increased max-width for readability */}
+         <div className="max-w-4xl mx-auto">
             {/* Header */}
            <div className="text-center mb-16 md:mb-20">
              <Lock className="h-10 w-10 mx-auto mb-4 text-primary opacity-80" />
@@ -21,16 +36,10 @@ export default function PrivacyPage() {
            </div>
 
            {/* Content Card */}
-            <div className={cn(
-                "card-enhanced p-8 md:p-12", // Use enhanced card style
-                // Apply prose styles directly here for content formatting
-                "prose max-w-none prose-headings:font-display prose-headings:text-foreground prose-headings:font-semibold prose-headings:mb-4 prose-headings:mt-8 first:prose-headings:mt-0",
-                "prose-p:text-foreground/90 prose-p:leading-relaxed prose-p:mb-4 prose-p:max-w-prose", // Apply max-w-prose to paragraphs inside
-                "prose-ul:list-disc prose-ul:pl-6 prose-li:my-2 prose-li:text-foreground/90 prose-li:marker:text-muted-foreground",
-                "prose-strong:text-foreground prose-strong:font-semibold",
-                "prose-a:text-primary hover:prose-a:text-brand-maroon-dark prose-a:font-medium prose-a:transition-colors prose-a:no-underline hover:prose-a:underline"
-            )}>
-                 {/* === Paste your FULL Privacy Policy Content Here === */}
+            <div className="card-enhanced p-8 md:p-12">
+               <article className={proseClasses}>
+                 {/* Privacy Policy Content */}
+                 {/* Using " for quotes inside text nodes to be safe */}
                  <h2>1. Introduction</h2>
                  <p>Welcome to Brown24 Ventures ("we", "us", or "our"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website (the "Site"). Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.</p>
 
@@ -77,12 +86,12 @@ export default function PrivacyPage() {
                  <p>We do not knowingly solicit information from or market to children under the age of 13. If you become aware of any data we have collected from children under age 13, please contact us using the contact information provided below.</p>
 
                  <h2>9. Changes to This Privacy Policy</h2>
-                 <p>We may update this Privacy Policy from time to time in order to reflect, for example, changes to our practices or for other operational, legal, or regulatory reasons. We will notify you of any changes by posting the new Privacy Policy on the Site and updating the "Last Updated" date.</p>
+                 <p>We may update this Privacy Policy from time to time in order to reflect, for example, changes to our practices or for other operational, legal, or regulatory reasons. We will notify you of any changes by posting the new Privacy Policy on the Site and updating the "Last Updated" date.</p> {/* Use " */}
 
                  <h2>10. Contact Us</h2>
                  <p>If you have questions or comments about this Privacy Policy, please contact us at:</p>
                  <p>Email: <a href="mailto:privacy@brown24.ventures">privacy@brown24.ventures</a></p>
-                 {/* === End Privacy Policy Content === */}
+               </article>
             </div>
          </div>
       </div>

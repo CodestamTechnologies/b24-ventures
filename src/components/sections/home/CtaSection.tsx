@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle, Mail } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"; // Keep cn
 
 export default function CtaSection() {
   const [email, setEmail] = useState<string>("");
@@ -17,7 +17,7 @@ export default function CtaSection() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isLoading || !email || !/\S+@\S+\.\S+/.test(email)) {
-        if (!/\S+@\S+\.\S+/.test(email) && email) { toast({ title: "Invalid Email", description: "Please enter a valid email.", variant: "destructive" }); }
+        if (!/\S+@\S+\.\S+/.test(email) && email) { toast({ title: "Invalid Email", description: "Please enter a valid email address.", variant: "destructive" }); }
         return;
     };
     setIsLoading(true);
@@ -25,7 +25,7 @@ export default function CtaSection() {
       console.log('Submitting waitlist email:', email); // Replace with API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       setIsSubmitted(true);
-      toast({ title: "Success!", description: "You're on the list! We'll notify you." });
+      toast({ title: "Success!", description: "You're on the list! We'll be in touch." }); // Use '
     } catch (error) {
       const message = error instanceof Error ? error.message : "An unknown error occurred.";
       toast({ title: "Submission Failed", description: message, variant: "destructive" });
@@ -38,20 +38,18 @@ export default function CtaSection() {
     <section id="waitlist" className="py-24 md:py-32 bg-background border-t border-border">
       <div className="container mx-auto px-4 relative z-10">
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="max-w-3xl mx-auto text-center bg-gradient-subtle p-10 md:p-16 rounded-2xl border border-border shadow-xl">
-           {/* Header */}
            <motion.div initial={{ opacity: 0, y: -10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.7, ease: "easeOut" }} className="mb-10">
               <Mail className="h-12 w-12 mx-auto mb-4 text-primary opacity-80"/>
               <h2 className="text-4xl md:text-5xl font-bold font-display mb-4 text-foreground relative inline-block group"> Get Early Access <span className="section-header-underline"></span> </h2>
               <p className="text-lg text-muted-foreground mt-6 max-w-xl mx-auto"> Be the first to experience the future of startup intelligence. Join the waitlist today. </p>
            </motion.div>
 
-          {/* Form Area */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6, delay: 0.1 }}>
               {isSubmitted ? (
                  <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="bg-background/80 p-6 rounded-xl border border-green-500/50 shadow-lg max-w-md mx-auto">
                    <CheckCircle className="h-10 w-10 text-green-600 mx-auto mb-3" />
                    <h3 className="text-xl font-semibold text-foreground mb-1 font-display"> Success! </h3>
-                   <p className="text-muted-foreground text-base"> You're on the list. We'll be in touch. </p>
+                   <p className="text-muted-foreground text-base"> You're on the list. We'll be in touch. </p> {/* Use ' */}
                  </motion.div>
                ) : (
                  <form onSubmit={handleSubmit} className="mt-8 max-w-lg mx-auto">
@@ -68,7 +66,6 @@ export default function CtaSection() {
                  </form>
                )}
           </motion.div>
-           {/* Social links removed for cleaner CTA focus, can be added back if needed */}
         </motion.div>
       </div>
     </section>
