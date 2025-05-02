@@ -21,15 +21,12 @@ export default function Testimonials() {
   const [direction, setDirection] = useState(0);
 
   // Auto-advance logic
-  // Kept dependency array [testimonialsData.length] to avoid build errors,
-  // removed the unnecessary eslint-disable comment.
   useEffect(() => {
     if (testimonialsData.length <= 1) return;
     const intervalId = setInterval(() => {
       paginate(1); // Auto-advance forward
     }, 7000); // Auto-advance every 7 seconds
     return () => clearInterval(intervalId); // Cleanup interval on unmount
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Pagination logic - includes setting direction for animation hint
@@ -112,7 +109,7 @@ export default function Testimonials() {
                >
                  {/* Quote - Larger, display font */}
                  <blockquote className="text-2xl md:text-3xl font-display text-foreground mb-6 leading-snug italic">
-                    “{testimonialsData[current].quote}”
+                    &ldquo;{testimonialsData[current].quote}&rdquo;
                  </blockquote>
                  {/* Author - Clearer hierarchy */}
                  <div className="mt-6">
