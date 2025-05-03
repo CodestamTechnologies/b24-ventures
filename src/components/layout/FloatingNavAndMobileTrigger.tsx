@@ -99,15 +99,21 @@ const FloatingNavAndMobileTrigger = () => {
   };
   
   const mobileMenuContentVariants: Variants = { 
-    hidden: { opacity: 0, y: -20 }, 
+    hidden: { opacity: 0, y: 50 }, 
     visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.08, delayChildren: 0.1 } }, 
-    exit: { opacity: 0, y: 10, transition: { staggerChildren: 0.05, staggerDirection: -1 } } 
+    exit: { opacity: 0, y: 50, transition: { staggerChildren: 0.05, staggerDirection: -1 } } 
   };
   
   const mobileMenuItemVariants: Variants = { 
-    hidden: { opacity: 0, x: -15 }, 
-    visible: { opacity: 1, x: 0 }, 
-    exit: { opacity: 0, x: 10 } 
+    hidden: { opacity: 0, y: 20 }, 
+    visible: { opacity: 1, y: 0 }, 
+    exit: { opacity: 0, y: 20 } 
+  };
+
+  const closeButtonVariants: Variants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { delay: 0.2 } },
+    exit: { y: 50, opacity: 0 }
   };
 
   return (
@@ -190,22 +196,6 @@ const FloatingNavAndMobileTrigger = () => {
               setMobileMenuOpen(false);
             }}
           >
-            {/* Close Button */}
-            <motion.button 
-              initial={{ opacity: 0, scale: 0.5 }} 
-              animate={{ opacity: 1, scale: 1 }} 
-              exit={{ opacity: 0, scale: 0.5 }} 
-              transition={{ delay: 0.2 }} 
-              onClick={(e) => {
-                e.stopPropagation();
-                setMobileMenuOpen(false);
-              }} 
-              className="absolute top-5 right-4 text-muted-foreground bg-transparent hover:bg-secondary hover:text-primary rounded-full p-2 transition-colors z-[101]" 
-              aria-label="Close menu"
-            >
-              <X className="h-7 w-7" />
-            </motion.button>
-            
             {/* Menu Content */}
             <motion.div 
               variants={mobileMenuContentVariants}
@@ -255,6 +245,19 @@ const FloatingNavAndMobileTrigger = () => {
                   </Link>
                 </Button>
               </motion.div>
+              
+              {/* Close Button - Now at the bottom */}
+              <motion.button 
+                variants={closeButtonVariants}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMobileMenuOpen(false);
+                }} 
+                className="mt-16 flex items-center justify-center text-muted-foreground hover:text-primary bg-background/80 hover:bg-secondary rounded-full h-12 w-12 shadow-md transition-colors z-[101]" 
+                aria-label="Close menu"
+              >
+                <X className="h-6 w-6" />
+              </motion.button>
             </motion.div>
           </motion.div>
         )}
