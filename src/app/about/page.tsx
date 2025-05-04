@@ -17,7 +17,7 @@ export default function AboutPage() {
         <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="max-w-4xl mx-auto text-center mb-16 md:mb-24">
             <motion.h1 variants={itemFadeUp} className="text-5xl md:text-6xl lg:text-7xl font-bold font-display mb-6 text-foreground"> Our Mission: <span className="text-brand-maroon">Clarity</span> in Venture </motion.h1>
             <motion.p variants={itemFadeUp} transition={{delay: 0.1}} className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
-                We're simplifying the complex world of startup intelligence for investors, founders, and operators worldwide.
+                We&apos;re simplifying the complex world of startup intelligence for investors, founders, and operators worldwide.
             </motion.p>
         </motion.div>
 

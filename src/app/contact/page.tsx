@@ -44,7 +44,9 @@ export default function ContactPage() {
            <div className="text-center mb-16 md:mb-20 max-w-3xl mx-auto">
              <motion.div variants={itemFadeUp}><Mail className="h-12 w-12 mx-auto mb-4 text-primary opacity-80"/></motion.div>
              <motion.h1 variants={itemFadeUp} className="text-5xl md:text-6xl font-bold font-display mb-4 text-foreground relative inline-block group"> Get In Touch <span className="section-header-underline"></span> </motion.h1>
-             <motion.p variants={itemFadeUp} transition={{ delay: 0.1 }} className="text-lg md:text-xl text-muted-foreground mt-6"> We'd love to hear from you. Send us a message or reach out via the details below. </motion.p>
+             <motion.p variants={itemFadeUp} transition={{ delay: 0.1 }} className="text-lg md:text-xl text-muted-foreground mt-6"> 
+               We&apos;d love to hear from you. Send us a message or reach out via the details below. 
+             </motion.p>
            </div>
 
            {/* Contact Info & Form Grid */}

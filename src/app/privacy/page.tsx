@@ -1,6 +1,7 @@
-// app/privacy/page.tsx
+// app/privacy/page.tsx 
 "use client"; // Add this since you're using framer-motion client components
-import type { Metadata } from 'next';
+// Remove or comment out the unused import
+// import type { Metadata } from 'next';
 import React from "react";
 import { Lock } from 'lucide-react';
 import { motion } from "framer-motion";
@@ -70,7 +71,7 @@ export default function PrivacyPage() {
               {/* === PRIVACY POLICY CONTENT with corrected quotes === */}
 
               <h2>1. Introduction</h2>
-              <p>Welcome to Brown24 Ventures ("we", "us", or "our"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website (the "Site"). Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.</p>
+              <p>Welcome to Brown24 Ventures (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website (the &quot;Site&quot;). Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.</p>
 
               <h2>2. Information We Collect</h2>
               <p>We may collect information about you in a variety of ways. The information we may collect on the Site includes:</p>
@@ -123,7 +124,7 @@ export default function PrivacyPage() {
               <p>We do not knowingly solicit information from or market to children under the age of 13 (or other age as required by local law). If you become aware of any data we may have collected from children under the relevant age, please contact us using the contact information provided below so we can take appropriate action.</p>
 
               <h2>9. Changes to This Privacy Policy</h2>
-              <p>We may update this Privacy Policy from time to time in order to reflect, for example, changes to our practices or for other operational, legal, or regulatory reasons. We will notify you of any changes by posting the new Privacy Policy on the Site and updating the "Last Updated" date. You are advised to review this Privacy Policy periodically for any changes.</p>
+              <p>We may update this Privacy Policy from time to time in order to reflect, for example, changes to our practices or for other operational, legal, or regulatory reasons. We will notify you of any changes by posting the new Privacy Policy on the Site and updating the &quot;Last Updated&quot; date. You are advised to review this Privacy Policy periodically for any changes.</p>
 
               <h2>10. Contact Us</h2>
               <p>If you have questions or comments about this Privacy Policy, please contact us at:</p>

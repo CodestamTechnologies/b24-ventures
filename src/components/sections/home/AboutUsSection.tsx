@@ -1,4 +1,3 @@
-// components/sections/home/AboutUsSection.tsx
 "use client";
 import { motion } from "framer-motion";
 import React from "react";
@@ -32,7 +31,7 @@ export default function AboutUsSection() {
               </motion.p>
               <motion.div variants={itemFadeUp} className="prose max-w-none prose-p:text-muted-foreground prose-strong:text-foreground/80 mb-8 about-card">
                 {/* Text refinement */}
-                <p>Founded by industry insiders, VCs, and technologists, we understand the need for speed, accuracy, and relevance in today's fast-paced market.</p>
+                <p>Founded by industry insiders, VCs, and technologists, we understand the need for speed, accuracy, and relevance in today&apos;s fast-paced market.</p>
               </motion.div>
               <motion.div variants={itemFadeUp}>
                   <Button variant="link" className="p-0 h-auto text-primary hover:text-brand-maroon-dark font-semibold text-lg group" asChild>

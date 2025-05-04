@@ -101,7 +101,7 @@ const FloatingNavAndMobileTrigger = () => {
 
   return (
     <>
-      {/* Floating Navigation Bar */}
+      {/* Floating Navigation Bar - Positioned to the right of the screen */}
       <AnimatePresence>
         {isNavVisible && (
           <motion.nav 
@@ -110,11 +110,7 @@ const FloatingNavAndMobileTrigger = () => {
             initial="hidden" 
             animate="visible" 
             exit="exit" 
-            className={cn(
-              "fixed bottom-4 md:bottom-5 z-[99]",
-              "lg:left-1/2 lg:transform lg:-translate-x-1/2", // Center on desktop
-              "left-auto right-4" // Right-aligned on mobile
-            )}
+            className="fixed bottom-4 md:bottom-5 right-4 z-[99]"
           >
             <div className="inline-flex items-center justify-between bg-background/85 backdrop-blur-lg border border-border shadow-lg rounded-full p-1.5">
               {/* Desktop Navigation */}

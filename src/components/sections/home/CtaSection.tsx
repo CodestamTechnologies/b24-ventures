@@ -1,4 +1,3 @@
-// components/sections/home/CtaSection.tsx
 "use client";
 import React, { useState, FormEvent, ChangeEvent, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -94,7 +93,7 @@ export default function CtaSection() {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       setIsSubmitted(true);
-      toast({ title: "Success!", description: "You're on the list! We'll be in touch." });
+      toast({ title: "Success!", description: "You&apos;re on the list! We&apos;ll be in touch." });
     } catch (error) {
       const message = error instanceof Error ? error.message : "An unknown error occurred.";
       toast({ title: "Submission Failed", description: message, variant: "destructive" });
@@ -133,7 +132,7 @@ export default function CtaSection() {
                 >
                    <CheckCircle className="h-10 w-10 text-green-600 mx-auto mb-3" />
                    <h3 className="text-xl font-semibold text-foreground mb-1 font-display"> Success! </h3>
-                   <p className="text-muted-foreground text-base"> You're on the list. We'll be in touch soon. </p>
+                   <p className="text-muted-foreground text-base"> You&apos;re on the list. We&apos;ll be in touch soon. </p>
                  </motion.div>
                ) : (
                  <motion.form

@@ -20,7 +20,7 @@ const logoFadeIn = {
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-background pt-36 pb-20 md:pt-40 md:pb-24 px-4">
+    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-background pt-16 pb-16 md:pt-28 md:pb-20 px-4">
         {/* Background Elements - Static */}
         <div className="absolute inset-0 -z-10">
              <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary to-background opacity-90"></div>
@@ -29,27 +29,27 @@ export default function Hero() {
              <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'80\' height=\'80\' viewBox=\'0 0 80 80\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%239C2A4E\' fill-opacity=\'0.02\'%3E%3Ccircle fill-opacity=\'0.03\' cx=\'40\' cy=\'40\' r=\'40\'/%3E%3Ccircle cx=\'40\' cy=\'40\' r=\'10\'/%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
         </div>
 
-        {/* Logo Top Left with Animation */}
+        {/* Logo Top Left with Animation - Moved closer to content */}
         <motion.div
             variants={logoFadeIn}
             initial="hidden"
             animate="visible" // Will animate on page load instead of scroll!
-            className="absolute top-4 left-4 md:top-6 md:left-6 lg:top-8 lg:left-8 z-50"
+            className="absolute top-0 left-4 md:top-0 md:left-6 lg:top-0 lg:left-8 z-50"
         >
             <Link href="/" aria-label="Brown24 Ventures Home">
                 <Image
                     src="/B24 Logo.png" 
                     alt="Brown24 Ventures Logo"
-                    width={210}
-                    height={158}
+                    width={280}
+                    height={210}
                     priority
-                    className="h-auto w-32 md:w-40 lg:w-44"
+                    className="h-auto w-40 md:w-52 lg:w-64"
                 />
             </Link>
         </motion.div>
 
-        {/* Main Content Grid with Animation */}
-        <div className="container mx-auto px-4 relative z-10">
+        {/* Main Content Grid with Animation - Reduced top margin */}
+        <div className="container mx-auto px-4 relative z-10 mt-4 md:mt-6 lg:mt-8">
             <div className="grid lg:grid-cols-12 lg:gap-16 items-center">
                 {/* Text Column - Using ScrollReveal */}
                 <div className="lg:col-span-7 text-left">
@@ -67,6 +67,29 @@ export default function Hero() {
                     </ScrollReveal>
                     
                     <ScrollReveal direction="up" delay={0.2}>
+                        {/* App Store and Google Play Buttons - Official Images */}
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
+                            <Link href="#appstore" className="transform hover:scale-105 transition-transform duration-200">
+                                <Image 
+                                    src="/app-store-badge.png" 
+                                    alt="Download on the App Store" 
+                                    width={180} 
+                                    height={60}
+                                    className="h-auto rounded-lg shadow-md"
+                                />
+                            </Link>
+                            <Link href="#googleplay" className="transform hover:scale-105 transition-transform duration-200">
+                                <Image 
+                                    src="/google-play-badge.png" 
+                                    alt="Get it on Google Play" 
+                                    width={180} 
+                                    height={60}
+                                    className="h-auto rounded-lg shadow-md"
+                                />
+                            </Link>
+                        </div>
+
+                        {/* Original Buttons */}
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                             <Button size="lg" className={cn("relative overflow-hidden group bg-primary text-primary-foreground text-lg px-8 py-3.5 rounded-lg shadow-lg-maroon hover:shadow-xl-maroon hover:bg-brand-maroon-dark transition-all duration-300 ease-out transform hover:scale-[1.03]")} asChild>
                                 <Link href="#waitlist">

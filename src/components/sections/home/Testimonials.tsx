@@ -1,4 +1,3 @@
-// components/sections/home/Testimonials.tsx
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
@@ -147,7 +146,7 @@ export default function Testimonials() {
                 className="absolute w-[calc(100%-4rem)] md:w-[calc(100%-6rem)] text-center z-10"
               >
                 <blockquote className="text-2xl md:text-3xl font-display text-foreground mb-6 leading-snug italic">
-                  "{testimonialsData[current].quote}"
+                  &ldquo;{testimonialsData[current].quote}&rdquo;
                 </blockquote>
                 <div className="mt-6">
                   <p className="text-foreground font-semibold text-lg">
