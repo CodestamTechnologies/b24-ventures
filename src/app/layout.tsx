@@ -1,42 +1,36 @@
-// app/layout.tsx
-import type { Metadata } from 'next';
+"use client";
+import React, { useState, useEffect } from 'react';
 import { Inter, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import FloatingNavAndMobileTrigger from "@/components/layout/FloatingNavAndMobileTrigger";
 import Footer from "@/components/layout/Footer";
+import Preloader from "@/components/layout/Preloader";
+import { motion, AnimatePresence } from 'framer-motion';
+import { LazyMotion, domAnimation } from "framer-motion";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
+// Import fonts
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: 'swap' });
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair', display: 'swap', weight: ['400', '700'] });
 
-// !! REPLACE PLACEHOLDER URLS !!
-export const metadata: Metadata = {
-  title: "Brown24 Ventures - Startup Intelligence, Simplified",
-  description: "Your daily edge in the venture world. Curated news & AI insights for investors and founders.",
-  icons: { icon: '/favicon.ico' }, // Ensure favicon.ico is in /public
-  openGraph: {
-      title: "Brown24 Ventures - Startup Intelligence, Simplified",
-      description: "Curated news & AI insights for investors & founders.",
-      url: "https://your-actual-domain.com", // Replace!
-      siteName: "Brown24 Ventures",
-      images: [ { url: 'https://your-actual-domain.com/og-image.png', width: 1200, height: 630 } ], // Replace!
-      locale: 'en_US',
-      type: 'website',
-  },
-  twitter: {
-      card: 'summary_large_image',
-      title: "Brown24 Ventures - Startup Intelligence, Simplified",
-      description: "Curated news & AI insights for investors & founders.",
-      // site: '@yourtwitterhandle', // Optional: Add Twitter handle
-      images: ['https://your-actual-domain.com/twitter-image.png'], // Replace!
-  },
-};
-
-interface RootLayoutProps { children: React.ReactNode; }
+interface RootLayoutProps { 
+  children: React.ReactNode; 
+}
 
 export default function RootLayout({ children }: RootLayoutProps) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // Reduced loading time for better UX
+
+    return () => clearTimeout(timer); // Cleanup timer
+  }, []);
+
   return (
     <html lang="en" suppressHydrationWarning className="h-full antialiased">
       <body
@@ -48,11 +42,28 @@ export default function RootLayout({ children }: RootLayoutProps) {
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-           <main className="flex-grow flex-shrink-0">
-             {children}
-           </main>
-          <FloatingNavAndMobileTrigger />
-          <Footer />
+          {/* Use LazyMotion to properly load Framer Motion features */}
+          <LazyMotion features={domAnimation}>
+            <AnimatePresence mode="wait">
+              {isLoading ? (
+                <Preloader key="preloader" />
+              ) : (
+                <motion.div
+                  key="main-content"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="flex flex-col flex-grow"
+                >
+                  <main className="flex-grow flex-shrink-0">
+                    {children}
+                  </main>
+                  <FloatingNavAndMobileTrigger />
+                  <Footer />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </LazyMotion>
           <Toaster />
         </ThemeProvider>
       </body>

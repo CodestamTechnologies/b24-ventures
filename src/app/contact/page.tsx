@@ -27,9 +27,8 @@ export default function ContactPage() {
     setIsLoading(true);
     try {
       console.log('Submitting contact form:', formData);
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      // Line 53 Fix Area
-      toast({ title: "Message Sent!", description: "Thanks for reaching out. We&apos;ll get back to you soon." });
+      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+      toast({ title: "Message Sent!", description: "Thanks for reaching out. We'll get back to you soon." });
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Could not send message due to an error.";
@@ -40,18 +39,18 @@ export default function ContactPage() {
   return (
     <div className="bg-gradient-to-b from-background via-secondary to-background min-h-[calc(100vh-100px)] pt-28 pb-24 md:pt-36 md:pb-32 overflow-hidden">
       <div className="container mx-auto px-4">
-         <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="max-w-6xl mx-auto" > {/* Wider container */}
+         <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="max-w-6xl mx-auto" >
            {/* Header */}
-           <div className="text-center mb-16 md:mb-20 max-w-3xl mx-auto"> {/* Centered Header */}
+           <div className="text-center mb-16 md:mb-20 max-w-3xl mx-auto">
              <motion.div variants={itemFadeUp}><Mail className="h-12 w-12 mx-auto mb-4 text-primary opacity-80"/></motion.div>
              <motion.h1 variants={itemFadeUp} className="text-5xl md:text-6xl font-bold font-display mb-4 text-foreground relative inline-block group"> Get In Touch <span className="section-header-underline"></span> </motion.h1>
-             <motion.p variants={itemFadeUp} className="text-lg md:text-xl text-muted-foreground mt-6"> We&apos;d love to hear from you. Send us a message or reach out via the details below. </motion.p>
+             <motion.p variants={itemFadeUp} transition={{ delay: 0.1 }} className="text-lg md:text-xl text-muted-foreground mt-6"> We'd love to hear from you. Send us a message or reach out via the details below. </motion.p>
            </div>
 
            {/* Contact Info & Form Grid */}
-           <div className="grid lg:grid-cols-3 gap-12 md:gap-16">
+           <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="grid lg:grid-cols-3 gap-12 md:gap-16">
                 {/* Column 1: Contact Info */}
-                <motion.div variants={itemFadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="lg:col-span-1 space-y-8 text-left">
+                <motion.div variants={itemFadeUp} className="lg:col-span-1 space-y-8 text-left">
                      <div>
                          <h2 className="text-2xl font-semibold font-display mb-4">Contact Details</h2>
                          <div className="space-y-3 text-muted-foreground">
@@ -65,7 +64,7 @@ export default function ContactPage() {
                 </motion.div>
 
                 {/* Column 2: Form Card */}
-                 <motion.div variants={itemFadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{delay: 0.1}} className="lg:col-span-2 card-enhanced p-8 md:p-10">
+                 <motion.div variants={itemFadeUp} className="lg:col-span-2 card-enhanced p-8 md:p-10">
                    <form onSubmit={handleSubmit} className="space-y-6">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                           <div className="space-y-1.5"> <Label htmlFor="name" className="text-sm font-medium text-foreground/80">Name</Label> <Input id="name" type="text" placeholder="Your Name" value={formData.name} onChange={handleChange} required disabled={isLoading} className="bg-background border-border text-foreground h-12 px-4 focus:border-primary focus:ring-2 focus:ring-primary/30 rounded-lg shadow-inner-sm text-base" /> </div>
@@ -82,7 +81,7 @@ export default function ContactPage() {
                      </div>
                    </form>
                 </motion.div>
-           </div>
+           </motion.div>
          </motion.div>
       </div>
     </div>
