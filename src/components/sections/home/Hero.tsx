@@ -15,7 +15,7 @@ const staggerContainer = { hidden: { opacity: 0 }, visible: { opacity: 1, transi
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-background pt-28 pb-20 md:pt-32 md:pb-24 px-4">
+    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-background pt-36 pb-20 md:pt-40 md:pb-24 px-4">
         {/* Background Elements */}
         <div className="absolute inset-0 -z-10">
              <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary to-background opacity-90"></div>
@@ -24,10 +24,22 @@ export default function Hero() {
              <div className="absolute inset-0 bg-[url(&quot;data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C2A4E' fill-opacity='0.02'%3E%3Ccircle fill-opacity='0.03' cx='40' cy='40' r='40'/%3E%3Ccircle cx='40' cy='40' r='10'/%3E%3C/g%3E%3C/svg%3E&quot;)] opacity-30"></div>
         </div>
 
-        {/* Logo Top Left */}
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="absolute top-6 left-6 md:top-8 md:left-8 lg:top-10 lg:left-10 z-30">
+        {/* Logo Top Left - Changed from fixed to absolute */}
+        <motion.div 
+            initial={{ opacity: 0, x: -20 }} 
+            animate={{ opacity: 1, x: 0 }} 
+            transition={{ duration: 0.6, delay: 0.1 }} 
+            className="absolute top-4 left-4 md:top-6 md:left-6 lg:top-8 lg:left-8 z-50"
+        >
             <Link href="/" aria-label="Brown24 Ventures Home">
-                <Image src="/logo.png" alt="Brown24 Ventures Logo" width={210} height={158} priority className="h-auto w-40 md:w-48 lg:w-52" />
+                <Image 
+                    src="/B24 Logo.png" 
+                    alt="Brown24 Ventures Logo" 
+                    width={210} 
+                    height={158} 
+                    priority 
+                    className="h-auto w-32 md:w-40 lg:w-44" 
+                />
             </Link>
         </motion.div>
 
@@ -38,7 +50,7 @@ export default function Hero() {
                 <div className="lg:col-span-7 text-left">
                     <motion.h1 variants={simpleFadeUp} className="text-4xl sm:text-5xl md:text-6xl xl:text-[4.75rem] font-bold font-display mb-5 leading-tight text-foreground">
                         Actionable Startup <br className="hidden sm:block"/> Intelligence,
-                        <span className="text-brand-maroon relative inline-block pb-1 border-b-4 border-primary/60 ml-2"> Delivered Daily. </span>
+                        <div className="text-brand-maroon relative inline-block">Delivered Daily.</div>
                     </motion.h1>
                     <motion.p variants={simpleFadeUp} className="text-lg md:text-xl text-muted-foreground mb-10 max-w-xl">
                         Cut through the noise. Get curated venture news, AI-powered insights, and essential market trends built for founders and investors.

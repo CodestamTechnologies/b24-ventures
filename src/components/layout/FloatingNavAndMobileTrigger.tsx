@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Home, Info, Mail, Rocket, Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface NavItem { 
@@ -64,21 +63,6 @@ const FloatingNavAndMobileTrigger = () => {
     }; 
   }, []);
 
-  // Handle body scroll lock when mobile menu is open
-  useEffect(() => { 
-    const originalStyle = window.getComputedStyle(document.body).overflow; 
-    
-    if (mobileMenuOpen) { 
-      document.body.style.overflow = 'hidden'; 
-    } else { 
-      document.body.style.overflow = originalStyle; 
-    } 
-    
-    return () => { 
-      document.body.style.overflow = originalStyle; 
-    }; 
-  }, [mobileMenuOpen]);
-
   const toggleMobileMenu = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -92,28 +76,27 @@ const FloatingNavAndMobileTrigger = () => {
     exit: { y: "110%", opacity: 0, transition: { duration: 0.3, ease: [0.5, 0, 0.75, 0] } } 
   };
   
-  const mobileOverlayVariants: Variants = { 
-    hidden: { opacity: 0 }, 
-    visible: { opacity: 1, transition: { duration: 0.3 } }, 
-    exit: { opacity: 0, transition: { duration: 0.3, delay: 0.2 } } 
-  };
-  
-  const mobileMenuContentVariants: Variants = { 
-    hidden: { opacity: 0, y: 50 }, 
-    visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.08, delayChildren: 0.1 } }, 
-    exit: { opacity: 0, y: 50, transition: { staggerChildren: 0.05, staggerDirection: -1 } } 
-  };
-  
-  const mobileMenuItemVariants: Variants = { 
-    hidden: { opacity: 0, y: 20 }, 
-    visible: { opacity: 1, y: 0 }, 
-    exit: { opacity: 0, y: 20 } 
-  };
-
-  const closeButtonVariants: Variants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { delay: 0.2 } },
-    exit: { y: 50, opacity: 0 }
+  // Menu item animation variants
+  const menuItemVariants: Variants = { 
+    hidden: { scale: 0.8, opacity: 0 }, 
+    visible: (i) => ({ 
+      scale: 1, 
+      opacity: 1,
+      transition: { 
+        delay: i * 0.05,
+        type: "spring",
+        stiffness: 350,
+        damping: 25
+      } 
+    }),
+    exit: (i) => ({ 
+      scale: 0.8, 
+      opacity: 0,
+      transition: { 
+        delay: i * 0.03,
+        duration: 0.2 
+      }
+    })
   };
 
   return (
@@ -127,9 +110,13 @@ const FloatingNavAndMobileTrigger = () => {
             initial="hidden" 
             animate="visible" 
             exit="exit" 
-            className="fixed bottom-4 md:bottom-5 left-1/2 transform -translate-x-1/2 w-auto z-[99]"
+            className={cn(
+              "fixed bottom-4 md:bottom-5 z-[99]",
+              "lg:left-1/2 lg:transform lg:-translate-x-1/2", // Center on desktop
+              "left-auto right-4" // Right-aligned on mobile
+            )}
           >
-            <div className="inline-flex items-center justify-center space-x-1 bg-background/85 backdrop-blur-lg border border-border shadow-lg rounded-full p-1.5">
+            <div className="inline-flex items-center justify-between bg-background/85 backdrop-blur-lg border border-border shadow-lg rounded-full p-1.5">
               {/* Desktop Navigation */}
               <div className="hidden lg:flex items-center space-x-1.5">
                 {mainNavLinks.map((item) => { 
@@ -167,99 +154,80 @@ const FloatingNavAndMobileTrigger = () => {
               </div>
               
               {/* Mobile Menu Button */}
-              <div className="lg:hidden flex items-center justify-center">
+              <div className="lg:hidden flex items-center">
                 <button 
                   onClick={toggleMobileMenu} 
-                  aria-label="Open menu" 
-                  className="flex items-center justify-center h-9 w-9 rounded-full text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+                  aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                  className="flex items-center justify-center h-9 w-9 rounded-full text-muted-foreground hover:bg-secondary hover:text-primary transition-colors z-[101]"
                 >
-                  <Menu className="h-5 w-5" />
+                  {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                 </button>
               </div>
             </div>
-          </motion.nav>
-        )}
-      </AnimatePresence>
-      
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div 
-            key="mobile-menu-overlay" 
-            variants={mobileOverlayVariants} 
-            initial="hidden" 
-            animate="visible" 
-            exit="exit" 
-            className="lg:hidden fixed inset-0 bg-background/95 backdrop-blur-md z-[100] flex flex-col items-center justify-center p-6 overflow-hidden"
-            onClick={(e) => {
-              e.stopPropagation();
-              setMobileMenuOpen(false);
-            }}
-          >
-            {/* Menu Content */}
-            <motion.div 
-              variants={mobileMenuContentVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit" 
-              className="flex flex-col items-center w-full max-w-xs" 
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Navigation Links */}
-              <ul className="flex flex-col items-center space-y-5 mb-10 w-full">
-                {mainNavLinks.map((link) => (
-                  <motion.li 
-                    key={`mobile-${link.href}`} 
-                    variants={mobileMenuItemVariants} 
-                    className="w-full"
+            
+            {/* Floating Menu Items */}
+            <AnimatePresence>
+              {mobileMenuOpen && (
+                <div className="absolute bottom-full right-0 mb-4 flex flex-col-reverse items-end space-y-reverse space-y-3 lg:hidden">
+                  {/* CTA Button */}
+                  <motion.div
+                    key="mobile-cta" 
+                    custom={0}
+                    variants={menuItemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    className="flex items-center"
                   >
+                    <span className="mr-3 bg-background/85 backdrop-blur-lg px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+                      {ctaLink.label}
+                    </span>
                     <Link 
-                      href={link.href} 
-                      className="block text-center text-xl font-medium text-foreground/90 hover:text-primary transition-colors py-2 w-full" 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setMobileMenuOpen(false);
-                      }}
+                      href={ctaLink.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-primary-foreground shadow-lg"
                     >
-                      <span>{link.label}</span>
+                      {ctaLink.icon && <ctaLink.icon className="h-5 w-5" />}
                     </Link>
-                  </motion.li>
-                ))}
-              </ul>
-              
-              {/* CTA Button */}
-              <motion.div variants={mobileMenuItemVariants} className="w-full">
-                <Button 
-                  className="w-full bg-primary text-primary-foreground hover:bg-brand-maroon-dark transition-colors px-8 py-3 text-base font-medium rounded-full shadow-sm" 
-                  asChild
-                >
-                  <Link 
-                    href={ctaLink.href}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    {ctaLink.icon && <ctaLink.icon className="mr-2 h-5 w-5" />}
-                    {ctaLink.label}
-                  </Link>
-                </Button>
-              </motion.div>
-              
-              {/* Close Button - Now at the bottom */}
-              <motion.button 
-                variants={closeButtonVariants}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setMobileMenuOpen(false);
-                }} 
-                className="mt-16 flex items-center justify-center text-muted-foreground hover:text-primary bg-background/80 hover:bg-secondary rounded-full h-12 w-12 shadow-md transition-colors z-[101]" 
-                aria-label="Close menu"
-              >
-                <X className="h-6 w-6" />
-              </motion.button>
-            </motion.div>
-          </motion.div>
+                  </motion.div>
+                  
+                  {/* Navigation Links */}
+                  {mainNavLinks.map((link, i) => {
+                    const isActive = (link.href === '/' && pathname === '/') || 
+                      (link.href !== '/' && !link.href.startsWith('/#') && pathname.startsWith(link.href));
+                    
+                    return (
+                      <motion.div
+                        key={`mobile-${link.href}`}
+                        custom={i + 1}
+                        variants={menuItemVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        className="flex items-center"
+                      >
+                        <span className="mr-3 bg-background/85 backdrop-blur-lg px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+                          {link.label}
+                        </span>
+                        <Link
+                          href={link.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={cn(
+                            "flex items-center justify-center h-12 w-12 rounded-full shadow-lg",
+                            isActive 
+                              ? "bg-foreground text-background" 
+                              : "bg-secondary/90 text-foreground hover:bg-secondary"
+                          )}
+                        >
+                          {link.icon && <link.icon className="h-5 w-5" />}
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              )}
+            </AnimatePresence>
+          </motion.nav>
         )}
       </AnimatePresence>
     </>

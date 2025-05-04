@@ -10,7 +10,7 @@ interface FeatureItem { title: string; description: string; icon: LucideIcon; }
 interface SnapshotItem { name: string; icon: LucideIcon; }
 
 const whyFeatures: FeatureItem[] = [
-    { title: "Curated for You", description: "Handpicked news, funding updates, and tech breakthroughs relevant to your interests – no fluff.", icon: Handshake },
+    { title: "Curated for You", description: "Handpicked news, funding updates, and tech breakthroughs relevant to your interests.", icon: Handshake },
     { title: "AI-Powered Intelligence", description: "Our engine learns what matters to you, recommending critical insights based on your focus.", icon: Cpu },
     { title: "Global Reach, Local Focus", description: "Unified feed covering global startup ecosystems and investment trends, tailored to your view.", icon: Globe },
     { title: "Community & Collaboration", description: "Discuss insights, share perspectives, and connect with fellow founders and investors.", icon: MessagesSquare }

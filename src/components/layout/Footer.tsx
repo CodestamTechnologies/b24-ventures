@@ -46,7 +46,7 @@ export default function Footer() {
                     <div className="col-span-2 md:col-span-1">
                          <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider text-gray-500">Connect</h3>
                         {socialLinks.length > 0 && (
-                            <div className="flex space-x-6 mb-6">
+                            <div className="flex space-x-3 mb-6">
                                 {socialLinks.map((social) => ( <a key={social.name} href={social.url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors duration-200" aria-label={`Follow on ${social.name}`}> <social.icon className="h-5 w-5" /> </a> ))}
                             </div>
                          )}
