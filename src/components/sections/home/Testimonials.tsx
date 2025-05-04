@@ -148,11 +148,11 @@ export default function Testimonials() {
                 <blockquote className="text-2xl md:text-3xl font-display text-foreground mb-6 leading-snug italic">
                   &ldquo;{testimonialsData[current].quote}&rdquo;
                 </blockquote>
-                <div className="mt-6">
+                <div className="mt-6 flex flex-col items-center">
                   <p className="text-foreground font-semibold text-lg">
                     {testimonialsData[current].author}
                   </p>
-                  <p className="text-muted-foreground text-base">
+                  <p className="text-muted-foreground text-sm">
                     {testimonialsData[current].position}
                   </p>
                 </div>

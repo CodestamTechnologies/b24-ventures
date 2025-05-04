@@ -20,7 +20,7 @@ const logoFadeIn = {
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-background pt-16 pb-16 md:pt-28 md:pb-20 px-4">
+    <section className="relative w-full min-h-[50vh] flex items-center justify-center overflow-hidden bg-background pt-0 pb-6 md:pt-0 md:pb-8 px-4">
         {/* Background Elements - Static */}
         <div className="absolute inset-0 -z-10">
              <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary to-background opacity-90"></div>
@@ -29,12 +29,12 @@ export default function Hero() {
              <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'80\' height=\'80\' viewBox=\'0 0 80 80\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%239C2A4E\' fill-opacity=\'0.02\'%3E%3Ccircle fill-opacity=\'0.03\' cx=\'40\' cy=\'40\' r=\'40\'/%3E%3Ccircle cx=\'40\' cy=\'40\' r=\'10\'/%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
         </div>
 
-        {/* Logo Top Left with Animation - Moved closer to content */}
+        {/* Logo Top Left with Animation - Now positioned as absolute at the very top without overlap */}
         <motion.div
             variants={logoFadeIn}
             initial="hidden"
-            animate="visible" // Will animate on page load instead of scroll!
-            className="absolute top-0 left-4 md:top-0 md:left-6 lg:top-0 lg:left-8 z-50"
+            animate="visible" 
+            className="absolute -top-16 left-2 md:-top-16 md:left-4 lg:-top-16 lg:left-6 z-50"
         >
             <Link href="/" aria-label="Brown24 Ventures Home">
                 <Image
@@ -43,13 +43,13 @@ export default function Hero() {
                     width={280}
                     height={210}
                     priority
-                    className="h-auto w-40 md:w-52 lg:w-64"
+                    className="h-auto w-36 md:w-48 lg:w-60"
                 />
             </Link>
         </motion.div>
 
-        {/* Main Content Grid with Animation - Reduced top margin */}
-        <div className="container mx-auto px-4 relative z-10 mt-4 md:mt-6 lg:mt-8">
+        {/* Main Content Grid with Animation */}
+        <div className="container mx-auto px-4 relative z-10 mt-20">
             <div className="grid lg:grid-cols-12 lg:gap-16 items-center">
                 {/* Text Column - Using ScrollReveal */}
                 <div className="lg:col-span-7 text-left">
