@@ -20,7 +20,7 @@ const logoFadeIn = {
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-[50vh] flex items-center justify-center overflow-hidden bg-background pt-0 pb-6 md:pt-0 md:pb-8 px-4">
+    <section className="relative w-full min-h-screen md:min-h-[50vh] flex items-center justify-center overflow-hidden bg-background  md:pt-0 pb-8 md:pb-8 px-4">
         {/* Background Elements - Static */}
         <div className="absolute inset-0 -z-10">
              <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary to-background opacity-90"></div>
@@ -29,53 +29,55 @@ export default function Hero() {
              <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'80\' height=\'80\' viewBox=\'0 0 80 80\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%239C2A4E\' fill-opacity=\'0.02\'%3E%3Ccircle fill-opacity=\'0.03\' cx=\'40\' cy=\'40\' r=\'40\'/%3E%3Ccircle cx=\'40\' cy=\'40\' r=\'10\'/%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
         </div>
 
-        {/* Logo Top Left with Animation - Now positioned as absolute at the very top without overlap */}
-        <motion.div
-            variants={logoFadeIn}
-            initial="hidden"
-            animate="visible" 
-            className="absolute -top-16 left-2 md:-top-16 md:left-4 lg:-top-16 lg:left-6 z-50"
-        >
-            <Link href="/" aria-label="Brown24 Ventures Home">
-                <Image
-                    src="/B24 Logo.png" 
-                    alt="Brown24 Ventures Logo"
-                    width={280}
-                    height={210}
-                    priority
-                    className="h-auto w-36 md:w-48 lg:w-60"
-                />
-            </Link>
-        </motion.div>
+        {/* Main Content Container - Adjusted for mobile layout */}
+        <div className="container mx-auto relative z-10">
+            {/* Logo - Positioned at top for mobile */}
+            <motion.div
+                variants={logoFadeIn}
+                initial="hidden"
+                animate="visible" 
+                className="absolute top-0 left-0 md:-top-16 lg:-top-16 md:left-4 lg:left-6 z-50"
+            >
+                <Link href="/" aria-label="Brown24 Ventures Home">
+                    <Image
+                        src="/B24 Logo.png" 
+                        alt="Brown24 Ventures Logo"
+                        width={280}
+                        height={210}
+                        priority
+                        className="h-auto w-36 md:w-48 lg:w-60"
+                    />
+                </Link>
+            </motion.div>
 
-        {/* Main Content Grid with Animation */}
-        <div className="container mx-auto px-4 relative z-10 mt-20">
-            <div className="grid lg:grid-cols-12 lg:gap-16 items-center">
+            {/* Text Content - Adjusted with proper spacing after logo */}
+            <div className="grid lg:grid-cols-12 lg:gap-16 items-center pt-20 md:pt-0 md:mt-20">
                 {/* Text Column - Using ScrollReveal */}
                 <div className="lg:col-span-7 text-left">
                     <ScrollReveal direction="up">
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-[4.75rem] font-bold font-display mb-5 leading-tight text-foreground">
-                            Actionable Startup Intelligence,
-                            <span className="text-brand-maroon block mt-1 md:mt-0">Delivered Daily.</span>
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-[4.75rem] font-bold font-display mb-3 md:mb-5 leading-tight text-foreground">
+                            Actionable Startup 
+                            <span className="block">Intelligence,</span>
+                            <span className="text-brand-maroon block">Delivered Daily.</span>
                         </h1>
                     </ScrollReveal>
                     
                     <ScrollReveal direction="up" delay={0.1}>
-                        <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-xl">
+                        <p className="text-base md:text-xl text-muted-foreground mb-6 md:mb-10 max-w-xl">
                             Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
                         </p>
                     </ScrollReveal>
                     
                     <ScrollReveal direction="up" delay={0.2}>
-                        {/* App Store and Google Play Buttons - Official Images */}
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
+                        {/* App Store and Google Play Buttons - Adjusted for mobile */}
+                        <div className="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:items-center sm:gap-4 mb-4 md:mb-6">
                             <Link href="#appstore" className="transform hover:scale-105 transition-transform duration-200">
                                 <Image 
                                     src="/app-store-badge.png" 
                                     alt="Download on the App Store" 
                                     width={180} 
                                     height={60}
-                                    className="h-auto rounded-lg shadow-md"
+                                    className="h-auto w-52 sm:w-44 md:w-auto rounded-lg shadow-md"
                                 />
                             </Link>
                             <Link href="#googleplay" className="transform hover:scale-105 transition-transform duration-200">
@@ -84,28 +86,28 @@ export default function Hero() {
                                     alt="Get it on Google Play" 
                                     width={180} 
                                     height={60}
-                                    className="h-auto rounded-lg shadow-md"
+                                    className="h-auto w-52 sm:w-44 md:w-auto rounded-lg shadow-md"
                                 />
                             </Link>
                         </div>
 
-                        {/* Original Buttons */}
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                            <Button size="lg" className={cn("relative overflow-hidden group bg-primary text-primary-foreground text-lg px-8 py-3.5 rounded-lg shadow-lg-maroon hover:shadow-xl-maroon hover:bg-brand-maroon-dark transition-all duration-300 ease-out transform hover:scale-[1.03]")} asChild>
+                        {/* Main Buttons - Adjusted for mobile */}
+                        <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:items-center sm:gap-4">
+                            <Button size="lg" className={cn("w-full relative overflow-hidden group bg-primary text-primary-foreground text-lg px-8 py-3.5 rounded-lg shadow-lg-maroon hover:shadow-xl-maroon hover:bg-brand-maroon-dark transition-all duration-300 ease-out transform hover:scale-[1.03]")} asChild>
                                 <Link href="#waitlist">
                                     <span className="absolute inset-0 bg-gradient-shine bg-200% bg-left opacity-0 group-hover:opacity-100 group-hover:animate-shine transition-opacity duration-500"></span>
-                                    <span className="relative z-10 flex items-center"> <Rocket className="mr-2 h-5 w-5" /> Join Waitlist </span>
+                                    <span className="relative z-10 flex items-center justify-center"> <Rocket className="mr-2 h-5 w-5" /> Join Waitlist </span>
                                 </Link>
                             </Button>
-                            <Button variant="ghost" size="lg" className="text-muted-foreground hover:text-primary hover:bg-secondary px-4 py-3.5 text-lg rounded-lg group" asChild>
-                                <Link href="#features"> Learn More <ArrowRight className="ml-1.5 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" /> </Link>
+                            <Button variant="ghost" size="lg" className="w-full text-muted-foreground hover:text-primary hover:bg-secondary px-4 py-3.5 text-lg rounded-lg group" asChild>
+                                <Link href="#features" className="flex items-center justify-center"> Learn More <ArrowRight className="ml-1.5 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" /> </Link>
                             </Button>
                         </div>
                     </ScrollReveal>
                 </div>
 
-                {/* Visual Column with Animation */}
-                <ScrollReveal direction="right" className="lg:col-span-5 mt-12 lg:mt-0" delay={0.3}>
+                {/* Visual Column with Animation - Adjusted for mobile */}
+                <ScrollReveal direction="right" className="lg:col-span-5 mt-8 md:mt-0 hidden md:block" delay={0.3}>
                     <div className="relative aspect-[4/3.5] rounded-2xl bg-secondary p-2 shadow-xl border border-border overflow-hidden group">
                         <div className="relative w-full h-full rounded-xl overflow-hidden">
                              <Image
