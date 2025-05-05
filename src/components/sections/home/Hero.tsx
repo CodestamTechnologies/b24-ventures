@@ -41,8 +41,8 @@ const staggerContainer = {
 export default function Hero() {
 
   return (
-    // Reduced top padding for mobile to fix spacing issue
-    <section className="relative w-full min-h-[calc(100vh-80px)] md:min-h-screen flex flex-col justify-start md:justify-center overflow-hidden bg-background pt-4 pb-4 md:pt-32 md:pb-20 px-4">
+    // Fixed padding issues for mobile while preserving laptop layout
+    <section className="relative w-full min-h-[calc(100vh-80px)] md:min-h-screen flex flex-col justify-start md:justify-center overflow-hidden bg-background pt-4 md:pt-32 pb-16 md:pb-20 px-4">
 
         {/* Background Elements - Static (Keep as is) */}
         <div className="absolute inset-0 -z-10">
@@ -99,31 +99,6 @@ export default function Hero() {
                     <motion.p variants={fadeUp} className="text-base md:text-xl text-muted-foreground mb-8 md:mb-10 max-w-xl">
                         Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
                     </motion.p>
-
-                    {/* --- RESTORED APP/PLAY STORE BUTTONS --- */}
-                    <motion.div variants={fadeUp} className="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:items-center sm:gap-4 mb-6 md:mb-8">
-                        {/* !! IMPORTANT: Replace # with actual store links and ensure badge images are in /public !! */}
-                        <Link href="#appstore" className="transform hover:scale-105 transition-transform duration-200 inline-block">
-                            <Image
-                                src="/app-store-badge.png" // You need this image
-                                alt="Download on the App Store"
-                                width={180}
-                                height={60}
-                                className="h-auto w-40 sm:w-44 md:w-auto rounded-lg shadow-sm" // Adjusted sizes
-                            />
-                        </Link>
-                        <Link href="#googleplay" className="transform hover:scale-105 transition-transform duration-200 inline-block">
-                            <Image
-                                src="/google-play-badge.png" // You need this image
-                                alt="Get it on Google Play"
-                                width={180}
-                                height={60}
-                                className="h-auto w-[170px] sm:w-[177px] md:w-auto rounded-lg shadow-sm" // Adjusted sizes slightly differently
-                            />
-                        </Link>
-                    </motion.div>
-                    {/* --- END OF RESTORED BUTTONS --- */}
-
 
                     {/* Main CTA and Secondary Action */}
                     <motion.div variants={fadeUp} className="flex flex-col items-start space-y-3 sm:space-y-0 sm:flex-row sm:items-center sm:gap-4">
