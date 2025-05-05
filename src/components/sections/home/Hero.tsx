@@ -42,7 +42,7 @@ export default function Hero() {
 
   return (
     // Reduced top padding for mobile to fix spacing issue
-    <section className="relative w-full min-h-screen flex flex-col justify-start md:justify-center overflow-hidden bg-background pt-4 pb-12 md:pt-32 md:pb-20 px-4">
+    <section className="relative w-full min-h-[calc(100vh-80px)] md:min-h-screen flex flex-col justify-start md:justify-center overflow-hidden bg-background pt-4 pb-4 md:pt-32 md:pb-20 px-4">
 
         {/* Background Elements - Static (Keep as is) */}
         <div className="absolute inset-0 -z-10">
