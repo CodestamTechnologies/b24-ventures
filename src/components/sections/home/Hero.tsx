@@ -41,8 +41,8 @@ const staggerContainer = {
 export default function Hero() {
 
   return (
-    // MOBILE: Minimal top padding (pt-6), Desktop padding remains large (md:pt-32)
-    <section className="relative w-full min-h-screen flex flex-col justify-start md:justify-center overflow-hidden bg-background pt-6 pb-20 md:pt-32 md:pb-24 px-4">
+    // Reduced top padding for mobile to fix spacing issue
+    <section className="relative w-full min-h-screen flex flex-col justify-start md:justify-center overflow-hidden bg-background pt-4 pb-12 md:pt-32 md:pb-20 px-4">
 
         {/* Background Elements - Static (Keep as is) */}
         <div className="absolute inset-0 -z-10">
@@ -63,7 +63,7 @@ export default function Hero() {
             variants={logoFadeIn}
             initial="hidden"
             animate="visible"
-            className="relative w-full flex justify-start mb-4 md:absolute md:w-auto md:top-8 md:left-8 lg:top-10 lg:left-10 z-30 md:mb-0"
+            className="relative w-full flex justify-start mb-3 md:absolute md:w-auto md:top-8 md:left-8 lg:top-10 lg:left-10 z-30 md:mb-0"
         >
             <Link href="/" aria-label="Brown24 Ventures Home">
                 <Image
@@ -78,7 +78,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Main Content Container */}
-        <div className="container mx-auto relative z-10 mt-2 md:mt-0">
+        <div className="container mx-auto relative z-10 mt-1 md:mt-0">
             <motion.div
                 className="grid lg:grid-cols-12 lg:gap-16 items-center w-full"
                 variants={staggerContainer}
@@ -90,8 +90,8 @@ export default function Hero() {
                     <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl md:text-6xl xl:text-[4.75rem] font-bold font-display mb-4 md:mb-5 leading-tight text-foreground">
                         Actionable Startup
                         <span className="block sm:inline md:block"> Intelligence,</span>
-                        {/* RESTORED Underline */}
-                        <span className="text-brand-maroon block sm:inline-block pb-1 mt-1 sm:mt-0 sm:ml-2">
+                        {/* Fixed alignment of "Delivered Daily" with the rest of the heading */}
+                        <span className="text-brand-maroon block pb-1 mt-1 sm:mt-0">
                             Delivered Daily.
                         </span>
                     </motion.h1>
