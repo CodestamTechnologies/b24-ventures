@@ -20,7 +20,7 @@ const logoFadeIn = {
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-screen md:min-h-[50vh] flex items-center justify-center overflow-hidden bg-background  md:pt-0 pb-8 md:pb-8 px-4">
+    <section className="relative w-full min-h-screen md:min-h-[50vh] flex flex-col justify-start md:justify-center overflow-hidden bg-background pt-0 md:pt-0 pb-8 md:pb-8 px-4">
         {/* Background Elements - Static */}
         <div className="absolute inset-0 -z-10">
              <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary to-background opacity-90"></div>
@@ -30,13 +30,13 @@ export default function Hero() {
         </div>
 
         {/* Main Content Container - Adjusted for mobile layout */}
-        <div className="container mx-auto relative z-10">
+        <div className="container mx-auto relative z-10 pt-2">
             {/* Logo - Positioned at top for mobile */}
             <motion.div
                 variants={logoFadeIn}
                 initial="hidden"
                 animate="visible" 
-                className="absolute top-0 left-0 md:-top-16 lg:-top-16 md:left-4 lg:left-6 z-50"
+                className="relative md:absolute md:-top-16 lg:-top-16 md:left-4 lg:left-6 z-50 mb-4"
             >
                 <Link href="/" aria-label="Brown24 Ventures Home">
                     <Image
@@ -51,7 +51,7 @@ export default function Hero() {
             </motion.div>
 
             {/* Text Content - Adjusted with proper spacing after logo */}
-            <div className="grid lg:grid-cols-12 lg:gap-16 items-center pt-20 md:pt-0 md:mt-20">
+            <div className="grid lg:grid-cols-12 lg:gap-16 items-center pt-0 md:pt-0 md:mt-20">
                 {/* Text Column - Using ScrollReveal */}
                 <div className="lg:col-span-7 text-left">
                     <ScrollReveal direction="up">
