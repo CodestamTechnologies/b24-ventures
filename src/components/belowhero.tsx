@@ -32,11 +32,11 @@ const segments = [
 export default function CustomerSegmentation() {
   return (
     <div
-      className={`relative flex lg:flex-row flex-col ${roboto.className} p-6 max-w-7xl mx-auto gap-2 min-h-screen md:min-h-[95vh]`}
+      className={`relative flex lg:flex-row justify-center items-center flex-col ${roboto.className} p-6 max-w-7xl mx-auto gap-2 min-h-screen md:min-h-[95vh]`}
     >
       {/* Left text content */}
       <div className="w-full md:w-1/2 flex  flex-col justify-center">
-        <div className="inline-block bg-black text-white text-[11px] px-3 py-1 w-32 rounded-full uppercase mb-3 font-semibold">
+        <div className="inline-block bg-black text-white text-lg text-center px-3 py-1 w-52 rounded-full uppercase mb-3 font-semibold">
           Target Audience
         </div>
         <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold mb-4 leading-snug mt-5">
@@ -75,7 +75,7 @@ export default function CustomerSegmentation() {
             transition={{ delay: id * 0.2 }}
             className="flex-1 min-w-[260px] sm:min-w-[200px] lg:min-w-[250px] max-w-sm"
           >
-            <Card className="overflow-hidden h-[400px] sm:h-[400px] md:h-[450px] lg:h-[550px] rounded-2xl shadow-md relative">
+            <Card className="overflow-hidden h-[600px] sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-2xl shadow-md relative">
               {/* Image */}
               <div className="absolute inset-0 w-full h-full">
                 <Image
@@ -95,7 +95,7 @@ export default function CustomerSegmentation() {
                   {title}
                 </p>
                 <Button
-                  className={`${color} text-black hover:opacity-90 rounded-full px-3 py-1 text-xs md:text-sm w-full flex items-center justify-between`}
+                  className={`${color} text-black hover:opacity-90 rounded-full px-3 py-1 text-sm md:text-lg w-full h-12 flex items-center justify-between`}
                 >
                   {label} <ArrowUpRight className="ml-2 w-3 h-3" />
                 </Button>
