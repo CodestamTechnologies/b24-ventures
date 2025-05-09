@@ -43,17 +43,17 @@ const staggerContainer = {
   } 
 };
 
-const headerFadeIn = { 
-  hidden: { opacity: 0, y: -10 }, 
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { 
-      duration: 0.7, 
-      ease: "easeOut" 
-    } 
-  } 
-};
+// const headerFadeIn = { 
+//   hidden: { opacity: 0, y: -10 }, 
+//   visible: { 
+//     opacity: 1, 
+//     y: 0, 
+//     transition: { 
+//       duration: 0.7, 
+//       ease: "easeOut" 
+//     } 
+//   } 
+// };
 
 export default function Features() {
     const controls = useAnimation();

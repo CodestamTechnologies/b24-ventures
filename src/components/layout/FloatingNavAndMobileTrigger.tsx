@@ -100,8 +100,8 @@ const FloatingNavAndMobileTrigger = () => {
     const topX = window.innerWidth / 2; // Center horizontally
     
     // Second phase: Rocket comes down to the target
-    const controlX = (topX + endX) / 2 + (Math.random() * 100 - 50);
-    const controlY = (topY + endY) / 2 - 100;
+    // const controlX = (topX + endX) / 2 + (Math.random() * 100 - 50);
+    // const controlY = (topY + endY) / 2 - 100;
 
     // Define the rocket's path for the trail
     // const path = `M${startX},${startY} L${topX},${topY} Q${controlX},${controlY} ${endX},${endY}`;
