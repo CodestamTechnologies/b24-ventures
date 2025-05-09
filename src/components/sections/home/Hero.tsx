@@ -40,7 +40,7 @@ const HeroSection = () => {
         </div>
 
         {/* Top Right Blue Box (Box 2) */}
-        <div className='absolute top-16 right-28 w-36 h-36 rounded-3xl bg-brand-maroon z-10 shadow-lg flex justify-center items-center'>
+        <div className='absolute top-16 left-96 mr-10 w-36 h-36 rounded-3xl bg-brand-maroon z-10 shadow-lg flex justify-center items-center'>
           <Image 
             src="/img2.png" 
             alt="Product image" 
@@ -62,7 +62,7 @@ const HeroSection = () => {
         </div>
 
         {/* Bottom Left White Box (Box 3) */}
-        <div className='absolute top-72 right-28 w-36 h-36  rounded-3xl bg-white  shadow-lg flex justify-center items-center'>
+        <div className='absolute top-72 left-96 mr-10 w-36 h-36  rounded-3xl bg-white  shadow-lg flex justify-center items-center'>
           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-10 h-10">
             <path d="M2 2h20v20H2V2zm2 2v4h4v4H4v4h4v4h4v-4h4v4h4v-4h-4v-4h4V8h-4V4h-4v4H8V4H4zm8 8H8v4h4v-4zm0-4v4h4V8h-4z" fill="black" />
           </svg>
@@ -149,7 +149,7 @@ const HeroSection = () => {
       </div>
 
       {/* Desktop Right Side Content */}
-      <div className="hidden md:block absolute top-0 right-10 w-[600px] p-8 rounded-3xl">
+      <div className="hidden md:block absolute top-0 right-24 w-[600px] p-8 rounded-3xl">
         {/* <div className="flex justify-between items-center mb-6">
           <div className="flex space-x-10 text-base font-semibold text-gray-800">
             <span>Collections</span>

@@ -103,7 +103,7 @@ export default function Features() {
                                     key={item.name}
                                     variants={itemFadeUp}
                                     custom={index}
-                                    className="flex items-center space-x-3 bg-background/50 rounded-lg p-3.5 border border-border transition-colors duration-200 hover:bg-background hover:border-muted"
+                                    className="flex items-center bg-white space-x-3 bg-background/50 rounded-lg p-3.5 border border-border transition-colors duration-200 hover:bg-background hover:border-muted"
                                 >
                                     <div className="text-primary flex-shrink-0">
                                         <item.icon className="h-5 w-5" />
