@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const HeroSection = () => {
   return (
-    <div className='lg:min-h-screen h-[80vh] bg-background relative overflow-hidden'>
+    <div className='lg:min-h-screen h-[90vh] bg-background relative overflow-hidden'>
       {/* Background Elements for Mobile and Tablet */}
       <div className='lg:hidden absolute inset-0 z-0'>
         {/* Large background circle */}
