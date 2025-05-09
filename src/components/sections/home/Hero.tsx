@@ -8,45 +8,26 @@ import Link from 'next/link';
 const HeroSection = () => {
   return (
     <div className='min-h-screen bg-background relative overflow-hidden'>
-        {/* Mobile Background Elements */}
-            <div className='md:hidden absolute inset-0 z-0'>
-              {/* Large background circle */}
-              <div className='absolute -top-24 -left-1/4 w-[150vw] h-[150vw] opacity-10'>
-                <CircularDiv />
-              </div>
-              {/* Decorative boxes */}
-              <div className='absolute top-1/4 left-1/4 w-24 h-24 rounded-xl bg-brand-maroon  opacity-20'></div>
-              <div className='absolute bottom-1/4 right-1/4 w-24 h-24 rounded-xl bg-white opacity-20'></div>
-            </div>
-      {/* Desktop Left Side Elements - All 4 Boxes */}
-      <div className='hidden md:block relative h-full w-1/2'>
-       <div className="absolute top-5 left-60 w-36 h-36 z-20">
-    <Image
-      src="/logo.png"
-      alt="Logo"
-      width={300} // smaller to fit the box
-      height={200}
-      className="rounded-lg z-50 object-contain w-72"
-    />
-  </div>
-        {/* Top Left Blue Box (Box 1) */}
-        <div className='absolute -top-16 left-60 w-36 h-36 rounded-3xl bg-brand-maroon z-10 shadow-lg'>
-        
-          <div className="absolute left-24 top-14 w-24 h-40  transform -rotate-45">
-            <svg viewBox="0 0 48 128" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-              <path d="M0,0 H48 V32 C48,48 30,64 48,96 V128 H0 V96 C0,80 18,64 0,32 Z" fill="#9A3251" />
-            </svg>
-          </div>
+      {/* Background Elements for Mobile and Tablet */}
+      <div className='lg:hidden absolute inset-0 z-0'>
+        {/* Large background circle */}
+        <div className='absolute -top-24 -left-1/4 w-[150vw] h-[150vw] opacity-10'>
+          <CircularDiv />
         </div>
+        {/* Decorative boxes */}
+        <div className='absolute top-1/4 left-1/4 w-16 h-16 md:w-24 md:h-24 rounded-xl bg-brand-maroon opacity-20'></div>
+        <div className='absolute bottom-1/4 right-1/4 w-16 h-16 md:w-24 md:h-24 rounded-xl bg-white opacity-20'></div>
+      </div>
 
-        {/* Top Right Blue Box (Box 2) */}
-        <div className='absolute top-16 left-96 mr-10 w-36 h-36 rounded-3xl bg-brand-maroon z-10 shadow-lg flex justify-center items-center'>
-          <Image 
-            src="/img2.png" 
-            alt="Product image" 
-            width={120} 
-            height={120} 
-            className="rounded-2xl"
+      {/* Desktop Left Side Elements - All 4 Boxes */}
+      <div className='hidden lg:block relative h-full w-1/2'>
+        <div className="absolute top-5 left-36 w-48 h-48 z-20">
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={300}
+            height={400}
+            className="rounded-lg z-50 object-contain w-72"
           />
         </div>
 
@@ -62,16 +43,17 @@ const HeroSection = () => {
         </div>
 
         {/* Bottom Left White Box (Box 3) */}
-        <div className='absolute top-72 left-96 mr-10 w-36 h-36  rounded-3xl bg-white  shadow-lg flex justify-center items-center'>
+        <div className='absolute top-72 left-96 mr-10 w-36 h-36 rounded-3xl bg-white shadow-lg flex justify-center items-center'>
           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-10 h-10">
             <path d="M2 2h20v20H2V2zm2 2v4h4v4H4v4h4v4h4v-4h4v4h4v-4h-4v-4h4V8h-4V4h-4v4H8V4H4zm8 8H8v4h4v-4zm0-4v4h4V8h-4z" fill="black" />
           </svg>
         </div>
-         <div className="absolute right-52 top-80 mt-8 w-24 h-40 transform rotate-45">
-            <svg viewBox="0 0 48 128" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-              <path d="M0,0 H48 V32 C48,48 30,64 48,96 V128 H0 V96 C0,80 18,64 0,32 Z" fill="#ffffff" />
-            </svg>
-          </div>
+        
+        <div className="absolute left-80 ml-5 top-80 mt-8 w-24 h-40 transform rotate-45">
+          <svg viewBox="0 0 48 128" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+            <path d="M0,0 H48 V32 C48,48 30,64 48,96 V128 H0 V96 C0,80 18,64 0,32 Z" fill="#ffffff" />
+          </svg>
+        </div>
 
         {/* Bottom Right White Box (Box 4) */}
         <div className='absolute top-96 mt-10 left-60 w-36 h-36 rounded-3xl bg-white z-10 shadow-lg flex flex-col justify-center items-center p-4'>
@@ -86,7 +68,6 @@ const HeroSection = () => {
               </div>
             ))}
           </div>
-      
         </div>
 
         {/* Circular Div Element */}
@@ -95,105 +76,79 @@ const HeroSection = () => {
         </div>
       </div>
 
-     
-      {/* Mobile Content */}
-      <div className='md:hidden flex flex-col items-center justify-center min-h-screen p-6 relative z-10'>
-        <div className="w-full flex justify-end mb-12">
+      {/* Mobile & Tablet Content */}
+      <div className='lg:hidden flex flex-col items-center justify-center min-h-screen p-6 relative z-10'>
+        <div className="text-center w-full max-w-2xl px-4">
+          <motion.h1 
+            className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6 leading-tight font-space-grotesk"
+          >
+            <span className="inline-block bg-gradient-to-r from-foreground to-brand-maroon bg-clip-text text-transparent">
+              Actionable
+            </span>{' '}
+            <span className="inline-block">Startup</span>
+            <br />
+            <span className="inline-block bg-gradient-to-r from-brand-maroon to-foreground bg-clip-text text-transparent">
+              Intelligence
+            </span>
+            <br />
+            <span className="inline-block">Delivered Daily</span>
+          </motion.h1>
           
-        </div>
-
-        <div className="text-center w-full max-w-md">
-         <motion.h1 
-              // variants={item}
-              className="text-4xl sm:text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight mb-6 leading-tight font-space-grotesk"
-            >
-              <span className="inline-block bg-gradient-to-r from-foreground to-brand-maroon bg-clip-text text-transparent">
-                Actionable
-              </span>{' '}
-              <span className="inline-block">Startup</span>
-              <br />
-              <span className="inline-block bg-gradient-to-r from-brand-maroon to-foreground bg-clip-text text-transparent">
-                Intelligence
-              </span>
-              <br />
-              <span className="inline-block">Delivered Daily</span>
-            </motion.h1>
-          <p className="text-base text-gray-600 mb-8 leading-relaxed">
-           Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
+          <p className="text-base md:text-lg text-gray-600 mb-8 leading-relaxed max-w-lg mx-auto">
+            Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
           </p>
           
-          <div className="flex justify-center items-center space-x-4">
-            <div className='flex flex-col gap-2'>
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4">
             <Link href={'#waitlist'}>
-
-            <button className=" bg-black text-white px-6 py-2.5 rounded-full text-xs font-semibold shadow-sm hover:opacity-90">
-              JOIN COMMUNITY
-            </button>
+              <button className="bg-black text-white px-8 py-3 rounded-full text-sm md:text-base font-semibold shadow-sm hover:opacity-90 w-full md:w-auto">
+                JOIN COMMUNITY
+              </button>
             </Link>
             <Link href={'/startup-form'}>
-            <button className=" bg-brand-maroon text-white px-6 py-2.5 rounded-full text-xs font-semibold shadow-sm hover:opacity-90">
-              StartUp Register
-            </button>
+              <button className="bg-brand-maroon text-white px-8 py-3 rounded-full text-sm md:text-base font-semibold shadow-sm hover:opacity-90 w-full md:w-auto">
+                StartUp Register
+              </button>
             </Link>
-            </div>
-            <div className="flex -space-x-3">
-              <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white z-10 text-lg">
-                ⬡
-              </div>
-              <div className="w-10 h-10 rounded-full bg-brand-maroon flex items-center justify-center text-white z-10 text-lg">
-                ✴
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Desktop Right Side Content */}
-      <div className="hidden md:block absolute top-0 right-24 w-[600px] p-8 rounded-3xl">
-        {/* <div className="flex justify-between items-center mb-6">
-          <div className="flex space-x-10 text-base font-semibold text-gray-800">
-            <span>Collections</span>
-            <span>Product</span>
-            <span>Our Story</span>
-          </div>
-         
-        </div> */}
-
+      {/* Desktop Right Side Content - EXACTLY AS BEFORE */}
+      <div className="hidden lg:block absolute top-0 right-24 w-[600px] p-8 rounded-3xl">
         <div className="p-10 rounded-2xl border border-gray-300">
-            <motion.h1 
-              // variants={item}
-              className="text-2xl sm:text-3xl md:text-3xl xl:text-4xl font-bold tracking-tight mb-6 leading-tight font-space-grotesk"
-            >
-              <span className="inline-block bg-gradient-to-r from-foreground to-brand-maroon bg-clip-text text-transparent">
-                Actionable
-              </span>{' '}
-              <span className="inline-block">Startup</span>
-              <br />
-              <span className="inline-block bg-gradient-to-r from-brand-maroon to-foreground bg-clip-text text-transparent">
-                Intelligence
-              </span>
-              <br />
-              <span className="inline-block">Delivered Daily</span>
-            </motion.h1>
+          <motion.h1 
+            className="text-2xl sm:text-3xl md:text-3xl xl:text-4xl font-bold tracking-tight mb-6 leading-tight font-space-grotesk"
+          >
+            <span className="inline-block bg-gradient-to-r from-foreground to-brand-maroon bg-clip-text text-transparent">
+              Actionable
+            </span>{' '}
+            <span className="inline-block">Startup</span>
+            <br />
+            <span className="inline-block bg-gradient-to-r from-brand-maroon to-foreground bg-clip-text text-transparent">
+              Intelligence
+            </span>
+            <br />
+            <span className="inline-block">Delivered Daily</span>
+          </motion.h1>
+          
           <p className="text-base text-gray-600 mt-4 leading-relaxed">
-           Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
+            Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
           </p>
 
-          <div className="flex flex-row  items-center mt-8 space-x-4">
-            <div className='flex sm:flex-row flex-col gap-2 '>
-            <Link href={'#waitlist'}>
-
-            <button className="bg-black text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-sm hover:opacity-90">
-              JOIN COMMUNITY
-            </button>
-             </Link>
-            <Link href={'/startup-form'}>
-             <button className="   bg-brand-maroon text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-sm hover:opacity-90">
-              StartUp Register
-            </button>
-            </Link>
+          <div className="flex flex-row items-center mt-8 space-x-4">
+            <div className='flex sm:flex-row flex-col gap-2'>
+              <Link href={'#waitlist'}>
+                <button className="bg-black text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-sm hover:opacity-90">
+                  JOIN COMMUNITY
+                </button>
+              </Link>
+              <Link href={'/startup-form'}>
+                <button className="bg-brand-maroon text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-sm hover:opacity-90">
+                  StartUp Register
+                </button>
+              </Link>
             </div>
-           
+            
             <div className="flex -space-x-3">
               <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white z-10 text-lg">
                 ⬡

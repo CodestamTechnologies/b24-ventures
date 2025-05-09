@@ -3,6 +3,9 @@
 import { motion } from "framer-motion";
 
 export const CircularDiv = () => {
+  const text = "• ACTIONABLE STARTUP INTELLIGENCE • STARTUP INSIGHTS • ";
+  const textRepeat = 3; // Repeat text to ensure continuous visibility
+
   return (
     <motion.div 
       initial={{ scale: 0.9, opacity: 0 }}
@@ -12,7 +15,7 @@ export const CircularDiv = () => {
     >
       {/* Main circle with black background */}
       <div className="absolute inset-0 rounded-full border-2 border-gray-300 bg-black shadow-xl">
-        {/* Circular border text - white and closer to edge */}
+        {/* Circular text with continuous visibility */}
         <svg 
           viewBox="0 0 200 200" 
           className="w-full h-full"
@@ -23,13 +26,24 @@ export const CircularDiv = () => {
             fill="none"
           />
           <text className="text-[1.0rem] font-normal fill-white">
-            <textPath href="#circlePath" startOffset="0">
-              • ACTIONABLE STARTUP INTELLIGENCE •  STARTUP 
-            </textPath>
+            <motion.textPath 
+              href="#circlePath"
+              className="font-mono tracking-wider"
+              animate={{
+                startOffset: [0, 360], 
+              }}
+              transition={{
+                duration: 20,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              {Array(textRepeat).fill(text).join('')}
+            </motion.textPath>
           </text>
         </svg>
 
-        {/* Center grid SVG - exactly like in the image */}
+        {/* Stable center grid icon */}
         <div className="absolute inset-0 flex items-center justify-center">
           <svg 
             width="40" 
@@ -46,7 +60,7 @@ export const CircularDiv = () => {
           </svg>
         </div>
 
-        {/* Thin white border inside */}
+        {/* Subtle border */}
         <div className="absolute inset-0 rounded-full border border-white/20 pointer-events-none"></div>
       </div>
     </motion.div>
