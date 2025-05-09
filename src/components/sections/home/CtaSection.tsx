@@ -9,7 +9,7 @@ import { motion, useAnimation } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useInView } from "react-intersection-observer";
 
-// ... Animation variants if used ...
+
 
 export default function CtaSection() {
   const [email, setEmail] = useState<string>("");

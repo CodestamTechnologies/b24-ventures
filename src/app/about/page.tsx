@@ -2,9 +2,9 @@
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Target, Lightbulb, Zap, Globe, BarChart2, Rocket, ArrowRight } from "lucide-react";
+import { Users, Target, Lightbulb, Zap, BarChart2, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { Poppins } from "next/font/google";
+// import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Inter } from "next/font/google";
@@ -35,16 +35,16 @@ const staggerContainer = {
   }
 };
 
-const hoverCard = {
-  hover: { 
-    y: -10,
-    transition: { 
-      type: "spring",
-      stiffness: 400,
-      damping: 10
-    }
-  }
-};
+// const hoverCard = {
+//   hover: { 
+//     y: -10,
+//     transition: { 
+//       type: "spring",
+//       stiffness: 400,
+//       damping: 10
+//     }
+//   }
+// };
 
 export default function WhyClayPage() {
   return (
@@ -81,7 +81,7 @@ export default function WhyClayPage() {
             variants={fadeIn}
             className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
           >
-          We're simplifying the complex world of startup intelligence for investors, founders, and operators worldwide.
+          We are simplifying the complex world of startup intelligence for investors, founders, and operators worldwide.
 
           </motion.p>
         </motion.section>
@@ -177,7 +177,7 @@ export default function WhyClayPage() {
                 description: "Cross-disciplinary expertise in every team",
                 color: " text-brand-maroon"
               }
-            ].map((value, index) => (
+            ].map((value) => (
               <motion.div 
                 key={value.title}
                 variants={fadeIn}

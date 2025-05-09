@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Mail, ChevronRight, MailIcon } from 'lucide-react';
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
 // import FAQSection from "@/components/sections/home/faqs";
 
@@ -159,7 +159,7 @@ export default function ContactPage() {
               className="text-lg text-gray-600 mt-6 "
               variants={itemVariants}
             >
-              We'd love to hear from you. Send us a message or reach out via the details below.
+              We love to hear from you. Send us a message or reach out via the details below.
             </motion.p>
           </motion.div>
 

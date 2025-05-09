@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Linkedin, Twitter } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Inter, Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 
 // Define fonts
 const inter = Inter({ subsets: ["latin"] });

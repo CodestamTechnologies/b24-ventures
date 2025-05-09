@@ -104,7 +104,7 @@ const FloatingNavAndMobileTrigger = () => {
     const controlY = (topY + endY) / 2 - 100;
 
     // Define the rocket's path for the trail
-    const path = `M${startX},${startY} L${topX},${topY} Q${controlX},${controlY} ${endX},${endY}`;
+    // const path = `M${startX},${startY} L${topX},${topY} Q${controlX},${controlY} ${endX},${endY}`;
 
     // First animation: Rocket goes up
     await rocketControls.start({

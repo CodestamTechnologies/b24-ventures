@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { LucideIcon } from "lucide-react";
-import { Handshake, Cpu, Globe, MessagesSquare, ListChecks, TrendingUp, DollarSign, Bookmark, Users, Bell } from "lucide-react";
+import {  ListChecks, TrendingUp, DollarSign, Bookmark, Users, Bell } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 
 // interface FeatureItem { title: string; description: string; icon: LucideIcon; }
