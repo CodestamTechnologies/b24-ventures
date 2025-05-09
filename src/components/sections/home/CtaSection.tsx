@@ -63,15 +63,16 @@ export default function CtaSection() {
 
   // --- The JSX part remains the same light-theme version ---
   return (
-    <section id="waitlist" className="py-24 md:py-32 bg-background border-t border-border">
+    <section  className="py-24 md:py-32 bg-background border-t border-border">
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
         <motion.div
+
             /* ... animation variants ... */
             initial="hidden"
             animate={controls}
             className="max-w-3xl mx-auto text-center bg-gradient-subtle p-10 md:p-16 rounded-2xl border border-border shadow-xl"
         >
-           <motion.div /* ... */ className="mb-10">
+           <motion.div  id="waitlist" /* ... */ className="mb-10">
               <Mail className="h-12 w-12 mx-auto mb-4 text-primary opacity-80"/>
               <h2 className="text-4xl md:text-5xl font-bold font-display mb-4 text-foreground relative inline-block group">
                   Get Early Access <span className="section-header-underline"></span>

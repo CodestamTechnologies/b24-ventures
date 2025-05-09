@@ -11,6 +11,7 @@ import { LazyMotion, domAnimation } from "framer-motion";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
+
 // Import fonts
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: 'swap' });
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair', display: 'swap', weight: ['400', '700'] });
@@ -57,9 +58,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 >
                   <main className="flex-grow flex-shrink-0">
                     {children}
+                    <Toaster />
                   </main>
                   <FloatingNavAndMobileTrigger />
                   <Footer />
+
                 </motion.div>
               )}
             </AnimatePresence>

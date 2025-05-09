@@ -108,7 +108,7 @@ export default function Testimonials() {
   }
 
   return (
-    <section className="py-24 md:py-32 bg-secondary overflow-hidden border-y border-border">
+    <section className="py-24 md:py-32 bg-background overflow-hidden border-y border-border">
       <div className="container mx-auto px-4" ref={ref}>
         {/* Section Header */}
         <motion.div

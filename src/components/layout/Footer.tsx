@@ -1,63 +1,180 @@
 // components/layout/Footer.tsx
 import Link from "next/link";
-// Remove Instagram if not used
-import { Linkedin, Twitter, /* Instagram, */ LucideIcon } from "lucide-react";
-// Removed unused 'cn' import
+import { Linkedin, Twitter } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Inter, Poppins } from "next/font/google";
 
-interface SocialLink { name: string; url: string; icon: LucideIcon; }
-// !! REPLACE # with actual social links !!
-const socialLinks: SocialLink[] = [
-    { name: "LinkedIn", url: "#", icon: Linkedin },
-    { name: "Twitter", url: "#", icon: Twitter },
-    // { name: "Instagram", url: "#", icon: Instagram },
+// Define fonts
+const inter = Inter({ subsets: ["latin"] });
+// const poppins = Poppins({ 
+//   weight: ["600", "700"],
+//   subsets: ["latin"], 
+//   variable: "--font-poppins" 
+// });
+
+
+const socialLinks= [
+  { name: "LinkedIn", url: "#", icon: Linkedin },
+  { name: "Twitter", url: "#", icon: Twitter },
 ];
 
+const footerLinks = {
+  navigate: [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About Us" },
+    { href: "/#features", label: "Features" },
+  ],
+  company: [
+    { href: "/contact", label: "Contact" },
+    { href: "/#waitlist", label: "Join Waitlist" },
+  ],
+  legal: [
+    { href: "/privacy", label: "Privacy Policy" },
+  ],
+};
+
 export default function Footer() {
-    const currentYear: number = new Date().getFullYear();
-    return (
-        <footer id="site-footer" className="bg-gray-900 text-gray-400 py-16 border-t border-gray-700/50 relative z-10">
-            <div className="container mx-auto px-4">
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 md:gap-8 mb-12 text-sm">
-                    {/* Brand Info */}
-                    <div className="col-span-2 lg:col-span-2">
-                        <Link href="/" className="inline-block mb-5 group">
-                            <span className="text-xl font-semibold text-white group-hover:text-primary transition-colors duration-200 font-display"> Brown24 Ventures </span>
-                        </Link>
-                        <p className="text-gray-400 leading-relaxed max-w-xs"> Startup intelligence, simplified. </p>
-                    </div>
-                    {/* Column 1 Links */}
-                    <div className="col-span-1">
-                        <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider text-gray-500">Navigate</h3>
-                        <ul className="space-y-3">
-                            <li><Link href="/" className="text-gray-300 hover:text-white transition-colors">Home</Link></li>
-                            <li><Link href="/about" className="text-gray-300 hover:text-white transition-colors">About Us</Link></li>
-                            <li><Link href="/#features" className="text-gray-300 hover:text-white transition-colors">Features</Link></li>
-                        </ul>
-                    </div>
-                     {/* Column 2 Links */}
-                    <div className="col-span-1">
-                         <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider text-gray-500">Company</h3>
-                        <ul className="space-y-3">
-                            <li><Link href="/contact" className="text-gray-300 hover:text-white transition-colors">Contact</Link></li>
-                            <li><Link href="/#waitlist" className="text-gray-300 hover:text-white transition-colors">Join Waitlist</Link></li>
-                        </ul>
-                    </div>
-                     {/* Column 3 Social/Legal */}
-                    <div className="col-span-2 md:col-span-1">
-                         <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider text-gray-500">Connect</h3>
-                        {socialLinks.length > 0 && (
-                            <div className="flex space-x-3 mb-6">
-                                {socialLinks.map((social) => ( <a key={social.name} href={social.url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors duration-200" aria-label={`Follow on ${social.name}`}> <social.icon className="h-5 w-5" /> </a> ))}
-                            </div>
-                         )}
-                         <ul className="space-y-3">
-                           <li><Link href="/privacy" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</Link></li>
-                        </ul>
-                    </div>
-                </div>
-                {/* Copyright */}
-                <div className="border-t border-gray-700/50 mt-12 pt-8 text-center text-gray-500 text-xs"> © {currentYear} Brown24 Ventures. All rights reserved. </div>
+  const currentYear: number = new Date().getFullYear();
+  
+  return (
+    <footer 
+      id="site-footer" 
+      className={`${inter.className} bg-gradient-to-b from-gray-900 to-gray-950 text-gray-400 py-16 border-t border-primary/20 relative z-10 overflow-hidden`}
+    >
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
+        <div className="absolute -top-20 -left-20 w-64 h-64 bg-primary rounded-full filter blur-3xl animate-float"></div>
+        <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-secondary rounded-full filter blur-3xl animate-float-delay"></div>
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-20">
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-8 md:gap-12 mb-16">
+          {/* Brand Info - spans 4 cols on desktop */}
+          <div className="col-span-2 md:col-span-4 lg:col-span-5 space-y-6">
+            <div className="flex flex-col space-y-4">
+              <Link 
+                href="/" 
+                className="inline-block group relative w-fit"
+              >
+                <h2  className= {` text-center text-3xl  text-white font-normal mb-2 gap-1 ${inter.className}` } 
+         
+         >
+           {/* <div className= {` text-center flex flex-row  font-normal mb-2 gap-1 ${geist.className}` }  > */}
+          {/* <span className={`font-normal text-xs `} >WHY</span> */}
+           Brown24 Ventures
+           {/* </div> */}
+         </h2>
+                {/* <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span> */}
+              </Link>
+              <p className="text-gray-400/90 leading-relaxed max-w-md text-sm font-inter">
+                Startup intelligence, simplified. We empower your vision with data-driven insights and strategic funding.
+              </p>
             </div>
-        </footer>
-    );
+
+            <div className="flex space-x-3 pt-2">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "icon" }),
+                    "text-gray-400 hover:text-primary hover:border-primary/50 bg-gray-900/50 hover:bg-gray-800/50 transition-all duration-300 group",
+                    "h-9 w-9" // Fixed size for consistency
+                  )}
+                  aria-label={`Follow on ${social.name}`}
+                >
+                  <social.icon className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                </a>
+              ))}
+            </div>
+          </div>
+          
+          {/* Navigation Links - spans 2 cols on desktop */}
+          <div className="col-span-1 md:col-span-2 space-y-6">
+            <h3 className={`text-xs ml-4 font-semibold uppercase tracking-wider text-gray-500 font-poppins ${inter.className}`}>
+              Navigate
+            </h3>
+            <ul className="space-y-3.5">
+              {footerLinks.navigate.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className="text-gray-300  hover:text-white transition-colors duration-300 group flex items-center font-inter text-sm"
+                  >
+                    <span className="w-1.5 h-1.5 mr-2.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          {/* Company Links - spans 2 cols on desktop */}
+          <div className="col-span-1 md:col-span-2 space-y-6">
+            <h3 className={`text-xs ml-4 font-semibold uppercase tracking-wider text-gray-500 font-poppins ${inter.className}`}>
+              Company
+            </h3>
+            <ul className="space-y-3.5">
+              {footerLinks.company.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className="text-gray-300 hover:text-white transition-colors duration-300 group flex items-center font-inter text-sm"
+                  >
+                    <span className="w-1.5 h-1.5 mr-2.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          {/* Legal Links - spans 2 cols on desktop */}
+          <div className="col-span-2 md:col-span-2 space-y-6">
+            <h3 className={`text-xs ml-4 font-semibold uppercase tracking-wider text-gray-500 font-poppins ${inter.className}`}>
+              Legal
+            </h3>
+            <ul className="space-y-3.5">
+              {footerLinks.legal.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className="text-gray-300 hover:text-white transition-colors duration-300 group flex items-center font-inter text-sm"
+                  >
+                    <span className="w-1.5 h-1.5 mr-2.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        
+        {/* Copyright */}
+        <div className="border-t border-primary/20 pt-8 text-gray-500 text-sm flex flex-col md:flex-row justify-center items-center gap-4">
+          <div className="order-2 md:order-1 text-center md:text-left font-inter">
+            © {currentYear} Brown24 Ventures. All rights reserved.
+          </div>
+          
+        </div>
+      </div>
+      
+      {/* Add this to your globals.css */}
+      <style jsx global>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        .animate-float {
+          animation: float 8s ease-in-out infinite;
+        }
+        .animate-float-delay {
+          animation: float 10s ease-in-out infinite 2s;
+        }
+      `}</style>
+    </footer>
+  );
 }
