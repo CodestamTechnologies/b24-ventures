@@ -29,25 +29,18 @@ export default function ServicesSection() {
   const [activeService, setActiveService] = useState(0);
 
   return (
-    <div className={`${geist.className} min-h-screen bg-background py-20 px-4 sm:px-6 lg:px-8`}>
-      <div className="max-w-7xl mx-auto ">
-        <div className='mb-10 text-center' >
-               <h2  className= {` text-center  font-bold mb-2 gap-1` } 
-         
-       >
-         {/* <div className= {` text-center flex flex-row  font-normal mb-2 gap-1 ${geist.className}` }  > */}
-        {/* <span className={`font-normal text-xs `} >WHY</span> */}
-         Why Brown24?
-         {/* </div> */}
-       </h2>
-       
-                 {/* <p */}
-                 {/* > */}
-                   We combine expert curation with smart technology to deliver the startup intelligence you need, without the noise.
-                 {/* </p> */}
-                         </div>
+    <div className={`${geist.className} min-h-screen xl:min-h-screen[80vh]  bg-background py-[5rem] px-[1rem] sm:px-[1.5rem] lg:px-[2rem]`}>
+      <div className="max-w-[87.5rem] mx-auto">
+        <div className='mb-[2.5rem] text-center flex flex-col justify-center items-center'>
+          <h2 className={`text-center font-bold mb-[0.5rem] gap-[0.25rem]`}>
+            Why Brown24?
+          </h2>
+          <p >
+            We combine expert curation with smart technology to deliver the startup intelligence you need, without the noise.
+          </p>
+        </div>
         
-        <div className="flex flex-col lg:flex-row gap-12">
+        <div className="flex flex-col lg:flex-row gap-[3rem]">
           {/* Left side - Content */}
           <div className="lg:w-1/2">
             <AnimatePresence mode="wait">
@@ -57,10 +50,10 @@ export default function ServicesSection() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 50 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="bg-gray-50 p-8 rounded-xl shadow-sm h-full border border-gray-200"
+                className="bg-gray-50 p-[2rem] rounded-xl shadow-sm h-full border border-gray-200"
               >
                 <motion.h3 
-                  className={`text-2xl font-bold mb-4 text-black ${geist.className}`}
+                  className={`text-[1.5rem] font-bold mb-[1rem] text-black ${geist.className}`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
@@ -81,17 +74,17 @@ export default function ServicesSection() {
           
           {/* Right side - Navigation */}
           <div className="lg:w-1/2">
-            <div className="space-y-4">
+            <div className="space-y-[1rem]">
               {services.map((service, index) => (
                 <motion.div
                   key={index}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`cursor-pointer p-6 rounded-lg transition-all ${activeService === index ? 'bg-brand-maroon text-white' : 'bg-white text-gray-500 hover:bg-gray-50 border border-gray-200'}`}
+                  className={`cursor-pointer p-[1.5rem] rounded-lg transition-all ${activeService === index ? 'bg-brand-maroon text-white' : 'bg-white text-gray-500 hover:bg-gray-50 border border-gray-200'}`}
                   onClick={() => setActiveService(index)}
                 >
                   <motion.h3 
-                    className={`text-xl ${geist.className} font-semibold  ${activeService === index ? 'text-white' : 'text-black'}`}
+                    className={`text-[1.25rem] ${geist.className} font-semibold ${activeService === index ? 'text-white' : 'text-black'}`}
                     layoutId={`service-title-${index}`}
                   >
                     {service.title}
@@ -99,7 +92,7 @@ export default function ServicesSection() {
                   {activeService === index && (
                     <motion.div
                       layoutId="service-indicator"
-                      className="mt-2 h-1 w-8 bg-white rounded-full"
+                      className="mt-[0.5rem] h-[0.25rem] w-[2rem] bg-white rounded-full"
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
                   )}
