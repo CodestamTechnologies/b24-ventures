@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const HeroSection = () => {
   return (
-    <div className='min-h-[90vh] lg:min-h-screen   2xl:-mb-64 bg-background relative overflow-hidden'>
+    <div className=' lg:min-h-screen   bg-background relative overflow-hidden'>
       {/* Mobile & Tablet Content */}
       <div className='lg:hidden flex flex-col items-center justify-center min-h-[90vh] p-4 sm:p-6 relative z-10'>
         {/* Rotating Circular Background */}
