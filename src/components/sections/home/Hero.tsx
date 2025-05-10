@@ -7,12 +7,11 @@ import Link from 'next/link';
 
 const HeroSection = () => {
   return (
-    <div className='lg:min-h-screen bg-background relative overflow-hidden'>
+    <div className=' bg-background relative  overflow-hidden'>
       {/* Mobile & Tablet Content */}
-      <div className='lg:hidden flex flex-col items-center justify-center min-h-[90vh] p-4 sm:p-6 relative z-10'>
+      <div className='lg:hidden flex flex-col items-center justify-center min-h-[80vh]  p-4 sm:p-6 relative z-10'>
         {/* Rotating Circular Background */}
         <div className='md:hidden absolute inset-0 z-0'>
-          {/* Large background circle */}
           <div className='absolute -top-24 -left-1/4 w-[150vw] h-[150vw] opacity-10'>
             <CircularDiv />
           </div>
@@ -25,13 +24,12 @@ const HeroSection = () => {
               className="rounded-lg z-50 object-contain"
             />
           </div>
-          {/* Decorative boxes */}
           <div className='absolute top-1/4 left-1/4 w-24 h-24 rounded-xl bg-brand-maroon opacity-20'></div>
           <div className='absolute bottom-1/4 right-1/4 w-24 h-24 rounded-xl bg-white opacity-20'></div>
         </div>
         
         <div className="text-center w-full max-w-2xl px-4 relative z-10">
-          <motion.h1 className="text-4xl sm:text-5xl md:text-6xl 2xl:text-7xl font-bold tracking-tight mb-4 sm:mb-6 leading-tight">
+          <motion.h1 className="text-4xl sm:text-5xl md:text-7xl 2xl:text-8xl 4k:text-9xl font-bold tracking-tight mb-4 sm:mb-6 leading-tight">
             <span className="inline-block bg-gradient-to-r from-foreground to-brand-maroon bg-clip-text text-transparent">
               Actionable
             </span>{' '}
@@ -66,7 +64,7 @@ const HeroSection = () => {
       {/* Desktop Layout */}
       <div className='hidden lg:flex justify-center w-full'>
         {/* Container with max-width and responsive padding */}
-        <div className='w-full max-w-[1800px] mx-auto px-8 xl:px-12 2xl:px-16 4k:px-24 relative h-[90vh] 4k:h-[75vh]'>
+        <div className='w-full max-w-[1800px] mx-auto px-8 xl:px-12 2xl:px-16 4k:px-24 relative sm:h-screen h-screen lg:h-screen 2xl:h-[800px]'>
           {/* Left Side Elements */}
           <div className="absolute top-2 2xl:mt-3 2xl:ml-32 left-36 w-48 h-48 2xl:w-52 2xl:h-52 z-20">
             <Image
@@ -195,6 +193,21 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Custom media query for tall screens */}
+      <style jsx global>{`
+        @media (min-width: 2000px) and (min-height: 900px) {
+          .tall-screen\\:h-\\[75vh\\] {
+            height: 75vh;
+          }
+        }
+        @media (min-width: 1920px) {
+          .4k\\:w-30 { width: 7.5rem; }
+          .4k\\:h-30 { height: 7.5rem; }
+          .4k\\:w-11 { width: 2.75rem; }
+          .4k\\:h-11 { height: 2.75rem; }
+        }
+      `}</style>
     </div>
   );
 };

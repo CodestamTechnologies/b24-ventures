@@ -29,7 +29,7 @@ const segments = [
 export default function CustomerSegmentation() {
   return (
     <div
-      className={`relative flex flex-col lg:flex-row justify-center items-center ${roboto.className} p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 max-w-7xl mx-auto gap-4 md:gap-6 lg:gap-8 min-h-screen 2xl:min-h-[50vh]`}
+      className={`relative flex flex-col lg:flex-row justify-center items-center ${roboto.className} p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 max-w-7xl mx-auto gap-4 md:gap-6 lg:gap-8 `}
     >
       {/* Left text content */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center item center">

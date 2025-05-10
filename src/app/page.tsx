@@ -11,6 +11,7 @@ import ServicesSection from "@/components/sections/home/about";
 export default function HomePage() {
   return (
     <>
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
       <Hero />
       <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
       <CustomerSegmentation/>
