@@ -96,14 +96,14 @@ const HeroSection = () => {
             </div>
             
             {/* Curved SVG */}
-            <div className="absolute left-80 ml-5 2xl:ml-40  2xl:top-[20rem] top-[22rem] w-24 h-40 2xl:w-26 2xl:h-42 transform rotate-45">
+            <div className="absolute left-80 ml-5 2xl:ml-32  2xl:top-[20rem] top-[22rem] w-24 h-40 2xl:w-26 2xl:h-42 transform rotate-45">
               <svg viewBox="0 0 48 128" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
                 <path d="M0,0 H48 V32 C48,48 30,64 48,96 V128 H0 V96 C0,80 18,64 0,32 Z" fill="#ffffff" />
               </svg>
             </div>
 
             {/* Bottom Right White Box */}
-            <div className='absolute 2xl:top-80 2xl:mt-20  top-96  mt-14 2xl:ml-20  left-60 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white z-10 shadow-lg flex flex-col justify-center items-center p-4'>
+            <div className='absolute 2xl:top-80 2xl:mt-20  top-96  mt-14 2xl:ml-12  left-60 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white z-10 shadow-lg flex flex-col justify-center items-center p-4'>
               <div className='flex flex-col -space-y-1 mb-2'>
                 <span className='font-bold text-black text-sm 2xl:text-xl'>Our</span>
                 <span className='font-bold text-black text-sm 2xl:text-xl'>Creators</span>
@@ -118,7 +118,7 @@ const HeroSection = () => {
             </div>
 
             {/* Circular Div */}
-            <div className='absolute  top-[26rem] 2xl:top-[24rem] left-96  2xl:ml-44 2xl:mt-2 ml-5 w-20 h-20 2xl:w-32 2xl:h-32 z-0'>
+            <div className='absolute  top-[26rem] 2xl:top-[24rem] left-96  2xl:ml-36 2xl:mt-2 ml-5 w-20 h-20 2xl:w-32 2xl:h-32 z-0'>
               <CircularDiv/>
             </div>
           </div>
