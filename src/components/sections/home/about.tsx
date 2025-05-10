@@ -22,25 +22,24 @@ const services = [
     title: "Community & Collaboration",
     description: "Engage with a vibrant network of founders, investors, and innovators through thoughtful discussions and shared insights. Exchange perspectives, collaborate on ideas, and build meaningful relationships that fuel growth, spark innovation, and keep you connected to the pulse of the startup and investment world."
   },
-  
 ];
 
 export default function ServicesSection() {
   const [activeService, setActiveService] = useState(0);
 
   return (
-    <div className={`${geist.className} min-h-screen xl:min-h-screen[80vh]  bg-background py-[5rem] px-[1rem] sm:px-[1.5rem] lg:px-[2rem]`}>
-      <div className="max-w-[87.5rem] mx-auto">
-        <div className='mb-[2.5rem] text-center flex flex-col justify-center items-center'>
-          <h2 className={`text-center font-bold mb-[0.5rem] gap-[0.25rem]`}>
+    <div className={`${geist.className} w-full bg-background py-12 md:py-16 lg:py-20 xl:py-24 2xl:py-32 px-4 sm:px-6 lg:px-8`}>
+      <div className="max-w-7xl mx-auto">
+        <div className='mb-8 md:mb-12 lg:mb-16 text-center max-w-3xl mx-auto'>
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900`}>
             Why Brown24?
           </h2>
-          <p >
+          <p className='text-lg md:text-xl text-gray-600'>
             We combine expert curation with smart technology to deliver the startup intelligence you need, without the noise.
           </p>
         </div>
         
-        <div className="flex flex-col lg:flex-row gap-[3rem]">
+        <div className="flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12">
           {/* Left side - Content */}
           <div className="lg:w-1/2">
             <AnimatePresence mode="wait">
@@ -50,10 +49,10 @@ export default function ServicesSection() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 50 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="bg-gray-50 p-[2rem] rounded-xl shadow-sm h-full border border-gray-200"
+                className="bg-gray-50 p-6 sm:p-8 md:p-10 rounded-xl shadow-sm h-full border border-gray-200"
               >
                 <motion.h3 
-                  className={`text-[1.5rem] font-bold mb-[1rem] text-black ${geist.className}`}
+                  className={`text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-black`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
@@ -61,7 +60,7 @@ export default function ServicesSection() {
                   {services[activeService].title}
                 </motion.h3>
                 <motion.p 
-                  className="text-gray-600 leading-relaxed"
+                  className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed md:leading-relaxed"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
@@ -74,17 +73,23 @@ export default function ServicesSection() {
           
           {/* Right side - Navigation */}
           <div className="lg:w-1/2">
-            <div className="space-y-[1rem]">
+            <div className="space-y-4 sm:space-y-5 md:space-y-6">
               {services.map((service, index) => (
                 <motion.div
                   key={index}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`cursor-pointer p-[1.5rem] rounded-lg transition-all ${activeService === index ? 'bg-brand-maroon text-white' : 'bg-white text-gray-500 hover:bg-gray-50 border border-gray-200'}`}
+                  className={`cursor-pointer p-5 sm:p-6 md:p-7 rounded-lg transition-all ${
+                    activeService === index 
+                      ? 'bg-brand-maroon text-white' 
+                      : 'bg-white text-gray-500 hover:bg-gray-50 border border-gray-200'
+                  }`}
                   onClick={() => setActiveService(index)}
                 >
                   <motion.h3 
-                    className={`text-[1.25rem] ${geist.className} font-semibold ${activeService === index ? 'text-white' : 'text-black'}`}
+                    className={`text-xl sm:text-2xl font-semibold ${
+                      activeService === index ? 'text-white' : 'text-gray-900'
+                    }`}
                     layoutId={`service-title-${index}`}
                   >
                     {service.title}
@@ -92,7 +97,7 @@ export default function ServicesSection() {
                   {activeService === index && (
                     <motion.div
                       layoutId="service-indicator"
-                      className="mt-[0.5rem] h-[0.25rem] w-[2rem] bg-white rounded-full"
+                      className="mt-2 h-1 w-8 bg-white rounded-full"
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
                   )}
