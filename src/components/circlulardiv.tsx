@@ -11,7 +11,7 @@ export const CircularDiv = () => {
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="relative w-32 h-32 mx-auto my-8"
+      className="relative 2xl:w-44 w-28 h-28 2xl:h-44 mx-auto my-8"
     >
       {/* Main circle with black background */}
       <div className="absolute inset-0 rounded-full border-2 border-gray-300 bg-black shadow-xl">
