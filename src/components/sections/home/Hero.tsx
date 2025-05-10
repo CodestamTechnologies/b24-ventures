@@ -11,12 +11,28 @@ const HeroSection = () => {
       {/* Mobile & Tablet Content */}
       <div className='lg:hidden flex flex-col items-center justify-center min-h-[90vh] p-4 sm:p-6 relative z-10'>
         {/* Rotating Circular Background */}
-        <div className='absolute -top-[15vw] -left-[30vw] w-[150vw] h-[150vw] opacity-5 z-0'>
-          <CircularDiv />
-        </div>
+       
+        <div className='md:hidden absolute inset-0 z-0'>
+              {/* Large background circle */}
+              <div className='absolute -top-24 -left-1/4 w-[150vw] h-[150vw] opacity-10'>
+                <CircularDiv />
+              </div>
+              <div className=" w-56 mt-4 flex justify-center item-center h-12 z-20">
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                width={208}
+                height={208}
+                className="rounded-lg z-50 object-contain"
+              />
+            </div>
+              {/* Decorative boxes */}
+              <div className='absolute top-1/4 left-1/4 w-24 h-24 rounded-xl bg-brand-maroon  opacity-20'></div>
+              <div className='absolute bottom-1/4 right-1/4 w-24 h-24 rounded-xl bg-white opacity-20'></div>
+            </div>
         
         <div className="text-center w-full max-w-2xl px-4 relative z-10">
-          <motion.h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 sm:mb-6 leading-tight">
+          <motion.h1 className="text-4xl sm:text-5xl md:text-6xl 2xl:text-7xl font-bold tracking-tight mb-4 sm:mb-6 leading-tight">
             <span className="inline-block bg-gradient-to-r from-foreground to-brand-maroon bg-clip-text text-transparent">
               Actionable
             </span>{' '}

@@ -75,7 +75,7 @@ export default function CustomerSegmentation() {
             transition={{ delay: id * 0.2 }}
             className="flex-1 min-w-[260px] sm:min-w-[200px] lg:min-w-[250px] max-w-full sm:max-w-[400px]"
           >
-            <Card className="overflow-hidden w-full h-[800px] sm:h-[700px] md:h-[800px] lg:h-[700px] xl:h-[600px] rounded-2xl shadow-md relative">
+            <Card className="overflow-hidden w-full h-[770px] sm:h-[700px] md:h-[800px] lg:h-[700px] xl:h-[600px] rounded-2xl shadow-md relative">
               {/* Image */}
               <div className="absolute inset-0 w-full h-full">
                 <Image
