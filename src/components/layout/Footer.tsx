@@ -94,7 +94,7 @@ export default function Footer() {
           
           {/* Navigation Links - spans 2 cols on desktop */}
           <div className="col-span-1 md:col-span-2 space-y-6">
-            <h3 className={`text-xs ml-4 font-semibold uppercase tracking-wider text-gray-500 font-poppins ${inter.className}`}>
+            <h3 className={`text-xs  font-semibold uppercase tracking-wider text-gray-500 font-poppins ${inter.className}`}>
               Navigate
             </h3>
             <ul className="space-y-3.5">
@@ -104,7 +104,7 @@ export default function Footer() {
                     href={item.href}
                     className="text-gray-300  hover:text-white transition-colors duration-300 group flex items-center font-inter text-sm"
                   >
-                    <span className="w-1.5 h-1.5 mr-2.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span className="w-1.5 h-1.5 -ml-3.5 mr-2 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                     {item.label}
                   </Link>
                 </li>
@@ -114,7 +114,7 @@ export default function Footer() {
           
           {/* Company Links - spans 2 cols on desktop */}
           <div className="col-span-1 md:col-span-2 space-y-6">
-            <h3 className={`text-xs ml-4 font-semibold uppercase tracking-wider text-gray-500 font-poppins ${inter.className}`}>
+            <h3 className={`text-xs  font-semibold uppercase tracking-wider text-gray-500 font-poppins ${inter.className}`}>
               Company
             </h3>
             <ul className="space-y-3.5">
@@ -124,7 +124,7 @@ export default function Footer() {
                     href={item.href}
                     className="text-gray-300 hover:text-white transition-colors duration-300 group flex items-center font-inter text-sm"
                   >
-                    <span className="w-1.5 h-1.5 mr-2.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span className="w-1.5 h-1.5 -ml-3.5 mr-2 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                     {item.label}
                   </Link>
                 </li>
@@ -134,7 +134,7 @@ export default function Footer() {
           
           {/* Legal Links - spans 2 cols on desktop */}
           <div className="col-span-2 md:col-span-2 space-y-6">
-            <h3 className={`text-xs ml-4 font-semibold uppercase tracking-wider text-gray-500 font-poppins ${inter.className}`}>
+            <h3 className={`text-xs  font-semibold uppercase tracking-wider text-gray-500 font-poppins ${inter.className}`}>
               Legal
             </h3>
             <ul className="space-y-3.5">
@@ -144,7 +144,7 @@ export default function Footer() {
                     href={item.href}
                     className="text-gray-300 hover:text-white transition-colors duration-300 group flex items-center font-inter text-sm"
                   >
-                    <span className="w-1.5 h-1.5 mr-2.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span className="w-1.5 h-1.5 -ml-3.5 mr-2  rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                     {item.label}
                   </Link>
                 </li>
