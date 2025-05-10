@@ -66,7 +66,7 @@ const HeroSection = () => {
         {/* Container with max-width and responsive padding */}
         <div className='w-full max-w-[1800px] mx-auto px-8 xl:px-12 2xl:px-16 4k:px-24 relative sm:h-screen h-screen lg:h-screen 2xl:h-[800px]'>
           {/* Left Side Elements */}
-          <div className="absolute top-2 2xl:mt-3 2xl:ml-32 left-36 w-48 h-48 2xl:w-52 2xl:h-52 z-20">
+          <div className="absolute top-2 2xl:mt-3 2xl:ml-28  left-36 w-48 h-48 2xl:w-52 2xl:h-52 z-20">
             <Image
               src="/logo.png"
               alt="Logo"
@@ -124,7 +124,7 @@ const HeroSection = () => {
           </div>
 
           {/* Right Side Content */}
-          <div className="absolute right-0 w-1/2 lg:mt-16 2xl:mt-12 2xl:right-20 4k:ml-24 h-full flex pl-12 4k:pl-16">
+          <div className="absolute right-10 w-1/2 lg:mt-16 2xl:mt-12 2xl:right-20 lg:right 2xl:ml-24 h-full flex pl-12 4k:pl-16">
             <div className="w-full max-w-[600px] 4k:max-w-[650px]">
               {/* Main Content Box */}
               <div className="p-8 4k:p-10 rounded-2xl border border-gray-300">
