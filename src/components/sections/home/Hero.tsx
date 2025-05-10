@@ -89,7 +89,7 @@ const HeroSection = () => {
             </div>
 
             {/* Bottom Left White Box */}
-            <div className='absolute top-72 2xl:top-44 left-96 z-10  2xl:ml-36 mr-10 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white shadow-lg flex justify-center items-center'>
+            <div className='absolute top-72 2xl:top-44 left-96 z-10  2xl:ml-28 mr-10 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white shadow-lg flex justify-center items-center'>
               <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-10 h-10 2xl:w-16 2xl:h-16">
                 <path d="M2 2h20v20H2V2zm2 2v4h4v4H4v4h4v4h4v-4h4v4h4v-4h-4v-4h4V8h-4V4h-4v4H8V4H4zm8 8H8v4h4v-4zm0-4v4h4V8h-4z" fill="black" />
               </svg>
