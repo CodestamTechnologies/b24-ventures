@@ -33,26 +33,26 @@ const itemVariants = {
   }
 };
 
-const rocketVariants = {
-  float: {
-    y: [0, -15, 0],
-    rotate: [0, 5, -5, 0],
-    transition: {
-      duration: 4,
-      repeat: Infinity,
-      repeatType: "reverse",
-      ease: "easeInOut"
-    }
-  },
-  launch: {
-    y: -100,
-    opacity: 0,
-    transition: {
-      duration: 1,
-      ease: "easeIn"
-    }
-  }
-};
+// const rocketVariants = {
+//   float: {
+//     y: [0, -15, 0],
+//     rotate: [0, 5, -5, 0],
+//     transition: {
+//       duration: 4,
+//       repeat: Infinity,
+//       repeatType: "reverse",
+//       ease: "easeInOut"
+//     }
+//   },
+//   launch: {
+//     y: -100,
+//     opacity: 0,
+//     transition: {
+//       duration: 1,
+//       ease: "easeIn"
+//     }
+//   }
+// };
 
 const successVariants = {
   hidden: { scale: 0.8, opacity: 0 },
@@ -248,7 +248,7 @@ function isValidEmail(email: string | undefined | null): boolean {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.4 }}
                 >
-                  We've added <span className="font-semibold text-primary">{email}</span> to our waitlist.
+              {`    We've added <span className="font-semibold text-primary">{email}</span> to our waitlist.`}
                 </motion.p>
               </motion.div>
             ) : (
@@ -303,7 +303,7 @@ function isValidEmail(email: string | undefined | null): boolean {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.1 }}
                 >
-                  Your privacy is important to us. We'll never spam you.
+               {`   Your privacy is important to us. We'll never spam you.`}
                 </motion.p>
               </motion.form>
             )}

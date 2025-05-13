@@ -264,7 +264,7 @@ export default function SubmitStartupForm() {
                   </motion.div>
                   <h3 className="text-2xl font-bold mb-2">Submission Successful!</h3>
                   <p className="text-muted-foreground mb-6">
-                    We've received your startup information and will review it shortly.
+                  {`  We've received your startup information and will review it shortly.`}
                   </p>
                   <Button
                     onClick={() => setIsSuccess(false)}

@@ -11,17 +11,7 @@ import { Inter } from "next/font/google";
 const geist = Inter({ subsets: ['latin'] });
 
 // Enhanced Animation variants
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { 
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1]
-    }
-  }
-};
+
 
 const slideInFromRight = {
   hidden: { 
