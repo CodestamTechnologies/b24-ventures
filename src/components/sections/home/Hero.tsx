@@ -541,7 +541,7 @@ const HeroSection = () => {
                   whileHover={{ rotate: 15 }}
                 >
                   <Image
-                    src="/circle34.png"
+                    src="/circl.png"
                     alt="circular feature"
                     width={120}
                     height={120}
