@@ -46,9 +46,10 @@ const staggerContainer = {
 
 export default function AboutUsSection() {
   return (
+     <section className='bg-background z-10 -mt-1'>
     <motion.section 
       id="about-us" 
-      className="py-24 md:py-32 bg-background border-y border-border overflow-hidden relative"
+      className="py-24 md:py-32 bg-background z-10 border-y border-border overflow-hidden relative"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -206,5 +207,6 @@ export default function AboutUsSection() {
         </motion.div>
       </div>
     </motion.section>
+    </section>
   );
 }

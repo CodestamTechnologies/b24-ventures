@@ -155,8 +155,25 @@ export default function Testimonials() {
   }
 
   return (
-    <section className="py-24 md:py-32 bg-background overflow-hidden border-y border-border">
-      <div className="container mx-auto px-4" ref={ref}>
+    <section className="relative py-24 md:py-32 overflow-hidden border-y border-border -mt-1">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-background z-0">
+        {/* Floating decorative elements */}
+        <motion.div 
+          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon/5 blur-[80px]"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.1 }}
+          transition={{ duration: 1.5, delay: 0.3 }}
+        />
+        <motion.div 
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-blue-500/5 blur-[100px]"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.1 }}
+          transition={{ duration: 1.5, delay: 0.5 }}
+        />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10" ref={ref}>
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -220,7 +237,7 @@ export default function Testimonials() {
             </motion.div>
 
             {/* Testimonial Card */}
-            <div className="relative bg-background rounded-xl p-8 md:p-12 border border-border overflow-hidden min-h-[300px] flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div className="relative bg-background/80 backdrop-blur-sm rounded-xl p-8 md:p-12 border border-border/50 overflow-hidden min-h-[300px] flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
               <AnimatePresence initial={false} custom={direction} mode="popLayout">
                 <motion.div
                   key={current}

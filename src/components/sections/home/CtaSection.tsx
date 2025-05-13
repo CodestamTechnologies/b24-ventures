@@ -87,21 +87,14 @@ export default function CtaSection() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  if (!isValidEmail(email)) {
-  toast({ 
-    title: "Invalid Email", 
-    description: "Please enter a valid email address.", 
-    variant: "destructive" 
-  });
-  return;
-}
-
-function isValidEmail(email: string | undefined | null): boolean {
-  if (!email) return false;
-  return /\S+@\S+\.\S+/.test(email);
-}
-
-
+    if (!isValidEmail(email)) {
+      toast({ 
+        title: "Invalid Email", 
+        description: "Please enter a valid email address.", 
+        variant: "destructive" 
+      });
+      return;
+    }
     
     setIsLoading(true);
     setIsRocketLaunching(true);
@@ -139,18 +132,38 @@ function isValidEmail(email: string | undefined | null): boolean {
     }
   };
 
+  const isValidEmail = (email: string) => {
+    return /\S+@\S+\.\S+/.test(email);
+  };
+
   return (
-    <section className="py-24 md:py-32 bg-background border-t border-border overflow-hidden">
+    <section className="relative -mt-1 py-24 md:py-32 min-h-[60vh] border-t border-border overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-background z-0">
+        <motion.div 
+          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon/5 blur-[80px]"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.1 }}
+          transition={{ duration: 1.5, delay: 0.3 }}
+        />
+        <motion.div 
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-blue-500/5 blur-[100px]"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.1 }}
+          transition={{ duration: 1.5, delay: 0.5 }}
+        />
+      </div>
+
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={controls}
-          className="max-w-3xl mx-auto text-center bg-gradient-subtle p-10 md:p-16 rounded-2xl border border-border shadow-xl relative"
+          className="max-w-3xl mx-auto text-center bg-background/80 backdrop-blur-sm p-10 md:p-16 rounded-2xl border border-border/50 shadow-xl relative overflow-hidden"
         >
           {/* Floating stars background */}
           <motion.div 
-            className="absolute inset-0 overflow-hidden rounded-2xl"
+            className="absolute inset-0 overflow-hidden rounded-2xl z-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.3 }}
             transition={{ delay: 0.5 }}
@@ -185,7 +198,7 @@ function isValidEmail(email: string | undefined | null): boolean {
             className="mb-10 relative z-10"
           >
             <motion.div 
-            id="waitlist"
+              id="waitlist"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ 
                 scale: 1, 
@@ -232,7 +245,7 @@ function isValidEmail(email: string | undefined | null): boolean {
             {isSubmitted ? (
               <motion.div
                 variants={successVariants}
-                className="p-6 bg-primary/10 rounded-xl border border-primary/20"
+                className="p-6 bg-primary/10 rounded-xl border border-primary/20 relative z-10"
               >
                 <motion.h3 
                   className="text-2xl font-bold text-primary mb-2"
@@ -248,7 +261,7 @@ function isValidEmail(email: string | undefined | null): boolean {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.4 }}
                 >
-              {`    We've added <span className="font-semibold text-primary">{email}</span> to our waitlist.`}
+                  We've added <span className="font-semibold text-primary">{email}</span> to our waitlist.
                 </motion.p>
               </motion.div>
             ) : (
@@ -303,7 +316,7 @@ function isValidEmail(email: string | undefined | null): boolean {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.1 }}
                 >
-               {`   Your privacy is important to us. We'll never spam you.`}
+                  Your privacy is important to us. We'll never spam you.
                 </motion.p>
               </motion.form>
             )}

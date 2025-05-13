@@ -88,8 +88,9 @@ const HeroSection = () => {
   };
 
   return (
+    <section className='sticky top-0 '>
     <motion.div 
-      className='bg-background relative overflow-hidden min-h-[90vh] flex items-center justify-center'
+      className='relative bg-background  overflow-hidden min-h-[90vh] flex items-center justify-center'
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -305,7 +306,7 @@ const HeroSection = () => {
       </div>
   
       {/* Desktop Layout */}
-      <div className='hidden lg:flex justify-center w-full'>
+      <div className='hidden relative lg:flex justify-center w-full'>
         {/* Container with max-width and responsive padding */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -569,6 +570,7 @@ const HeroSection = () => {
         }
       `}</style>
     </motion.div>
+    </section>
   );
 };
 
