@@ -254,7 +254,7 @@ export default function ContactPage() {
                   </p>
                 </div>
                 <motion.div 
-                  whileHover="hover"
+                  // whileHover="hover"
                   whileTap="tap"
                   variants={buttonHover}
                 >
