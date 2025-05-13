@@ -261,7 +261,7 @@ export default function CtaSection() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.4 }}
                 >
-                  We've added <span className="font-semibold text-primary">{email}</span> to our waitlist.
+                  We have added <span className="font-semibold text-primary">{email}</span> to our waitlist.
                 </motion.p>
               </motion.div>
             ) : (
@@ -316,7 +316,7 @@ export default function CtaSection() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.1 }}
                 >
-                  Your privacy is important to us. We'll never spam you.
+               {`   Your privacy is important to us. We'll never spam you.`}
                 </motion.p>
               </motion.form>
             )}
