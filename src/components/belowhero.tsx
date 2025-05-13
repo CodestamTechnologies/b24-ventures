@@ -3,107 +3,198 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { Roboto } from "next/font/google";
+import { useRef } from "react";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"] });
 
 const segments = [
   {
     id: 2,
-    title: "Prime customers, that have access to bank credit and are not satisfied with the current service",
+    title:
+      "Prime customers, that have access to bank credit and are not satisfied with the current service",
     image: "/pot2.webp",
-    label: "Underserved",
+    label: "Know more",
     color: "bg-blue-400",
   },
   {
     id: 3,
-    title: "Customers from near-prime and sub-prime segments with no access to bank credit",
+    title:
+      "Customers from near-prime and sub-prime segments with no access to bank credit",
     image: "/pot3.webp",
-    label: "Underbanked",
+    label: "Know more",
     color: "bg-lime-400",
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.3,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 60, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 120,
+      damping: 20,
+    },
+  },
+  hover: {
+    scale: 1.02,
+    boxShadow: "0px 10px 25px rgba(0,0,0,0.2)",
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 15,
+    },
+  },
+};
+
+const textVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" },
+  },
+};
+
+const buttonHover = {
+  rest: { scale: 1 },
+  hover: {
+    scale: 1.05,
+    transition: { type: "spring", stiffness: 400, damping: 10 },
+  },
+};
+
+const arrowHover = {
+  rest: { x: 0 },
+  hover: {
+    x: 5,
+    transition: { type: "spring", stiffness: 500, damping: 10 },
+  },
+};
+
 export default function CustomerSegmentation() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   return (
-    <div
-      className={`relative flex flex-col lg:flex-row justify-center items-center ${roboto.className} p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 max-w-7xl mx-auto gap-4 md:gap-6 lg:gap-8 `}
+    <motion.section
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={containerVariants}
+      className={`relative flex flex-col lg:flex-row justify-center items-center ${roboto.className} p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
     >
-      {/* Left text content */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center item center">
-      <div className="flex flex-col justify-center items-center"> 
+      {/* Left Section */}
+      <motion.div
+        className="w-full lg:w-1/2 text-center flex flex-col items-center"
+        variants={textVariants}
+      >
+        <motion.div
+          className="bg-black text-white px-4 py-2 rounded-full uppercase text-sm font-semibold mb-4"
+          whileHover={{ scale: 1.05 }}
+        >
+          🎯 Target Audience
+        </motion.div>
 
-        <div className="inline-block justify center bg-black text-white text-sm sm:text-base md:text-lg text-center px-3 py-1 w-52 rounded-full uppercase mb-2 sm:mb-3 md:mb-4 font-semibold">
-          Target Audience
-        </div>
-        <h1 className="text-2xl sm:text-3xl text-center md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-snug mt-4 sm:mt-6">
+        <motion.h1 className="text-3xl md:text-5xl font-bold mb-4">
           Prospective customer segmentation
-        </h1>
-        <p className="text-gray-600 text-center flex justify-center text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 md:mb-10 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
-          Depending on customer satisfaction and access to banking products,
-          potential target audience can be divided into three groups
-        </p>
-      </div>
+        </motion.h1>
 
-        <svg
+        <motion.p className="text-gray-600 text-lg md:text-xl max-w-xl mx-auto mb-6">
+          Depending on customer satisfaction and access to banking products,
+          potential target audience can be divided into three groups.
+        </motion.p>
+
+        {/* Animated icon */}
+        <motion.svg
           xmlns="http://www.w3.org/2000/svg"
-          width="44"
-          height="44"
+          width="36"
+          height="36"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth="2"
-          className="mt-4 sm:mt-6"
+          className="text-black mt-4"
+          animate={{
+            rotate: [0, 10, -10, 0],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 2,
+            ease: "easeInOut",
+          }}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M7 17L17 7M7 7h10v10"
-          />
-        </svg>
-      </div>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M7 7h10v10" />
+        </motion.svg>
+      </motion.div>
 
-      {/* Right card layout */}
-      <div className="w-full lg:w-1/2 flex flex-col sm:flex-row gap-4 sm:gap-6">
+      {/* Right Section - Cards */}
+      <motion.div
+        className="w-full lg:w-1/2 flex flex-col sm:flex-row gap-6"
+        variants={containerVariants}
+      >
         {segments.map(({ id, title, image, label, color }) => (
           <motion.div
             key={id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: id * 0.2 }}
-            className="flex-1 min-w-[260px] sm:min-w-[200px] lg:min-w-[250px] max-w-full sm:max-w-[400px]"
+            variants={cardVariants}
+            whileHover="hover"
+            initial="hidden"
+            animate="visible"
+            className="flex-1 min-w-[260px] max-w-full"
           >
-            <Card className="overflow-hidden w-full h-[770px] sm:h-[700px] md:h-[800px] lg:h-[700px] xl:h-[600px] rounded-2xl shadow-md relative">
+            <Card className="relative overflow-hidden w-full h-[770px] sm:h-[700px] md:h-[800px] lg:h-[700px] xl:h-[600px] rounded-2xl shadow-lg bg-white">
               {/* Image */}
-              <div className="absolute inset-0 w-full h-full">
+              <motion.div className="absolute inset-0 z-0">
                 <Image
                   src={image}
                   alt={label}
                   fill
-                  className="object-cover object-center"
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-                  priority={id === 1}
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              </div>
+              </motion.div>
 
-              {/* Overlay content */}
-              <CardContent className="relative h-full flex flex-col justify-end p-4 sm:p-6 z-10">
-                <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl mb-3 sm:mb-4">
-                  {title}
-                </p>
-                <Button
-                  className={`${color} text-black hover:opacity-90 rounded-full px-3 py-1 text-sm sm:text-base md:text-lg w-full h-12 flex items-center justify-between`}
+              {/* Card Content */}
+              <CardContent className="relative z-10 h-full flex flex-col justify-end p-6">
+                <motion.p
+                  className="text-white text-lg mb-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
                 >
-                  {label} <ArrowUpRight className="ml-2 w-3 h-3 sm:w-4 sm:h-4" />
-                </Button>
+                  {title}
+                </motion.p>
+
+                <motion.div initial="rest" whileHover="hover">
+                  <Button
+                    className={`${color || "bg-gray-300"} text-black w-full h-12 rounded-full flex justify-between px-4`}
+                  >
+                    <motion.span variants={buttonHover}>{label}</motion.span>
+                    <motion.span variants={arrowHover}>
+                      <ArrowUpRight className="h-5 w-5" />
+                    </motion.span>
+                  </Button>
+                </motion.div>
               </CardContent>
             </Card>
           </motion.div>
         ))}
-      </div>
-    </div>
+      </motion.div>
+    </motion.section>
   );
 }

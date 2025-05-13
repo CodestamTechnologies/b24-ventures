@@ -7,9 +7,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Mail, ChevronRight, MailIcon } from 'lucide-react';
-// import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
-// import FAQSection from "@/components/sections/home/faqs";
 
 const geist = Inter({ subsets: ['latin'] });
 
@@ -33,24 +31,71 @@ const itemVariants = {
     opacity: 1,
     transition: {
       duration: 0.6,
-      ease: "easeOut"
+      ease: [0.25, 0.1, 0.25, 1]
     }
   }
 };
 
 const cardVariants = {
-  hidden: { scale: 0.95, opacity: 0 },
-  visible: {
-    scale: 1,
+  hidden: { x: -50, opacity: 0 },
+  visible: (i: number) => ({
+    x: 0,
     opacity: 1,
     transition: {
-      duration: 0.5,
+      delay: i * 0.1,
+      duration: 0.8,
+      ease: [0.25, 0.1, 0.25, 1]
+    }
+  }),
+  hover: {
+    y: -8,
+    scale: 1.02,
+    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+    transition: { 
+      duration: 0.3,
+      ease: "easeOut"
+    }
+  }
+};
+
+const formVariants = {
+  hidden: { x: 50, opacity: 0 },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      delay: 0.3,
+      duration: 0.8,
+      ease: [0.25, 0.1, 0.25, 1]
+    }
+  }
+};
+
+const floatingVariants = {
+  float: {
+    y: [-5, 5],
+    transition: {
+      y: {
+        duration: 2,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut"
+      }
+    }
+  }
+};
+
+const buttonHover = {
+  hover: {
+    scale: 1.05,
+    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.2)",
+    transition: { 
+      duration: 0.3,
       ease: "easeOut"
     }
   },
-  hover: {
-    y: -5,
-    transition: { duration: 0.2 }
+  tap: {
+    scale: 0.98
   }
 };
 
@@ -70,12 +115,12 @@ export default function ContactPage() {
     setShowTerminal(true);
     
     const messages = [
-      "> Connecting to server...",
+      "> Initializing contact protocol...",
       "> Establishing secure connection...",
-      "> Validating form data...",
-      "> Sending message via API...",
-      "> Message successfully transmitted!",
-      "> Closing connection..."
+      "> Encrypting message contents...",
+      "> Routing through secure channels...",
+      "> Message transmission in progress...",
+      "> Connection established with recipient..."
     ];
 
     for (let i = 0; i < messages.length; i++) {
@@ -130,7 +175,7 @@ export default function ContactPage() {
     <motion.section 
       initial="hidden"
       animate="visible"
-      className="py-20 md:py-28 bg-background"
+      className="py-20 md:py-28 bg-background overflow-hidden min-h-screen"
     >
       <div className="container mx-auto px-4">
         <motion.div 
@@ -144,20 +189,44 @@ export default function ContactPage() {
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.4 }}
+              animate={{ 
+                scale: 1, 
+                opacity: 1,
+                transition: { 
+                  delay: 0.4,
+                  type: "spring",
+                  stiffness: 100
+                }
+              }}
+              variants={floatingVariants}
+              // animate="float"
             >
               <Mail className="h-12 w-12 mx-auto mb-4 text-brand-maroon opacity-80"/>
             </motion.div>
             <motion.h1 
               className={`text-4xl md:text-5xl font-bold mb-4 text-gray-900 ${geist.className}`}
-              variants={itemVariants}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ 
+                y: 0, 
+                opacity: 1,
+                transition: {
+                  delay: 0.5,
+                  duration: 0.8
+                }
+              }}
             >
               Get In <span className="text-brand-maroon">Touch</span> 
             </motion.h1>
             <motion.p 
-              className="text-lg text-gray-600 mt-6 "
-              variants={itemVariants}
+              className="text-lg text-gray-600 mt-6"
+              initial={{ opacity: 0 }}
+              animate={{ 
+                opacity: 1,
+                transition: {
+                  delay: 0.7,
+                  duration: 0.8
+                }
+              }}
             >
               We love to hear from you. Send us a message or reach out via the details below.
             </motion.p>
@@ -166,9 +235,12 @@ export default function ContactPage() {
           {/* Contact Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Contact Info */}
-            <div className="space-y-6 ">
+            <div className="space-y-6">
               <motion.div 
-                className="p-6 rounded-3xl bg-white "
+                className="p-6 rounded-3xl bg-white border border-gray-100"
+                custom={0}
+                initial="hidden"
+                animate="visible"
                 variants={cardVariants}
                 whileHover="hover"
               >
@@ -178,13 +250,16 @@ export default function ContactPage() {
                 <div className="text-gray-600 mb-6">
                   For all general inquiries and media-related matters, please reach out using the button below.
                   <p className="flex flex-row gap-2 mt-2"> 
-
-                  <MailIcon/> privacy@brown24.ventures
+                    <MailIcon/> privacy@brown24.ventures
                   </p>
                 </div>
-                <motion.div whileHover={{ scale: 1.05 }}>
-                  <Button asChild variant="outline" className="rounded-full gap-2 bg-brand-maroon text-white border-none">
-                    <a href="privacy@brown24.ventures">
+                <motion.div 
+                  whileHover="hover"
+                  whileTap="tap"
+                  variants={buttonHover}
+                >
+                  <Button asChild variant="outline" className="rounded-full gap-2 bg-brand-maroon text-white border-none hover:bg-brand-maroon/90">
+                    <a href="mailto:privacy@brown24.ventures">
                       <Mail className="h-4 w-4" />
                       Contact us via e-mail
                     </a>
@@ -193,26 +268,41 @@ export default function ContactPage() {
               </motion.div>
 
               <motion.div 
-                className="p-6 rounded-3xl bg-white"
+                className="p-6 rounded-3xl bg-white border border-gray-100"
+                custom={1}
+                initial="hidden"
+                animate="visible"
                 variants={cardVariants}
                 whileHover="hover"
-                transition={{ delay: 0.1 }}
               >
                 <h2 className={`text-2xl font-semibold mb-4 ${geist.className}`}>
-                Office Hours
+                  Office Hours
                 </h2>
                 <p className="text-gray-600 mb-6">
-              
-Monday - Friday
-9:00 AM - 5:00 PM
+                  Monday - Friday<br />
+                  9:00 AM - 5:00 PM
                 </p>
-                <motion.div whileHover={{ scale: 1.05 }}>
-                  {/* <Button asChild variant="outline" className="rounded-full gap-2 bg-black text-white border-none">
-                    <a href="mailto:investors@startupresources.com">
-                      <Mail className="h-4 w-4" />
-                      Contact us via e-mail
-                    </a>
-                  </Button> */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ 
+                    opacity: 1,
+                    transition: { delay: 1.2 }
+                  }}
+                >
+                  <div className="h-[120px] w-full relative overflow-hidden rounded-xl bg-gradient-to-r from-brand-maroon/10 to-gray-100">
+                    <motion.div 
+                      className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                      animate={{
+                        x: [-200, 200],
+                        opacity: [0, 0.3, 0]
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  </div>
                 </motion.div>
               </motion.div>
             </div>
@@ -220,22 +310,65 @@ Monday - Friday
             {/* Form */}
             <motion.div 
               className="lg:col-span-2 bg-gray-50 rounded-2xl p-8 border border-gray-200"
-              variants={cardVariants}
-              transition={{ delay: 0.2 }}
+              initial="hidden"
+              animate="visible"
+              variants={formVariants}
             >
               <AnimatePresence mode="wait">
                 {showTerminal ? (
                   <motion.div
                     key="terminal"
                     initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
+                    animate={{ 
+                      opacity: 1, 
+                      scale: 1,
+                      transition: { 
+                        type: "spring",
+                        stiffness: 100
+                      }
+                    }}
+                    exit={{ 
+                      opacity: 0, 
+                      scale: 0.95,
+                      transition: { 
+                        duration: 0.3 
+                      }
+                    }}
                     className="bg-gray-900 rounded-lg p-6 font-mono text-sm h-full"
                   >
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      <motion.div 
+                        className="w-3 h-3 rounded-full bg-red-500"
+                        animate={{ 
+                          scale: [1, 1.1, 1],
+                          transition: { 
+                            duration: 2,
+                            repeat: Infinity
+                          }
+                        }}
+                      />
+                      <motion.div 
+                        className="w-3 h-3 rounded-full bg-yellow-500"
+                        animate={{ 
+                          scale: [1, 1.1, 1],
+                          transition: { 
+                            delay: 0.2,
+                            duration: 2,
+                            repeat: Infinity
+                          }
+                        }}
+                      />
+                      <motion.div 
+                        className="w-3 h-3 rounded-full bg-green-500"
+                        animate={{ 
+                          scale: [1, 1.1, 1],
+                          transition: { 
+                            delay: 0.4,
+                            duration: 2,
+                            repeat: Infinity
+                          }
+                        }}
+                      />
                       <span className="text-gray-400 ml-2">terminal</span>
                     </div>
                     <div className="space-y-2 text-gray-300">
@@ -244,8 +377,15 @@ Monday - Friday
                           key={i} 
                           className="flex items-start"
                           initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.1 }}
+                          animate={{ 
+                            opacity: 1, 
+                            x: 0,
+                            transition: { 
+                              delay: i * 0.1,
+                              type: "spring",
+                              stiffness: 100
+                            }
+                          }}
                         >
                           <ChevronRight className="h-4 w-4 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
                           <span>{line}</span>
@@ -255,8 +395,13 @@ Monday - Friday
                         <motion.div
                           className="text-green-400 mt-4"
                           initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 0.5 }}
+                          animate={{ 
+                            opacity: 1,
+                            transition: { 
+                              delay: 0.5,
+                              type: "spring"
+                            }
+                          }}
                         >
                           ✓ Message sent successfully!
                         </motion.div>
@@ -269,12 +414,26 @@ Monday - Friday
                     onSubmit={handleSubmit} 
                     className="space-y-6"
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    animate={{ 
+                      opacity: 1,
+                      transition: { 
+                        delay: 0.5,
+                        duration: 0.8
+                      }
+                    }}
                     exit={{ opacity: 0 }}
                   >
                     <motion.div 
                       className="space-y-2"
-                      variants={itemVariants}
+                      initial={{ x: 20, opacity: 0 }}
+                      animate={{ 
+                        x: 0, 
+                        opacity: 1,
+                        transition: { 
+                          delay: 0.6,
+                          duration: 0.8
+                        }
+                      }}
                     >
                       <Label htmlFor="name">Name</Label>
                       <Input 
@@ -285,13 +444,20 @@ Monday - Friday
                         onChange={handleChange} 
                         required 
                         disabled={isLoading}
-                        className="bg-white"
+                        className="bg-white hover:border-brand-maroon/50 focus:border-brand-maroon transition-colors"
                       />
                     </motion.div>
                     <motion.div 
                       className="space-y-2"
-                      variants={itemVariants}
-                      transition={{ delay: 0.1 }}
+                      initial={{ x: 20, opacity: 0 }}
+                      animate={{ 
+                        x: 0, 
+                        opacity: 1,
+                        transition: { 
+                          delay: 0.7,
+                          duration: 0.8
+                        }
+                      }}
                     >
                       <Label htmlFor="email">Email Address</Label>
                       <Input 
@@ -302,13 +468,20 @@ Monday - Friday
                         onChange={handleChange} 
                         required 
                         disabled={isLoading}
-                        className="bg-white"
+                        className="bg-white hover:border-brand-maroon/50 focus:border-brand-maroon transition-colors"
                       />
                     </motion.div>
                     <motion.div 
                       className="space-y-2"
-                      variants={itemVariants}
-                      transition={{ delay: 0.2 }}
+                      initial={{ x: 20, opacity: 0 }}
+                      animate={{ 
+                        x: 0, 
+                        opacity: 1,
+                        transition: { 
+                          delay: 0.8,
+                          duration: 0.8
+                        }
+                      }}
                     >
                       <Label htmlFor="message">Message</Label>
                       <Textarea 
@@ -319,24 +492,59 @@ Monday - Friday
                         onChange={handleChange} 
                         required 
                         disabled={isLoading}
-                        className="bg-white"
+                        className="bg-white hover:border-brand-maroon/50 focus:border-brand-maroon transition-colors"
                       />
                     </motion.div>
                     <motion.div 
                       className="pt-4"
-                      variants={itemVariants}
-                      transition={{ delay: 0.3 }}
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ 
+                        y: 0, 
+                        opacity: 1,
+                        transition: { 
+                          delay: 0.9,
+                          type: "spring",
+                          stiffness: 100
+                        }
+                      }}
                     >
                       <Button 
                         type="submit" 
                         disabled={isLoading} 
                         size="lg" 
-                        className="w-full md:w-auto bg-brand-maroon hover:bg-brand-maroon"
-                        // whileHover={{ scale: 1.03 }}
-                        // whileTap={{ scale: 0.97 }}
+                        className="w-full md:w-auto bg-brand-maroon hover:bg-brand-maroon/90"
+                        // whileHover="hover"
+                        // whileTap="tap"
+                        // variants={buttonHover}
                       >
-                        {isLoading ? "Sending..." : "Send Message"}
-                        <Send className="ml-2 h-4 w-4" />
+                        {isLoading ? (
+                          <motion.span
+                            animate={{
+                              opacity: [0.6, 1, 0.6],
+                              transition: { 
+                                duration: 1.5,
+                                repeat: Infinity
+                              }
+                            }}
+                          >
+                            Sending...
+                          </motion.span>
+                        ) : (
+                          <>
+                            Send Message
+                            <motion.span
+                              animate={{
+                                x: [0, 4, 0],
+                                transition: { 
+                                  duration: 1.5,
+                                  repeat: Infinity
+                                }
+                              }}
+                            >
+                              <Send className="ml-2 h-4 w-4" />
+                            </motion.span>
+                          </>
+                        )}
                       </Button>
                     </motion.div>
                   </motion.form>
@@ -346,7 +554,6 @@ Monday - Friday
           </div>
         </motion.div>
       </div>
-      {/* <FAQSection/> */}
     </motion.section>
   );
 }

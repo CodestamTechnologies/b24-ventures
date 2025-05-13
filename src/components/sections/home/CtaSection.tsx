@@ -1,109 +1,313 @@
-// components/sections/home/CtaSection.tsx
 "use client";
 import React, { useState, FormEvent, ChangeEvent, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast"; // *** CORRECTED IMPORT PATH ***
-import { Mail } from "lucide-react"; // Import the Mail icon from lucide-react
+import { useToast } from "@/hooks/use-toast";
+import { Mail, Rocket } from "lucide-react";
 import { motion, useAnimation } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useInView } from "react-intersection-observer";
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3
+    }
+  }
+};
 
+const itemVariants = {
+  hidden: { x: 100, opacity: 0 },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 10,
+      duration: 0.8
+    }
+  }
+};
+
+const rocketVariants = {
+  float: {
+    y: [0, -15, 0],
+    rotate: [0, 5, -5, 0],
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut"
+    }
+  },
+  launch: {
+    y: -100,
+    opacity: 0,
+    transition: {
+      duration: 1,
+      ease: "easeIn"
+    }
+  }
+};
+
+const successVariants = {
+  hidden: { scale: 0.8, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100
+    }
+  }
+};
 
 export default function CtaSection() {
   const [email, setEmail] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRocketLaunching, setIsRocketLaunching] = useState<boolean>(false);
   const { toast } = useToast();
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
-  useEffect(() => { if (inView) { controls.start("visible"); } }, [controls, inView]);
+  useEffect(() => { 
+    if (inView) { 
+      controls.start("visible"); 
+    } 
+  }, [controls, inView]);
 
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => { setEmail(e.target.value); };
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => { 
+    setEmail(e.target.value); 
+  };
 
-  // *** UPDATED handleSubmit to call API ***
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isLoading || !email || !/\S+@\S+\.\S+/.test(email)) {
-        if (!/\S+@\S+\.\S+/.test(email) && email) {
-            toast({ title: "Invalid Email", description: "Please enter a valid email address.", variant: "destructive" });
-        }
-        return;
-    }
+  if (!isValidEmail(email)) {
+  toast({ 
+    title: "Invalid Email", 
+    description: "Please enter a valid email address.", 
+    variant: "destructive" 
+  });
+  return;
+}
+
+function isValidEmail(email: string | undefined | null): boolean {
+  if (!email) return false;
+  return /\S+@\S+\.\S+/.test(email);
+}
+
+
+    
     setIsLoading(true);
+    setIsRocketLaunching(true);
 
     try {
-        // *** Call the /api/waitlist route ***
-        const response = await fetch('/api/waitlist', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email }),
-        });
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to join waitlist');
-        }
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to join waitlist');
+      }
 
-        setIsSubmitted(true);
-        // Don't clear email here so success message can potentially show it if needed
-        toast({ title: "Success!", description: "You're on the list! We'll be in touch." });
+      setIsSubmitted(true);
+      toast({ 
+        title: "Success!", 
+        description: "You're on the list! We'll be in touch soon." 
+      });
 
     } catch (error) {
-        console.error("Waitlist submission error:", error);
-        const message = error instanceof Error ? error.message : "An unknown error occurred.";
-        toast({ title: "Submission Failed", description: message, variant: "destructive" });
+      console.error("Waitlist submission error:", error);
+      const message = error instanceof Error ? error.message : "An unknown error occurred.";
+      toast({ 
+        title: "Submission Failed", 
+        description: message, 
+        variant: "destructive" 
+      });
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
+      setTimeout(() => setIsRocketLaunching(false), 1000);
     }
   };
 
-  // --- The JSX part remains the same light-theme version ---
   return (
-    <section  className="py-24 md:py-32 bg-background border-t border-border">
+    <section className="py-24 md:py-32 bg-background border-t border-border overflow-hidden">
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
         <motion.div
-
-            /* ... animation variants ... */
-            initial="hidden"
-            animate={controls}
-            className="max-w-3xl mx-auto text-center bg-gradient-subtle p-10 md:p-16 rounded-2xl border border-border shadow-xl"
+          variants={containerVariants}
+          initial="hidden"
+          animate={controls}
+          className="max-w-3xl mx-auto text-center bg-gradient-subtle p-10 md:p-16 rounded-2xl border border-border shadow-xl relative"
         >
-           <motion.div  id="waitlist" /* ... */ className="mb-10">
-              <Mail className="h-12 w-12 mx-auto mb-4 text-primary opacity-80"/>
-              <h2 className="text-4xl md:text-5xl font-bold font-display mb-4 text-foreground relative inline-block group">
-                  Get Early Access <span className="section-header-underline"></span>
-              </h2>
-              <p className="text-lg text-muted-foreground mt-6 max-w-xl mx-auto">
-                  Be the first to experience the future of startup intelligence. Join the waitlist today.
-              </p>
-           </motion.div>
-
-          <motion.div>
-              {isSubmitted ? (
-                 <motion.div /* ... success message ... */ >
-                   {/* ... Success content ... */}
-                 </motion.div>
-               ) : (
-                 <motion.form /* ... form props ... */ onSubmit={handleSubmit} >
-                     <div className="flex flex-col sm:flex-row gap-3">
-                         <Input
-                            type="email" placeholder="your.email@example.com" value={email}
-                            onChange={handleEmailChange} required disabled={isLoading}
-                            className="flex-grow bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 rounded-lg h-12 text-base px-4 shadow-inner-sm"
-                         />
-                         <Button type="submit" disabled={isLoading || !email} size="lg" className={cn( /* ... button styles ... */ )} >
-                              {isLoading ? "Joining..." : "Join Waitlist 🚀"}
-                         </Button>
-                     </div>
-                     <p className="text-xs text-muted-foreground mt-3">Your privacy is important to us.</p>
-                 </motion.form>
-               )}
+          {/* Floating stars background */}
+          <motion.div 
+            className="absolute inset-0 overflow-hidden rounded-2xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.3 }}
+            transition={{ delay: 0.5 }}
+          >
+            {[...Array(15)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute bg-primary rounded-full"
+                style={{
+                  width: `${Math.random() * 4 + 1}px`,
+                  height: `${Math.random() * 4 + 1}px`,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: [0, 0.8, 0],
+                  scale: [1, 1.5, 1]
+                }}
+                transition={{
+                  duration: Math.random() * 3 + 2,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  delay: Math.random() * 2
+                }}
+              />
+            ))}
           </motion.div>
-          {/* Social Links Removed - Assume they are in Footer */}
+
+          <motion.div 
+            variants={itemVariants}
+            className="mb-10 relative z-10"
+          >
+            <motion.div 
+            id="waitlist"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ 
+                scale: 1, 
+                opacity: 1,
+                transition: { 
+                  type: "spring",
+                  stiffness: 200
+                }
+              }}
+            >
+              <Mail className="h-12 w-12 mx-auto mb-4 text-primary opacity-80"/>
+            </motion.div>
+            
+            <motion.h2 
+              className="text-4xl md:text-5xl font-bold font-display mb-4 text-foreground relative inline-block group"
+              whileHover={{ scale: 1.02 }}
+            >
+              Get Early Access{" "}
+              <motion.span 
+                className="absolute bottom-0 left-0 w-full h-1 bg-primary origin-left"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 1, delay: 0.8 }}
+              />
+            </motion.h2>
+            
+            <motion.p 
+              className="text-lg text-muted-foreground mt-6 max-w-xl mx-auto"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ 
+                y: 0, 
+                opacity: 1,
+                transition: { 
+                  delay: 0.6,
+                  duration: 0.8
+                }
+              }}
+            >
+              Be the first to experience the future of startup intelligence. Join the waitlist today.
+            </motion.p>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            {isSubmitted ? (
+              <motion.div
+                variants={successVariants}
+                className="p-6 bg-primary/10 rounded-xl border border-primary/20"
+              >
+                <motion.h3 
+                  className="text-2xl font-bold text-primary mb-2"
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  Welcome aboard!
+                </motion.h3>
+                <motion.p 
+                  className="text-muted-foreground"
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  We've added <span className="font-semibold text-primary">{email}</span> to our waitlist.
+                </motion.p>
+              </motion.div>
+            ) : (
+              <motion.form 
+                onSubmit={handleSubmit}
+                className="relative z-10"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.9 }}
+              >
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Input
+                    type="email" 
+                    placeholder="your.email@example.com" 
+                    value={email}
+                    onChange={handleEmailChange} 
+                    required 
+                    disabled={isLoading}
+                    className="flex-grow bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 rounded-lg h-12 text-base px-4 shadow-inner-sm"
+                  />
+                  <Button 
+                    type="submit" 
+                    disabled={isLoading || !email} 
+                    size="lg" 
+                    className={cn(
+                      "relative overflow-hidden",
+                      "bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary",
+                      "text-white font-medium shadow-lg hover:shadow-primary/30"
+                    )}
+                    // whileHover={{ scale: 1.05 }}
+                    // whileTap={{ scale: 0.98 }}
+                  >
+                    {isLoading ? (
+                      "Joining..."
+                    ) : (
+                      <>
+                        Join Waitlist{" "}
+                        <motion.span
+                          // variants={rocketVariants}
+                          animate={isRocketLaunching ? "launch" : "float"}
+                          className="inline-block ml-2"
+                        >
+                          <Rocket className="h-5 w-5" />
+                        </motion.span>
+                      </>
+                    )}
+                  </Button>
+                </div>
+                <motion.p 
+                  className="text-xs text-muted-foreground mt-3"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.1 }}
+                >
+                  Your privacy is important to us. We'll never spam you.
+                </motion.p>
+              </motion.form>
+            )}
+          </motion.div>
         </motion.div>
       </div>
     </section>
