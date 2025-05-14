@@ -14,10 +14,9 @@ interface Testimonial {
 const testimonialsData: Testimonial[] = [
   { quote: "As a VC, Brown24 has become my daily briefing. It saves hours of scanning multiple sites.", author: "Arjun Mehta", position: "General Partner, WestCap" },
   { quote: "It feels like a Bloomberg Terminal for the startup world. The insights are incredibly focused.", author: "Nidhi Roy", position: "Startup Founder" },
-  // Add more testimonials here if needed
 ];
 
-// Animation Variants
+// Desktop Animation Variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -120,8 +119,20 @@ export default function Testimonials() {
   const [current, setCurrent] = useState<number>(0);
   const [direction, setDirection] = useState<number>(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const checkIfMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      checkIfMobile();
+      window.addEventListener('resize', checkIfMobile);
+      return () => window.removeEventListener('resize', checkIfMobile);
+    }
+  }, []);
 
   useEffect(() => {
     if (inView) {
@@ -130,14 +141,12 @@ export default function Testimonials() {
   }, [controls, inView]);
 
   useEffect(() => {
-    if (testimonialsData.length <= 1 || isHovered) return;
-    
+    if (testimonialsData.length <= 1 || isHovered || isMobile) return;
     const intervalId = setInterval(() => {
       paginate(1);
     }, 7000);
-    
     return () => clearInterval(intervalId);
-  }, [current, isHovered]);
+  }, [current, isHovered, isMobile]);
 
   const paginate = (newDirection: number) => {
     setDirection(newDirection);
@@ -155,164 +164,223 @@ export default function Testimonials() {
   }
 
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden border-y border-border -mt-1">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-background z-0">
-        {/* Floating decorative elements */}
-        <motion.div 
-          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon/5 blur-[80px]"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.1 }}
-          transition={{ duration: 1.5, delay: 0.3 }}
-        />
-        <motion.div 
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-blue-500/5 blur-[100px]"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.1 }}
-          transition={{ duration: 1.5, delay: 0.5 }}
-        />
-      </div>
+    <section className="relative py-16 md:py-32 overflow-hidden bg-background border-y border-border -mt-px">
+      {/* Background Elements - only on desktop */}
+      {!isMobile && (
+        <div className="absolute inset-0 z-0">
+          <motion.div 
+            className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon/5 blur-[80px]"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.1 }}
+            transition={{ duration: 1.5, delay: 0.3 }}
+          />
+          <motion.div 
+            className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-blue-500/5 blur-[100px]"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.1 }}
+            transition={{ duration: 1.5, delay: 0.5 }}
+          />
+        </div>
+      )}
 
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={controls}
-          className="max-w-7xl mx-auto"
-        >
-          {/* Section Header */}
-          <motion.div
-            variants={headerVariants}
-            className="text-center mb-16 md:mb-20 max-w-3xl mx-auto"
-          >
-            <motion.h2 
-              className="text-4xl md:text-5xl font-bold font-display mb-4 text-foreground relative inline-block"
-              whileHover={{ scale: 1.02 }}
-            >
-              Trusted by Leaders
-              <motion.span 
-                className="absolute bottom-0 left-0 w-full h-1 bg-primary origin-left"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 1, delay: 0.5 }}
-              />
-            </motion.h2>
-            <motion.p 
-              className="text-lg text-muted-foreground mt-6"
-              variants={quoteVariants}
-            >
-              Hear what founders and investors are saying about Brown24 Ventures.
-            </motion.p>
-          </motion.div>
+        {/* Mobile Version - Completely Static */}
+        {isMobile ? (
+          <div className="w-full">
+            {/* Header */}
+            <div className="text-center mb-12 max-w-3xl mx-auto">
+              <h2 className="text-3xl font-bold font-display mb-4 text-foreground">
+                Trusted by Leaders
+              </h2>
+              <p className="text-muted-foreground">
+                Hear what founders and investors are saying about Brown24 Ventures.
+              </p>
+            </div>
 
-          {/* Carousel Container */}
-          <motion.div
-            variants={carouselVariants}
-            className="max-w-4xl mx-auto relative"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            {/* Floating Quote Icons */}
-            <motion.div
-              className="absolute -top-6 -left-6 text-primary/10 z-0"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ 
-                scale: 1, 
-                opacity: 0.1,
-                transition: { delay: 0.8 }
-              }}
-            >
-              <Quote className="h-24 w-24" />
-            </motion.div>
-            <motion.div
-              className="absolute -bottom-6 -right-6 text-primary/10 z-0"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ 
-                scale: 1, 
-                opacity: 0.1,
-                transition: { delay: 1 }
-              }}
-            >
-              <Quote className="h-24 w-24" />
-            </motion.div>
-
-            {/* Testimonial Card */}
-            <div className="relative bg-background/80 backdrop-blur-sm rounded-xl p-8 md:p-12 border border-border/50 overflow-hidden min-h-[300px] flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <AnimatePresence initial={false} custom={direction} mode="popLayout">
-                <motion.div
-                  key={current}
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  className="absolute w-[calc(100%-4rem)] md:w-[calc(100%-6rem)] text-center z-10"
-                >
-                  <motion.div
-                    variants={quoteVariants}
-                    className="relative"
-                  >
-                    <Quote className="absolute -top-8 left-1/2 -translate-x-1/2 text-primary/20 h-8 w-8" />
-                    <blockquote className="text-2xl md:text-3xl font-display text-foreground mb-6 leading-snug italic">
-                      &ldquo;{testimonialsData[current].quote}&rdquo;
-                    </blockquote>
-                  </motion.div>
-                  <motion.div 
-                    className="mt-6 flex flex-col items-center"
-                    variants={quoteVariants}
-                  >
-                    <p className="text-foreground font-semibold text-lg">
+            {/* Carousel */}
+            <div className="w-full relative">
+              <div className="relative bg-background rounded-xl p-6 border border-border/50 min-h-[280px] flex items-center justify-center">
+                <div className="w-full text-center px-2">
+                  <blockquote className="text-lg font-display text-foreground mb-6 italic">
+                    &ldquo;{testimonialsData[current].quote}&rdquo;
+                  </blockquote>
+                  <div className="mt-4 flex flex-col items-center">
+                    <p className="text-foreground font-semibold">
                       {testimonialsData[current].author}
                     </p>
                     <p className="text-muted-foreground text-sm">
                       {testimonialsData[current].position}
                     </p>
-                  </motion.div>
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Navigation Controls */}
-              {testimonialsData.length > 1 && (
-                <>
-                  <motion.button 
-                    onClick={() => paginate(-1)} 
-                    className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-2 rounded-full hover:bg-primary hover:text-white hover:shadow-md transition-all duration-200 z-20 backdrop-blur-sm"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    aria-label="Previous testimonial"
-                  >
-                    <ChevronLeft className="h-5 w-5" />
-                  </motion.button>
-                  <motion.button 
-                    onClick={() => paginate(1)} 
-                    className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-2 rounded-full hover:bg-primary hover:text-white hover:shadow-md transition-all duration-200 z-20 backdrop-blur-sm"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    aria-label="Next testimonial"
-                  >
-                    <ChevronRight className="h-5 w-5" />
-                  </motion.button>
-                  <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex justify-center space-x-2 z-10">
-                    {testimonialsData.map((_, index) => (
-                      <motion.button
-                        key={index}
-                        onClick={() => goToSlide(index)}
-                        className={cn(
-                          `w-2.5 h-2.5 rounded-full transition-all duration-300 ease-out`
-                        )}
-                        variants={dotVariants}
-                        custom={index}
-                        animate={current === index ? "active" : "visible"}
-                        whileHover={{ scale: 1.3 }}
-                        aria-label={`Go to testimonial ${index + 1}`}
-                      />
-                    ))}
                   </div>
-                </>
-              )}
+                </div>
+
+                {testimonialsData.length > 1 && (
+                  <>
+                    <button 
+                      onClick={() => paginate(-1)} 
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-1 rounded-full z-20"
+                      aria-label="Previous testimonial"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </button>
+                    <button 
+                      onClick={() => paginate(1)} 
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-1 rounded-full z-20"
+                      aria-label="Next testimonial"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex justify-center space-x-2 z-10">
+                      {testimonialsData.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => goToSlide(index)}
+                          className={`w-2 h-2 rounded-full ${current === index ? 'bg-primary' : 'bg-muted-foreground/50'}`}
+                          aria-label={`Go to testimonial ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
+          </div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={controls}
+            className="max-w-7xl mx-auto"
+          >
+            <motion.div
+              variants={headerVariants}
+              className="text-center mb-16 md:mb-20 max-w-3xl mx-auto"
+            >
+              <motion.h2 
+                className="text-4xl md:text-5xl font-bold font-display mb-4 text-foreground relative inline-block"
+                whileHover={{ scale: 1.02 }}
+              >
+                Trusted by Leaders
+                <motion.span 
+                  className="absolute bottom-0 left-0 w-full h-1 bg-primary origin-left"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 1, delay: 0.5 }}
+                />
+              </motion.h2>
+              <motion.p 
+                className="text-lg text-muted-foreground mt-6"
+                variants={quoteVariants}
+              >
+                Hear what founders and investors are saying about Brown24 Ventures.
+              </motion.p>
+            </motion.div>
+
+            <motion.div
+              variants={carouselVariants}
+              className="max-w-4xl mx-auto relative"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              <motion.div
+                className="absolute -top-6 -left-6 text-primary/10 z-0"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ 
+                  scale: 1, 
+                  opacity: 0.1,
+                  transition: { delay: 0.8 }
+                }}
+              >
+                <Quote className="h-24 w-24" />
+              </motion.div>
+              <motion.div
+                className="absolute -bottom-6 -right-6 text-primary/10 z-0"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ 
+                  scale: 1, 
+                  opacity: 0.1,
+                  transition: { delay: 1 }
+                }}
+              >
+                <Quote className="h-24 w-24" />
+              </motion.div>
+
+              <div className="relative bg-background/80 backdrop-blur-sm rounded-xl p-8 md:p-12 border border-border/50 overflow-hidden min-h-[300px] flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                  <motion.div
+                    key={current}
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    className="absolute w-[calc(100%-4rem)] md:w-[calc(100%-6rem)] text-center z-10 px-4"
+                  >
+                    <motion.div
+                      variants={quoteVariants}
+                      className="relative"
+                    >
+                      <Quote className="absolute -top-8 left-1/2 -translate-x-1/2 text-primary/20 h-8 w-8" />
+                      <blockquote className="text-2xl md:text-3xl font-display text-foreground mb-6 leading-snug italic">
+                        &ldquo;{testimonialsData[current].quote}&rdquo;
+                      </blockquote>
+                    </motion.div>
+                    <motion.div 
+                      className="mt-6 flex flex-col items-center"
+                      variants={quoteVariants}
+                    >
+                      <p className="text-foreground font-semibold text-lg">
+                        {testimonialsData[current].author}
+                      </p>
+                      <p className="text-muted-foreground text-sm">
+                        {testimonialsData[current].position}
+                      </p>
+                    </motion.div>
+                  </motion.div>
+                </AnimatePresence>
+
+                {testimonialsData.length > 1 && (
+                  <>
+                    <motion.button 
+                      onClick={() => paginate(-1)} 
+                      className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-2 rounded-full hover:bg-primary hover:text-white hover:shadow-md transition-all duration-200 z-20 backdrop-blur-sm"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      aria-label="Previous testimonial"
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </motion.button>
+                    <motion.button 
+                      onClick={() => paginate(1)} 
+                      className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-2 rounded-full hover:bg-primary hover:text-white hover:shadow-md transition-all duration-200 z-20 backdrop-blur-sm"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      aria-label="Next testimonial"
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </motion.button>
+                    <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex justify-center space-x-2 z-10">
+                      {testimonialsData.map((_, index) => (
+                        <motion.button
+                          key={index}
+                          onClick={() => goToSlide(index)}
+                          className={cn(
+                            `w-2.5 h-2.5 rounded-full transition-all duration-300 ease-out`
+                          )}
+                          variants={dotVariants}
+                          custom={index}
+                          animate={current === index ? "active" : "visible"}
+                          whileHover={{ scale: 1.3 }}
+                          aria-label={`Go to testimonial ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        )}
       </div>
     </section>
   );
