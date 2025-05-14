@@ -156,7 +156,7 @@ export default function CustomerSegmentation() {
             animate="visible"
             className="flex-1 min-w-[260px] max-w-full"
           >
-            <Card className="relative overflow-hidden w-full h-[770px] sm:h-[700px] md:h-[800px] lg:h-[700px] xl:h-[600px] rounded-2xl shadow-lg bg-white">
+            <Card className="relative overflow-hidden w-full h-[740px] sm:h-[700px] md:h-[800px] lg:h-[700px] xl:h-[600px] rounded-2xl shadow-lg bg-white">
               {/* Image */}
               <motion.div className="absolute inset-0 z-0">
                 <Image
