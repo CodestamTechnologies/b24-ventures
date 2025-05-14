@@ -74,14 +74,14 @@ export default function AboutUsSection() {
   }, []);
 
   // Determine which variants to use
-  const getVariants = () => {
-    if (isMobile || prefersReducedMotion) return noAnimation;
-    return {
-      itemFadeUp,
-      fadeInRight,
-      staggerContainer
-    };
-  };
+  // const getVariants = () => {
+  //   if (isMobile || prefersReducedMotion) return noAnimation;
+  //   return {
+  //     itemFadeUp,
+  //     fadeInRight,
+  //     staggerContainer
+  //   };
+  // };
 
   // const variants = getVariants();
 
