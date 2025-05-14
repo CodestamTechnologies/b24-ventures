@@ -83,7 +83,7 @@ export default function AboutUsSection() {
     };
   };
 
-  const variants = getVariants();
+  // const variants = getVariants();
 
   return (
     <section className='bg-background z-10 -mt-1'>

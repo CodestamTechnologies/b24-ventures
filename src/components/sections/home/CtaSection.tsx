@@ -33,26 +33,26 @@ const itemVariants = {
   }
 };
 
-const rocketVariants = {
-  float: {
-    y: [0, -15, 0],
-    rotate: [0, 5, -5, 0],
-    transition: {
-      duration: 4,
-      repeat: Infinity,
-      repeatType: "reverse",
-      ease: "easeInOut"
-    }
-  },
-  launch: {
-    y: -100,
-    opacity: 0,
-    transition: {
-      duration: 1,
-      ease: "easeIn"
-    }
-  }
-};
+// const rocketVariants = {
+//   float: {
+//     y: [0, -15, 0],
+//     rotate: [0, 5, -5, 0],
+//     transition: {
+//       duration: 4,
+//       repeat: Infinity,
+//       repeatType: "reverse",
+//       ease: "easeInOut"
+//     }
+//   },
+//   launch: {
+//     y: -100,
+//     opacity: 0,
+//     transition: {
+//       duration: 1,
+//       ease: "easeIn"
+//     }
+//   }
+// };
 
 const successVariants = {
   hidden: { scale: 0.8, opacity: 0 },
@@ -147,9 +147,9 @@ export default function CtaSection() {
     return /\S+@\S+\.\S+/.test(email);
   };
 
-  // Helper components
-  const MotionOrDiv = isMobile ? 'div' : motion.div;
-  const MotionOrSection = isMobile ? 'section' : motion.section;
+  // // Helper components
+  // const MotionOrDiv = isMobile ? 'div' : motion.div;
+  // const MotionOrSection = isMobile ? 'section' : motion.section;
 
   return (
     <section className="relative -mt-1 py-24 md:py-32 min-h-[60vh] border-t border-border overflow-hidden">
@@ -236,7 +236,7 @@ export default function CtaSection() {
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground mt-3">
-                  Your privacy is important to us. We'll never spam you.
+              {`    Your privacy is important to us. We'll never spam you.`}
                 </p>
               </form>
             )}
@@ -372,7 +372,7 @@ export default function CtaSection() {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.1 }}
                   >
-                    Your privacy is important to us. We'll never spam you.
+                 {`   Your privacy is important to us. We'll never spam you.`}
                   </motion.p>
                 </motion.form>
               )}
