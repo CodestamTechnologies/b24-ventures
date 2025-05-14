@@ -211,7 +211,7 @@ export default function Features() {
                     <item.icon className="h-5 w-5" />
                   </motion.div>
                   
-                  <span className="text-foreground/90 text-base font-medium">{item.name}</span>
+                  <span className="text-foreground/90 lg:text-base text-sm font-medium">{item.name}</span>
                 </motion.div>
               ))}
             </motion.div>
