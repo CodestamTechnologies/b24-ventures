@@ -16,7 +16,7 @@ const testimonialsData: Testimonial[] = [
   { quote: "It feels like a Bloomberg Terminal for the startup world. The insights are incredibly focused.", author: "Nidhi Roy", position: "Startup Founder" },
 ];
 
-// Desktop Animation Variants
+// Animation Variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -162,10 +162,11 @@ export default function Testimonials() {
     console.warn("No testimonials data provided to Testimonials component.");
     return null;
   }
+
   const itemFadeUp = { 
-  hidden: { opacity: 0, y: 20 }, 
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } 
-};
+    hidden: { opacity: 0, y: 20 }, 
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } 
+  };
 
   return (
     <section className="relative py-16 md:py-32 overflow-hidden bg-background border-y border-border -mt-px">
@@ -188,18 +189,17 @@ export default function Testimonials() {
       )}
 
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
-        {/* Mobile Version - Completely Static */}
+        {/* Mobile Version */}
         {isMobile ? (
           <div className="w-full">
-            
             {/* Header */}
             <div className="text-center mb-12 max-w-3xl mx-auto">
-              <h2 className="text-3xl font-bold font-display mb-4 text-foreground">
-                Trusted by Leaders 
-                {/* <span className="section-header-underline"></span>  */}
-              </h2>
-              
-              
+              <motion.div variants={itemFadeUp} className="text-center">
+                <h1 className="text-4xl font-bold font-display mb-3 text-foreground relative inline-block group"> 
+                  Trusted by Leaders 
+                  <span className="section-header-underline"></span> 
+                </h1>
+              </motion.div>
               <p className="text-muted-foreground">
                 Hear what founders and investors are saying about Brown24 Ventures.
               </p>
@@ -226,14 +226,14 @@ export default function Testimonials() {
                   <>
                     <button 
                       onClick={() => paginate(-1)} 
-                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-1 rounded-full z-20"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-2 rounded-full z-20"
                       aria-label="Previous testimonial"
                     >
                       <ChevronLeft className="h-4 w-4" />
                     </button>
                     <button 
                       onClick={() => paginate(1)} 
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-1 rounded-full z-20"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-2 rounded-full z-20"
                       aria-label="Next testimonial"
                     >
                       <ChevronRight className="h-4 w-4" />
@@ -243,7 +243,7 @@ export default function Testimonials() {
                         <button
                           key={index}
                           onClick={() => goToSlide(index)}
-                          className={`w-2 h-2 rounded-full ${current === index ? 'bg-primary' : 'bg-muted-foreground/50'}`}
+                          className={`w-2 h-2 rounded-full transition-all ${current === index ? 'bg-primary' : 'bg-muted-foreground/50'}`}
                           aria-label={`Go to testimonial ${index + 1}`}
                         />
                       ))}
@@ -264,18 +264,12 @@ export default function Testimonials() {
               variants={headerVariants}
               className="text-center mb-16 md:mb-20 max-w-3xl mx-auto"
             >
-              <motion.h2 
-                className="text-4xl md:text-5xl font-bold font-display  text-foreground relative inline-block"
-                whileHover={{ scale: 1.02 }}
-              >
-              <motion.div variants={itemFadeUp} className="text-center ">
-            <h1 className="text-4xl md:text-5xl font-bold font-display mb-3 text-foreground relative inline-block group"> 
-              Trusted by Leaders 
-              <span className="section-header-underline"></span> 
-            </h1>
-          
-          </motion.div>
-              </motion.h2>
+              <motion.div variants={itemFadeUp} className="text-center">
+                <h1 className="text-4xl md:text-5xl font-bold font-display mb-3 text-foreground relative inline-block group"> 
+                  Trusted by Leaders 
+                  <span className="section-header-underline"></span> 
+                </h1>
+              </motion.div>
               <motion.p 
                 className="text-lg text-muted-foreground mt-6"
                 variants={quoteVariants}
@@ -354,6 +348,7 @@ export default function Testimonials() {
                       className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-2 rounded-full hover:bg-primary hover:text-white hover:shadow-md transition-all duration-200 z-20 backdrop-blur-sm"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
+                      style={{ transform: 'translateY(-0%)' }} // Fixed positioning
                       aria-label="Previous testimonial"
                     >
                       <ChevronLeft className="h-5 w-5" />
@@ -363,6 +358,7 @@ export default function Testimonials() {
                       className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-2 rounded-full hover:bg-primary hover:text-white hover:shadow-md transition-all duration-200 z-20 backdrop-blur-sm"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
+                      style={{ transform: 'translateY(-0%)' }} // Fixed positioning
                       aria-label="Next testimonial"
                     >
                       <ChevronRight className="h-5 w-5" />
