@@ -146,7 +146,10 @@ export default function CtaSection() {
   const isValidEmail = (email: string) => {
     return /\S+@\S+\.\S+/.test(email);
   };
-
+ const itemFadeUp = { 
+  hidden: { opacity: 0, y: 20 }, 
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } 
+};
   // // Helper components
   // const MotionOrDiv = isMobile ? 'div' : motion.div;
   // const MotionOrSection = isMobile ? 'section' : motion.section;
@@ -189,7 +192,7 @@ export default function CtaSection() {
               
               <h2 className="text-4xl md:text-5xl font-bold font-display mb-4 text-foreground relative inline-block">
                 Get Early Access
-                <span className="absolute bottom-0 left-0 w-full h-1 bg-primary origin-left" />
+                <span className="section-header-underline"></span> 
               </h2>
               
               <p className="text-lg text-muted-foreground mt-6 max-w-xl mx-auto">
@@ -272,13 +275,14 @@ export default function CtaSection() {
                 className="text-4xl md:text-5xl font-bold font-display mb-4 text-foreground relative inline-block group"
                 whileHover={{ scale: 1.02 }}
               >
-                Get Early Access{" "}
-                <motion.span 
-                  className="absolute bottom-0 left-0 w-full h-1 bg-primary origin-left"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 1, delay: 0.8 }}
-                />
+                
+                 <motion.div variants={itemFadeUp} className="text-center ">
+                            <h1 className="text-4xl md:text-5xl font-bold font-display mb-3 text-foreground relative inline-block group"> 
+                              Get Early Access{" "}
+                              <span className="section-header-underline"></span> 
+                            </h1>
+                          
+                          </motion.div>
               </motion.h2>
               
               <motion.p 

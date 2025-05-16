@@ -27,6 +27,7 @@ export default function HomePage() {
       <Testimonials />
       <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
       <CtaSection />
+      
     </>
   );
 }

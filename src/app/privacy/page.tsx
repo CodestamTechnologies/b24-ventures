@@ -56,13 +56,13 @@ export default function PrivacyPage() {
           className="max-w-4xl mx-auto"
         >
           {/* Header */}
-          <motion.div variants={itemFadeUp} className="text-center mb-16 md:mb-20">
+          <motion.div variants={itemFadeUp} className="text-center flex flex-col items-center justify-center mb-16 md:mb-20">
             <Lock className="h-10 w-10 mx-auto mb-4 text-primary opacity-80" />
             <h1 className="text-4xl md:text-5xl font-bold font-display mb-3 text-foreground relative inline-block group"> 
               Privacy <span className="text-brand-maroon">Policy</span> 
               <span className="section-header-underline"></span> 
             </h1>
-            <p className="text-base text-muted-foreground mt-4">Last Updated: {lastUpdated}</p>
+            <p className="  text-base text-center text-muted-foreground mt-4">Last Updated: {lastUpdated}</p>
           </motion.div>
 
           {/* Content Card */}

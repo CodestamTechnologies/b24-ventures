@@ -343,7 +343,7 @@ const HeroSection = () => {
           >
             {/* Main 3D Model */}
             {/* Main 3D Model */}
-            <div className='absolute top-56 2xl:top-48 2xl:left-96 left-60 transform -translate-x-1/2 -translate-y-1/2 w-52 h-64 2xl:w-64 2xl:h-80 z-20'>
+            <div className='absolute top-56 2xl:top-48 2xl:left-96 2xl:ml-4 left-60 transform -translate-x-1/2 -translate-y-1/2 w-52 h-64 2xl:w-64 2xl:h-80 z-20'>
               <Image 
                 src="/main.webp" 
                 alt="Main model" 
@@ -357,7 +357,7 @@ const HeroSection = () => {
             <motion.div 
               variants={itemFadeLeft}
               transition={{ delay: 0.2 }}
-              className='absolute top-72 2xl:top-44 left-96 z-10 2xl:ml-28 mr-10 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white shadow-lg flex justify-center items-center'
+              className='absolute top-72 2xl:top-44 left-96  z-10 2xl:ml-32 mr-10 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white shadow-lg flex justify-center items-center'
               whileHover={{ 
                 y: -5,
                 rotate: 2,

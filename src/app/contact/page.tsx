@@ -289,7 +289,7 @@ export default function ContactPage() {
                     transition: { delay: 1.2 }
                   }}
                 >
-                  <div className="h-[120px] w-full relative overflow-hidden rounded-xl bg-gradient-to-r from-brand-maroon/10 to-gray-100">
+                  <div className="h-[120px] lg:block hidden w-full relative overflow-hidden rounded-xl bg-gradient-to-r from-brand-maroon/10 to-gray-100">
                     <motion.div 
                       className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent"
                       animate={{

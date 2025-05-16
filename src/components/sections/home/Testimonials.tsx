@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight, Lock, Quote } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useInView } from "react-intersection-observer";
 
@@ -162,6 +162,10 @@ export default function Testimonials() {
     console.warn("No testimonials data provided to Testimonials component.");
     return null;
   }
+  const itemFadeUp = { 
+  hidden: { opacity: 0, y: 20 }, 
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } 
+};
 
   return (
     <section className="relative py-16 md:py-32 overflow-hidden bg-background border-y border-border -mt-px">
@@ -187,11 +191,15 @@ export default function Testimonials() {
         {/* Mobile Version - Completely Static */}
         {isMobile ? (
           <div className="w-full">
+            
             {/* Header */}
             <div className="text-center mb-12 max-w-3xl mx-auto">
               <h2 className="text-3xl font-bold font-display mb-4 text-foreground">
-                Trusted by Leaders
+                Trusted by Leaders 
+                {/* <span className="section-header-underline"></span>  */}
               </h2>
+              
+              
               <p className="text-muted-foreground">
                 Hear what founders and investors are saying about Brown24 Ventures.
               </p>
@@ -257,16 +265,16 @@ export default function Testimonials() {
               className="text-center mb-16 md:mb-20 max-w-3xl mx-auto"
             >
               <motion.h2 
-                className="text-4xl md:text-5xl font-bold font-display mb-4 text-foreground relative inline-block"
+                className="text-4xl md:text-5xl font-bold font-display  text-foreground relative inline-block"
                 whileHover={{ scale: 1.02 }}
               >
-                Trusted by Leaders
-                <motion.span 
-                  className="absolute bottom-0 left-0 w-full h-1 bg-primary origin-left"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 1, delay: 0.5 }}
-                />
+              <motion.div variants={itemFadeUp} className="text-center ">
+            <h1 className="text-4xl md:text-5xl font-bold font-display mb-3 text-foreground relative inline-block group"> 
+              Trusted by Leaders 
+              <span className="section-header-underline"></span> 
+            </h1>
+          
+          </motion.div>
               </motion.h2>
               <motion.p 
                 className="text-lg text-muted-foreground mt-6"

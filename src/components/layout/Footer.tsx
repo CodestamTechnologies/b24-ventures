@@ -5,16 +5,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
 
-// Define fonts
 const inter = Inter({ subsets: ["latin"] });
-// const poppins = Poppins({ 
-//   weight: ["600", "700"],
-//   subsets: ["latin"], 
-//   variable: "--font-poppins" 
-// });
 
-
-const socialLinks= [
+const socialLinks = [
   { name: "LinkedIn", url: "#", icon: Linkedin },
   { name: "Twitter", url: "#", icon: Twitter },
 ];
@@ -36,42 +29,33 @@ const footerLinks = {
 
 export default function Footer() {
   const currentYear: number = new Date().getFullYear();
-  
+
   return (
-    <footer 
-      id="site-footer" 
-      className={`${inter.className} bg-gradient-to-b from-gray-900 to-gray-950 text-gray-400 py-16 border-t border-primary/20 relative z-10 overflow-hidden`}
+    <footer
+      id="site-footer"
+      className={`${inter.className} bg-gradient-to-b from-gray-900 to-gray-950 text-gray-400 py-16 relative z-10 overflow-hidden`}
     >
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
         <div className="absolute -top-20 -left-20 w-64 h-64 bg-primary rounded-full filter blur-3xl animate-float"></div>
-        <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-secondary rounded-full filter blur-3xl animate-float-delay"></div>
+        {/* Removed bottom-right background patch */}
+        {/* <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-secondary rounded-full filter blur-3xl animate-float-delay"></div> */}
       </div>
-      
+
       <div className="container mx-auto px-4 relative z-20">
         <div className="grid grid-cols-2 md:grid-cols-12 gap-8 md:gap-12 mb-16">
-          {/* Brand Info - spans 4 cols on desktop */}
+          {/* Brand Info */}
           <div className="col-span-2 md:col-span-4 lg:col-span-5 space-y-6">
             <div className="flex flex-col space-y-4">
-              <Link 
-                href="/" 
-                className="inline-block group relative w-fit"
-              >
-                <h2  className= {` text-center text-3xl  text-white font-normal mb-2 gap-1 ${inter.className}` } 
-         
-         >
-           {/* <div className= {` text-center flex flex-row  font-normal mb-2 gap-1 ${geist.className}` }  > */}
-          {/* <span className={`font-normal text-xs `} >WHY</span> */}
-           Brown24 Ventures
-           {/* </div> */}
-         </h2>
-                {/* <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span> */}
+              <Link href="/" className="inline-block group relative w-fit">
+                <h2 className={`text-center text-3xl text-white font-normal mb-2 ${inter.className}`}>
+                  Brown24 Ventures
+                </h2>
               </Link>
               <p className="text-gray-400/90 leading-relaxed max-w-md text-sm font-inter">
                 Startup intelligence, simplified. We empower your vision with data-driven insights and strategic funding.
               </p>
             </div>
-
             <div className="flex space-x-3 pt-2">
               {socialLinks.map((social) => (
                 <a
@@ -82,7 +66,7 @@ export default function Footer() {
                   className={cn(
                     buttonVariants({ variant: "outline", size: "icon" }),
                     "text-gray-400 hover:text-primary hover:border-primary/50 bg-gray-900/50 hover:bg-gray-800/50 transition-all duration-300 group",
-                    "h-9 w-9" // Fixed size for consistency
+                    "h-9 w-9"
                   )}
                   aria-label={`Follow on ${social.name}`}
                 >
@@ -91,10 +75,10 @@ export default function Footer() {
               ))}
             </div>
           </div>
-          
-          {/* Navigation Links - spans 2 cols on desktop */}
+
+          {/* Navigation */}
           <div className="col-span-1 md:col-span-2 space-y-6">
-            <h3 className={`text-xs  font-semibold uppercase tracking-wider text-gray-500 font-poppins ${inter.className}`}>
+            <h3 className={`text-xs font-semibold uppercase tracking-wider text-gray-500 ${inter.className}`}>
               Navigate
             </h3>
             <ul className="space-y-3.5">
@@ -102,7 +86,7 @@ export default function Footer() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="text-gray-300  hover:text-white transition-colors duration-300 group flex items-center font-inter text-sm"
+                    className="text-gray-300 hover:text-white transition-colors duration-300 group flex items-center font-inter text-sm"
                   >
                     <span className="w-1.5 h-1.5 -ml-3.5 mr-2 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                     {item.label}
@@ -111,10 +95,10 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-          
-          {/* Company Links - spans 2 cols on desktop */}
+
+          {/* Company */}
           <div className="col-span-1 md:col-span-2 space-y-6">
-            <h3 className={`text-xs  font-semibold uppercase tracking-wider text-gray-500 font-poppins ${inter.className}`}>
+            <h3 className={`text-xs font-semibold uppercase tracking-wider text-gray-500 ${inter.className}`}>
               Company
             </h3>
             <ul className="space-y-3.5">
@@ -131,10 +115,10 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-          
-          {/* Legal Links - spans 2 cols on desktop */}
+
+          {/* Legal */}
           <div className="col-span-2 md:col-span-2 space-y-6">
-            <h3 className={`text-xs  font-semibold uppercase tracking-wider text-gray-500 font-poppins ${inter.className}`}>
+            <h3 className={`text-xs font-semibold uppercase tracking-wider text-gray-500 ${inter.className}`}>
               Legal
             </h3>
             <ul className="space-y-3.5">
@@ -144,7 +128,7 @@ export default function Footer() {
                     href={item.href}
                     className="text-gray-300 hover:text-white transition-colors duration-300 group flex items-center font-inter text-sm"
                   >
-                    <span className="w-1.5 h-1.5 -ml-3.5 mr-2  rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span className="w-1.5 h-1.5 -ml-3.5 mr-2 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                     {item.label}
                   </Link>
                 </li>
@@ -152,17 +136,16 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        
+
         {/* Copyright */}
         <div className="border-t border-primary/20 pt-8 text-gray-500 text-sm flex flex-col md:flex-row justify-center items-center gap-4">
           <div className="order-2 md:order-1 text-center md:text-left font-inter">
             © {currentYear} Brown24 Ventures. All rights reserved.
           </div>
-          
         </div>
       </div>
-      
-      {/* Add this to your globals.css */}
+
+      {/* Floating Animation Styles */}
       <style jsx global>{`
         @keyframes float {
           0%, 100% { transform: translateY(0) rotate(0deg); }
