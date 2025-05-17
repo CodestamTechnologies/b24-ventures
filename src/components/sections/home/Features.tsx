@@ -107,7 +107,7 @@ export default function Features() {
   return (
     <section 
       id="features" 
-      className="py-24 md:py-32 bg-background border-y border-border -mt-1 overflow-hidden relative"
+      className="py-24 md:py-32 bg-background z-20 border-y border-border -mt-1 overflow-hidden relative"
       ref={ref}
     >
       {/* Background decorative elements - conditionally animated */}

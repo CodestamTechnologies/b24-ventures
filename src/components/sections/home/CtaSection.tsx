@@ -185,7 +185,7 @@ export default function CtaSection() {
         {isMobile ? (
           <div className="max-w-3xl mx-auto text-center bg-background/80 backdrop-blur-sm p-10 md:p-16 rounded-2xl border border-border/50 shadow-xl relative overflow-hidden">
             {/* Mobile static version */}
-            <div className="mb-10 relative z-10">
+            <div className="mb-10 relative z-10 bg-background">
               <div id="waitlist">
                 <Mail className="h-12 w-12 mx-auto mb-4 text-primary opacity-80"/>
               </div>

@@ -188,7 +188,7 @@ export default function Testimonials() {
         </div>
       )}
 
-      <div className="container mx-auto px-4 relative z-10" ref={ref}>
+      <div className="container mx-auto px-4 bg-background relative z-10" ref={ref}>
         {/* Mobile Version */}
         {isMobile ? (
           <div className="w-full">
