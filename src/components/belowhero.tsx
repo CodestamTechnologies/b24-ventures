@@ -96,7 +96,7 @@ export default function CustomerSegmentation() {
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={containerVariants}
-      className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 items-center ${roboto.className} p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+      className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mb-2 items-center ${roboto.className} p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
     >
       {/* Left Section */}
       <motion.div

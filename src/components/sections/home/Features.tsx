@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
 import { ListChecks, TrendingUp, DollarSign, Bookmark, Users, Bell, LucideIcon } from "lucide-react";
 
 interface SnapshotItem {
@@ -18,205 +17,240 @@ const snapshotFeatures: SnapshotItem[] = [
   { name: "Topic Alerts", icon: Bell },
 ];
 
-const itemFadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 15,
-      duration: 0.8
-    }
-  }
-};
-
-const staggerContainer = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.3
-    }
-  }
-};
-
-const iconHover = {
-  rest: { scale: 1, rotate: 0 },
-  hover: { 
-    scale: 1.2,
-    rotate: 5,
-    transition: {
-      type: "spring",
-      stiffness: 500,
-      damping: 10
-    }
-  }
-};
-
-// Simplified variants for mobile
-const mobileVariants = {
-  hidden: { opacity: 1, y: 0 },
-  visible: { opacity: 1, y: 0 }
-};
-
 export default function Features() {
-  const controls = useAnimation();
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1
-  });
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Check if window is defined (to avoid SSR issues)
-    if (typeof window !== 'undefined') {
-      const checkIfMobile = () => {
-        setIsMobile(window.innerWidth < 768);
-      };
-      
-      // Initial check
-      checkIfMobile();
-      
-      // Add event listener for resize
-      window.addEventListener('resize', checkIfMobile);
-      
-      // Cleanup
-      return () => window.removeEventListener('resize', checkIfMobile);
-    }
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    setIsLoaded(true);
+    
+    return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
-  useEffect(() => {
-    if (inView) {
-      // Only start animation if not on mobile
-      if (!isMobile) {
-        controls.start("visible");
-      } else {
-        // Immediately set to visible state on mobile
-        controls.start("visible");
-      }
-    }
-  }, [controls, inView, isMobile]);
+  // Simplified mobile version without any animations
+  if (isMobile) {
+    return (
+      <section 
+        id="features" 
+        className="py-24 bg-background z-20 border-y border-border relative"
+      >
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            {/* Header */}
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-bold text-foreground mb-4">
+                Features <span className="text-brand-maroon">Snapshot</span>
+              </h3>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-4">
+                Delivered Daily
+              </p>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
+              </p>
+            </div>
 
-  // Get the appropriate variants based on device
-  const getVariants = () => isMobile ? mobileVariants : itemFadeUp;
-  const getStaggerVariants = () => isMobile ? { hidden: {}, visible: {} } : staggerContainer;
-  const getIconHoverVariants = () => isMobile ? { rest: {}, hover: {} } : iconHover;
+            {/* Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              {snapshotFeatures.map((item) => (
+                <div
+                  key={item.name}
+                  className="flex items-center space-x-3 bg-background rounded-xl p-4 border border-border cursor-pointer"
+                >
+                  <div className="text-primary flex-shrink-0 p-2 rounded-lg bg-brand-maroon/10">
+                    <item.icon className="h-5 w-5" />
+                  </div>
+                  <span className="text-foreground/90 text-sm font-medium">{item.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
+  // Desktop version with animations
   return (
     <section 
       id="features" 
-      className="py-24 md:py-32 bg-background z-20 border-y border-border -mt-1 overflow-hidden relative"
-      ref={ref}
+      className={`py-24 md:py-32 bg-background z-20 border-y border-border relative ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
     >
-      {/* Background decorative elements - conditionally animated */}
-      {!isMobile && (
-        <>
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={inView ? { opacity: 0.05, scale: 1 } : {}}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon blur-[100px] pointer-events-none"
-          />
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={inView ? { opacity: 0.05, scale: 1 } : {}}
-            transition={{ duration: 1, delay: 0.7 }}
-            className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-blue-500 blur-[120px] pointer-events-none"
-          />
-        </>
-      )}
+      {/* Background decorative elements */}
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 0.05, scale: 1 }}
+        transition={{ duration: 1, delay: 0.5 }}
+        className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon blur-[100px] pointer-events-none"
+      />
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 0.05, scale: 1 }}
+        transition={{ duration: 1, delay: 0.7 }}
+        className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-blue-500 blur-[120px] pointer-events-none"
+      />
 
       <div className="container mx-auto px-4">
-        {snapshotFeatures.length > 0 && (
-          <motion.div
-            className="max-w-4xl mx-auto"
-            initial="hidden"
-            animate={controls}
-            variants={getStaggerVariants()}
-          >
-            {/* Header */}
-            <motion.div className="text-center mb-12 md:mb-16">
-              <motion.h3
-                variants={getVariants()}
-                className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4"
+        <motion.div
+          className="max-w-4xl mx-auto"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.3
+              }
+            }
+          }}
+        >
+          {/* Header */}
+          <motion.div className="text-center mb-12 md:mb-16">
+            <motion.h3
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 15,
+                    duration: 0.8
+                  }
+                }
+              }}
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4"
+            >
+              Features <motion.span 
+                className="text-brand-maroon inline-block"
+                initial={{ opacity: 0.8 }}
+                animate={{ 
+                  opacity: 1,
+                  transition: { 
+                    duration: 2, 
+                    repeat: Infinity, 
+                    repeatType: "reverse" 
+                  }
+                }}
               >
-                Features <motion.span 
-                  className="text-brand-maroon inline-block"
-                  initial={{ opacity: 0.8 }}
-                  animate={isMobile ? { opacity: 1 } : { 
+                Snapshot
+              </motion.span>
+            </motion.h3>
+            <motion.p 
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 15,
+                    duration: 0.8
+                  }
+                }
+              }}
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-4"
+            >
+              Delivered Daily
+            </motion.p>
+            <motion.p 
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 15,
+                    duration: 0.8
+                  }
+                }
+              }}
+              className="text-muted-foreground max-w-2xl mx-auto"
+            >
+              Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
+            </motion.p>
+          </motion.div>
+
+          {/* Grid */}
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.15,
+                  delayChildren: 0.3
+                }
+              }
+            }}
+          >
+            {snapshotFeatures.map((item, index) => (
+              <motion.div
+                key={item.name}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
                     opacity: 1,
-                    transition: { 
-                      duration: 2, 
-                      repeat: Infinity, 
-                      repeatType: "reverse" 
+                    y: 0,
+                    transition: {
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 15,
+                      duration: 0.8
+                    }
+                  }
+                }}
+                custom={index}
+                whileHover={{
+                  y: -8,
+                  scale: 1.03,
+                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
+                  transition: { 
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 10
+                  }
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="flex items-center space-x-3 bg-background rounded-xl p-4 border border-border transition-all duration-200 hover:bg-muted/50 cursor-pointer relative overflow-hidden group"
+              >
+                {/* Hover effect background */}
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-br from-brand-maroon/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                />
+                
+                {/* Icon with animation */}
+                <motion.div 
+                  className="text-primary flex-shrink-0 p-2 rounded-lg bg-brand-maroon/10 group-hover:bg-brand-maroon/20 transition-colors"
+                  initial={{ scale: 1, rotate: 0 }}
+                  whileHover={{ 
+                    scale: 1.2,
+                    rotate: 5,
+                    transition: {
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 10
                     }
                   }}
                 >
-                  Snapshot
-                </motion.span>
-              </motion.h3>
-              <motion.p 
-                variants={getVariants()}
-                className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-4"
-              >
-                Delivered Daily
-              </motion.p>
-              <motion.p 
-                variants={getVariants()}
-                className="text-muted-foreground max-w-2xl mx-auto"
-              >
-                Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
-              </motion.p>
-            </motion.div>
-
-            {/* Grid */}
-            <motion.div
-              className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
-              variants={getStaggerVariants()}
-            >
-              {snapshotFeatures.map((item, index) => (
-                <motion.div
-                  key={item.name}
-                  variants={getVariants()}
-                  custom={index}
-                  whileHover={!isMobile ? {
-                    y: -8,
-                    scale: 1.03,
-                    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
-                    transition: { 
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 10
-                    }
-                  } : undefined}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="flex items-center space-x-3 bg-background rounded-xl p-4 border border-border transition-all duration-200 hover:bg-muted/50 cursor-pointer relative overflow-hidden group"
-                >
-                  {/* Hover effect background */}
-                  {!isMobile && (
-                    <motion.div 
-                      className="absolute inset-0 bg-gradient-to-br from-brand-maroon/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    />
-                  )}
-                  
-                  {/* Icon with animation */}
-                  <motion.div 
-                    className="text-primary flex-shrink-0 p-2 rounded-lg bg-brand-maroon/10 group-hover:bg-brand-maroon/20 transition-colors"
-                    variants={getIconHoverVariants()}
-                    initial="rest"
-                    whileHover={!isMobile ? "hover" : undefined}
-                  >
-                    <item.icon className="h-5 w-5" />
-                  </motion.div>
-                  
-                  <span className="text-foreground/90 lg:text-base text-sm font-medium">{item.name}</span>
+                  <item.icon className="h-5 w-5" />
                 </motion.div>
-              ))}
-            </motion.div>
+                
+                <span className="text-foreground/90 lg:text-base text-sm font-medium">{item.name}</span>
+              </motion.div>
+            ))}
           </motion.div>
-        )}
+        </motion.div>
       </div>
     </section>
   );
