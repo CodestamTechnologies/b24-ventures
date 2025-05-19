@@ -125,7 +125,7 @@ export default function Testimonials() {
 
   // Desktop version with animations
   return (
-    <section className={`relative py-16 md:py-32 bg-background border-y border-border transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+    <section className={`relative py-16 md:py-32 bg-background  border-y border-border transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
       {/* Background Elements - only shown when loaded */}
       {isLoaded && (
         <div className="absolute inset-0 z-0">

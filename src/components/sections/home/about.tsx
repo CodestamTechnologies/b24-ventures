@@ -51,7 +51,9 @@ export default function ServicesSection() {
   // Simplified mobile version without any animations
   if (isMobile) {
     return (
-      <div className={`${geist.className} relative w-full bg-background z-50 overflow-hidden`}>
+      <motion.section
+             className={`${geist.className} relative flex flex-col lg:flex-row justify-center bg-background z-50 -mb-2 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+           >
         <div className="relative z-10 w-full py-12 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
             <div className='mb-8 text-center max-w-3xl mx-auto'>
@@ -102,7 +104,7 @@ export default function ServicesSection() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.section>
     );
   }
 
@@ -112,7 +114,7 @@ export default function ServicesSection() {
       className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mb-2 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
     >
       {/* Main container with opacity control based on loading state */}
-      <div className={`${geist.className} relative w-full -mb-1 overflow-hidden transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+  <div className={`relative py-16 md:py-32 bg-background  border-y border-border transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
         {/* Background elements - only shown when loaded */}
         {isLoaded && (
           <>
