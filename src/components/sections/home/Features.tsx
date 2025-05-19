@@ -71,7 +71,7 @@ export default function Features() {
                   <div className="text-primary flex-shrink-0 p-2 rounded-lg bg-brand-maroon/10">
                     <item.icon className="h-5 w-5" />
                   </div>
-                  <span className="text-foreground/90 text-sm font-medium">{item.name}</span>
+                  <span className="text-foreground/90 text-xs font-medium">{item.name}</span>
                 </div>
               ))}
             </div>
