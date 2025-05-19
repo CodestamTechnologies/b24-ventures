@@ -19,7 +19,7 @@ const snapshotFeatures: SnapshotItem[] = [
 
 export default function Features() {
   const [isMobile, setIsMobile] = useState(false);
-  // const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -28,21 +28,24 @@ export default function Features() {
     
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
-    // setIsLoaded(true);
     
-    return () => window.removeEventListener('resize', checkIfMobile);
+    // Set loaded state after a small delay to ensure everything is ready
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100);
+    
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+      clearTimeout(timer);
+    };
   }, []);
 
   // Simplified mobile version without any animations
   if (isMobile) {
     return (
       <motion.section
-              //  ref={ref}
-               initial="hidden"
-              //  animate={isInView ? "visible" : "hidden"}
-              //  variants={containerVariants}
-               className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mb-2 items-center  p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
-             >
+        className={`relative flex flex-col lg:flex-row justify-center bg-background z-50 -mb-2 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+      >
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Header */}
@@ -81,31 +84,32 @@ export default function Features() {
   // Desktop version with animations
   return (
     <motion.section
-              //  ref={ref}
-               initial="hidden"
-              //  animate={isInView ? "visible" : "hidden"}
-              //  variants={containerVariants}
-               className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mb-2 items-center  p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
-             >
-      {/* Background decorative elements */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.05, scale: 1 }}
-        transition={{ duration: 1, delay: 0.5 }}
-        className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon blur-[100px] pointer-events-none"
-      />
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.05, scale: 1 }}
-        transition={{ duration: 1, delay: 0.7 }}
-        className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-blue-500 blur-[120px] pointer-events-none"
-      />
+      initial="hidden"
+      className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mb-2 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+    >
+      {/* Background decorative elements - only visible when loaded */}
+      {isLoaded && (
+        <>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.05, scale: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon blur-[100px] pointer-events-none"
+          />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.05, scale: 1 }}
+            transition={{ duration: 1, delay: 0.7 }}
+            className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-blue-500 blur-[120px] pointer-events-none"
+          />
+        </>
+      )}
 
       <div className="container mx-auto px-4">
         <motion.div
           className="max-w-4xl mx-auto"
           initial="hidden"
-          animate="visible"
+          animate={isLoaded ? "visible" : "hidden"}
           variants={{
             hidden: {},
             visible: {
@@ -137,14 +141,14 @@ export default function Features() {
               Features <motion.span 
                 className="text-brand-maroon inline-block"
                 initial={{ opacity: 0.8 }}
-                animate={{ 
+                animate={isLoaded ? { 
                   opacity: 1,
                   transition: { 
                     duration: 2, 
                     repeat: Infinity, 
                     repeatType: "reverse" 
                   }
-                }}
+                } : {}}
               >
                 Snapshot
               </motion.span>
@@ -258,6 +262,6 @@ export default function Features() {
           </motion.div>
         </motion.div>
       </div>
-   </motion.section>
+    </motion.section>
   );
 }
