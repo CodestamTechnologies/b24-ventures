@@ -228,7 +228,7 @@ export default function CtaSection() {
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground mt-3">
-                  Your privacy is important to us. We'll never spam you.
+               {`  Your privacy is important to us. We'll never spam you.`}
                 </p>
               </form>
             )}
@@ -360,7 +360,7 @@ export default function CtaSection() {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.1 }}
                   >
-                    Your privacy is important to us. We'll never spam you.
+                  {`  Your privacy is important to us. We'll never spam you.`}`
                   </motion.p>
                 </motion.form>
               )}
