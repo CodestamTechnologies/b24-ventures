@@ -33,27 +33,6 @@ const itemVariants = {
   }
 };
 
-// const rocketVariants = {
-//   float: {
-//     y: [0, -15, 0],
-//     rotate: [0, 5, -5, 0],
-//     transition: {
-//       duration: 4,
-//       repeat: Infinity,
-//       repeatType: "reverse",
-//       ease: "easeInOut"
-//     }
-//   },
-//   launch: {
-//     y: -100,
-//     opacity: 0,
-//     transition: {
-//       duration: 1,
-//       ease: "easeIn"
-//     }
-//   }
-// };
-
 const successVariants = {
   hidden: { scale: 0.8, opacity: 0 },
   visible: {
@@ -72,6 +51,7 @@ export default function CtaSection() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRocketLaunching, setIsRocketLaunching] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const { toast } = useToast();
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
@@ -83,14 +63,21 @@ export default function CtaSection() {
     
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
-    return () => window.removeEventListener('resize', checkIfMobile);
+    
+    // Mark as loaded after component mounts
+    const loadTimer = setTimeout(() => setIsLoaded(true), 50);
+    
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+      clearTimeout(loadTimer);
+    };
   }, []);
 
   useEffect(() => { 
-    if (inView && !isMobile) { 
+    if (inView && !isMobile && isLoaded) { 
       controls.start("visible"); 
     } 
-  }, [controls, inView, isMobile]);
+  }, [controls, inView, isMobile, isLoaded]);
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => { 
     setEmail(e.target.value); 
@@ -146,46 +133,42 @@ export default function CtaSection() {
   const isValidEmail = (email: string) => {
     return /\S+@\S+\.\S+/.test(email);
   };
- const itemFadeUp = { 
-  hidden: { opacity: 0, y: 20 }, 
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } 
-};
-  // // Helper components
-  // const MotionOrDiv = isMobile ? 'div' : motion.div;
-  // const MotionOrSection = isMobile ? 'section' : motion.section;
+
+  const itemFadeUp = { 
+    hidden: { opacity: 0, y: 20 }, 
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } 
+  };
 
   return (
     <motion.section
-              //  ref={ref}
-               initial="hidden"
-              //  animate={isInView ? "visible" : "hidden"}
-              //  variants={containerVariants}
-               className={`relative flex flex-col lg:flex-row justify-center bg-background z-50 -mt-1 items-center  p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
-             >
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-background z-0">
-        {isMobile ? (
-          <>
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon/5 blur-[80px]" />
-            <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-blue-500/5 blur-[100px]" />
-          </>
-        ) : (
-          <>
-            <motion.div 
-              className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon/5 blur-[80px]"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 0.1 }}
-              transition={{ duration: 1.5, delay: 0.3 }}
-            />
-            <motion.div 
-              className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-blue-500/5 blur-[100px]"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 0.1 }}
-              transition={{ duration: 1.5, delay: 0.5 }}
-            />
-          </>
-        )}
-      </div>
+      className={`relative flex flex-col lg:flex-row justify-center bg-background z-50 -mt-1 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+    >
+      {/* Background Elements - only shown after load */}
+      {isLoaded && (
+        <div className="absolute inset-0 bg-background z-0">
+          {isMobile ? (
+            <>
+              <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon/5 blur-[80px]" />
+              <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-blue-500/5 blur-[100px]" />
+            </>
+          ) : (
+            <>
+              <motion.div 
+                className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon/5 blur-[80px]"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 0.1 }}
+                transition={{ duration: 1.5, delay: 0.3 }}
+              />
+              <motion.div 
+                className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-blue-500/5 blur-[100px]"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 0.1 }}
+                transition={{ duration: 1.5, delay: 0.5 }}
+              />
+            </>
+          )}
+        </div>
+      )}
 
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
         {isMobile ? (
@@ -245,7 +228,7 @@ export default function CtaSection() {
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground mt-3">
-              {`    Your privacy is important to us. We'll never spam you.`}
+                  Your privacy is important to us. We'll never spam you.
                 </p>
               </form>
             )}
@@ -281,14 +264,12 @@ export default function CtaSection() {
                 className="text-4xl md:text-5xl font-bold font-display mb-4 text-foreground relative inline-block group"
                 whileHover={{ scale: 1.02 }}
               >
-                
-                 <motion.div variants={itemFadeUp} className="text-center ">
-                            <h1 className="text-4xl md:text-5xl font-bold font-display mb-3 text-foreground relative inline-block group"> 
-                              Get Early Access{" "}
-                              <span className="section-header-underline"></span> 
-                            </h1>
-                          
-                          </motion.div>
+                <motion.div variants={itemFadeUp} className="text-center">
+                  <h1 className="text-4xl md:text-5xl font-bold font-display mb-3 text-foreground relative inline-block group"> 
+                    Get Early Access{" "}
+                    <span className="section-header-underline"></span> 
+                  </h1>
+                </motion.div>
               </motion.h2>
               
               <motion.p 
@@ -357,8 +338,6 @@ export default function CtaSection() {
                         "bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary",
                         "text-white font-medium shadow-lg hover:shadow-primary/30"
                       )}
-                      // whileHover={{ scale: 1.05 }}
-                      // whileTap={{ scale: 0.98 }}
                     >
                       {isLoading ? (
                         "Joining..."
@@ -366,7 +345,6 @@ export default function CtaSection() {
                         <>
                           Join Waitlist{" "}
                           <motion.span
-                            // variants={rocketVariants}
                             animate={isRocketLaunching ? "launch" : "float"}
                             className="inline-block ml-2"
                           >
@@ -382,7 +360,7 @@ export default function CtaSection() {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.1 }}
                   >
-                 {`   Your privacy is important to us. We'll never spam you.`}
+                    Your privacy is important to us. We'll never spam you.
                   </motion.p>
                 </motion.form>
               )}

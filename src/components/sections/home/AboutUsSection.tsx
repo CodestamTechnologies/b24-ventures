@@ -54,6 +54,7 @@ const noAnimation = {
 export default function AboutUsSection() {
   const prefersReducedMotion = useReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     // Check if window is defined (client-side)
@@ -68,51 +69,45 @@ export default function AboutUsSection() {
       // Add event listener for window resize
       window.addEventListener('resize', checkIfMobile);
       
+      // Mark as loaded after a small delay to ensure everything is ready
+      const loadTimer = setTimeout(() => setIsLoaded(true), 100);
+      
       // Cleanup
-      return () => window.removeEventListener('resize', checkIfMobile);
+      return () => {
+        window.removeEventListener('resize', checkIfMobile);
+        clearTimeout(loadTimer);
+      };
     }
   }, []);
 
-  // Determine which variants to use
-  // const getVariants = () => {
-  //   if (isMobile || prefersReducedMotion) return noAnimation;
-  //   return {
-  //     itemFadeUp,
-  //     fadeInRight,
-  //     staggerContainer
-  //   };
-  // };
-
-  // const variants = getVariants();
-
   return (
-     <motion.section
-              //  ref={ref}
-               initial="hidden"
-              //  animate={isInView ? "visible" : "hidden"}
-              //  variants={containerVariants}
-               className={`relative flex flex-col lg:flex-row justify-center bg-background z-50 -mb-2 items-center  p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
-             >
+    <motion.section
+      className={`relative flex flex-col lg:flex-row justify-center bg-background z-50 -mb-2 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+    >
       <motion.section 
         id="about-us" 
         className="py-24 md:py-32 bg-background z-10 border-y border-border overflow-hidden relative"
-        initial={{ opacity: isMobile || prefersReducedMotion ? 1 : 0 }}
+        initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: isMobile || prefersReducedMotion ? 0 : 0.5 }}
+        transition={{ duration: 0.5 }}
       >
-        {/* Decorative background elements */}
-        <motion.div 
-          initial={{ scale: isMobile || prefersReducedMotion ? 1 : 0.8, opacity: isMobile || prefersReducedMotion ? 0.1 : 0 }}
-          animate={{ scale: 1, opacity: 0.1 }}
-          transition={{ duration: isMobile || prefersReducedMotion ? 0 : 1.5, delay: isMobile || prefersReducedMotion ? 0 : 0.3 }}
-          className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-brand-maroon blur-[120px] pointer-events-none"
-        />
-        <motion.div 
-          initial={{ scale: isMobile || prefersReducedMotion ? 1 : 0.8, opacity: isMobile || prefersReducedMotion ? 0.1 : 0 }}
-          animate={{ scale: 1, opacity: 0.1 }}
-          transition={{ duration: isMobile || prefersReducedMotion ? 0 : 1.5, delay: isMobile || prefersReducedMotion ? 0 : 0.5 }}
-          className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-blue-500 blur-[150px] pointer-events-none"
-        />
+        {/* Decorative background elements - now hidden until loaded */}
+        {isLoaded && (
+          <>
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 0.1 }}
+              transition={{ duration: 1.5, delay: 0.3 }}
+              className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-brand-maroon blur-[120px] pointer-events-none"
+            />
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 0.1 }}
+              transition={{ duration: 1.5, delay: 0.5 }}
+              className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-blue-500 blur-[150px] pointer-events-none"
+            />
+          </>
+        )}
 
         <div className="container mx-auto px-4">
           <motion.div
@@ -130,13 +125,13 @@ export default function AboutUsSection() {
               >
                 Built for the <motion.span 
                   className="text-brand-maroon inline-block"
-                  initial={{ opacity: isMobile || prefersReducedMotion ? 1 : 0, scale: isMobile || prefersReducedMotion ? 1 : 0.8 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ 
-                    type: isMobile || prefersReducedMotion ? false : "spring",
+                    type: "spring",
                     stiffness: 300,
                     damping: 15,
-                    delay: isMobile || prefersReducedMotion ? 0 : 0.4
+                    delay: 0.4
                   }}
                 >
                   Venture Economy
@@ -155,9 +150,9 @@ export default function AboutUsSection() {
                 className="prose max-w-none prose-p:text-muted-foreground prose-strong:text-foreground/80 mb-8 about-card relative"
               >
                 <motion.div
-                  initial={{ width: isMobile || prefersReducedMotion ? "100%" : 0 }}
+                  initial={{ width: 0 }}
                   animate={{ width: "100%" }}
-                  transition={{ duration: isMobile || prefersReducedMotion ? 0 : 1, delay: isMobile || prefersReducedMotion ? 0 : 0.8 }}
+                  transition={{ duration: 1, delay: 0.8 }}
                   className="absolute -left-2 top-0 h-full w-1 rounded-full"
                 />
                 <p className="relative">
@@ -173,8 +168,8 @@ export default function AboutUsSection() {
                 >
                   <Link href="/about">
                     <motion.div
-                      whileHover={{ x: isMobile || prefersReducedMotion ? 0 : 5 }}
-                      transition={{ type: isMobile || prefersReducedMotion ? false : "spring", stiffness: 400 }}
+                      whileHover={{ x: 5 }}
+                      transition={{ type: "spring", stiffness: 400 }}
                     >
                       Discover Our Mission 
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-200 group-hover:translate-x-1 inline-block" />
@@ -197,12 +192,13 @@ export default function AboutUsSection() {
                 className="transition-transform duration-700 group-hover:scale-105"
                 quality={80}
                 sizes="(max-width: 1024px) 100vw, 50vw"
+                priority // Add priority for above-the-fold images
               />
               
               <motion.div
-                initial={{ opacity: isMobile || prefersReducedMotion ? 0.1 : 0.3 }}
+                initial={{ opacity: 0.3 }}
                 animate={{ opacity: 0.1 }}
-                transition={{ duration: isMobile || prefersReducedMotion ? 0 : 1, delay: isMobile || prefersReducedMotion ? 0 : 0.5 }}
+                transition={{ duration: 1, delay: 0.5 }}
                 className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"
               />
               

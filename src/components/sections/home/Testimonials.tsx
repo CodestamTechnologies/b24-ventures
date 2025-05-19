@@ -27,9 +27,16 @@ export default function Testimonials() {
     
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
-    setIsLoaded(true);
     
-    return () => window.removeEventListener('resize', checkIfMobile);
+    // Set loaded state after component mounts
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 50);
+    
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+      clearTimeout(timer);
+    };
   }, []);
 
   const paginate = (newDirection: number) => {
@@ -48,13 +55,9 @@ export default function Testimonials() {
   // Mobile version without animations
   if (isMobile) {
     return (
-     <motion.section
-          //  ref={ref}
-           initial="hidden"
-          //  animate={isInView ? "visible" : "hidden"}
-          //  variants={containerVariants}
-           className={`relative flex flex-col lg:flex-row justify-center bg-background z-50 -mb-2 items-center  p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
-         >
+      <motion.section
+        className={`relative flex flex-col lg:flex-row justify-center bg-background z-50 -mb-2 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+      >
         <div className="container mx-auto px-4">
           <div className="w-full">
             {/* Header */}
@@ -116,41 +119,43 @@ export default function Testimonials() {
             </div>
           </div>
         </div>
-       </motion.section>
+      </motion.section>
     );
   }
 
   // Desktop version with animations
   return (
-    <section className={`relative py-16 md:py-32 bg-background border-y border-border ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-      {/* Background Elements */}
-      <div className="absolute inset-0 z-0">
-        <motion.div 
-          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon/5 blur-[80px]"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.1 }}
-          transition={{ duration: 1.5, delay: 0.3 }}
-        />
-        <motion.div 
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-blue-500/5 blur-[100px]"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.1 }}
-          transition={{ duration: 1.5, delay: 0.5 }}
-        />
-      </div>
+    <section className={`relative py-16 md:py-32 bg-background border-y border-border transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Background Elements - only shown when loaded */}
+      {isLoaded && (
+        <div className="absolute inset-0 z-0">
+          <motion.div 
+            className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon/5 blur-[80px]"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.1 }}
+            transition={{ duration: 1.5, delay: 0.3 }}
+          />
+          <motion.div 
+            className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-blue-500/5 blur-[100px]"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.1 }}
+            transition={{ duration: 1.5, delay: 0.5 }}
+          />
+        </div>
+      )}
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={isLoaded ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16 md:mb-20 max-w-3xl mx-auto"
           >
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="text-center"
             >
@@ -162,7 +167,7 @@ export default function Testimonials() {
             <motion.p 
               className="text-lg text-muted-foreground mt-6"
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               Hear what founders and investors are saying about Brown24 Ventures.
@@ -172,67 +177,75 @@ export default function Testimonials() {
           {/* Carousel */}
           <motion.div
             initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
+            animate={isLoaded ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.4 }}
             className="max-w-4xl mx-auto relative"
           >
-            <motion.div
-              className="absolute -top-6 -left-6 text-primary/10 z-0"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ 
-                scale: 1, 
-                opacity: 0.1,
-                transition: { delay: 0.8 }
-              }}
-            >
-              <Quote className="h-24 w-24" />
-            </motion.div>
-            <motion.div
-              className="absolute -bottom-6 -right-6 text-primary/10 z-0"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ 
-                scale: 1, 
-                opacity: 0.1,
-                transition: { delay: 1 }
-              }}
-            >
-              <Quote className="h-24 w-24" />
-            </motion.div>
+            {isLoaded && (
+              <>
+                <motion.div
+                  className="absolute -top-6 -left-6 text-primary/10 z-0"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ 
+                    scale: 1, 
+                    opacity: 0.1,
+                    transition: { delay: 0.8 }
+                  }}
+                >
+                  <Quote className="h-24 w-24" />
+                </motion.div>
+                <motion.div
+                  className="absolute -bottom-6 -right-6 text-primary/10 z-0"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ 
+                    scale: 1, 
+                    opacity: 0.1,
+                    transition: { delay: 1 }
+                  }}
+                >
+                  <Quote className="h-24 w-24" />
+                </motion.div>
+              </>
+            )}
 
             <div className="relative bg-background/80 backdrop-blur-sm rounded-xl p-8 md:p-12 border border-border/50 overflow-hidden min-h-[300px] flex items-center justify-center shadow-lg">
               <AnimatePresence initial={false} mode="popLayout">
                 <motion.div
                   key={current}
                   initial={{ opacity: 0, x: 100, scale: 0.95, rotateY: 10 }}
-                  animate={{ opacity: 1, x: 0, scale: 1, rotateY: 0 }}
+                  animate={isLoaded ? { opacity: 1, x: 0, scale: 1, rotateY: 0 } : {}}
                   exit={{ opacity: 0, x: -100, scale: 0.95, rotateY: -10 }}
                   transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
                   className="absolute w-[calc(100%-4rem)] md:w-[calc(100%-6rem)] text-center z-10 px-4"
                 >
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="relative"
-                  >
-                    <Quote className="absolute -top-8 left-1/2 -translate-x-1/2 text-primary/20 h-8 w-8" />
-                    <blockquote className="text-2xl md:text-3xl text-foreground mb-6 leading-snug italic">
-                      &ldquo;{testimonialsData[current].quote}&rdquo;
-                    </blockquote>
-                  </motion.div>
-                  <motion.div 
-                    className="mt-6 flex flex-col items-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                  >
-                    <p className="text-foreground font-semibold text-lg">
-                      {testimonialsData[current].author}
-                    </p>
-                    <p className="text-muted-foreground text-sm">
-                      {testimonialsData[current].position}
-                    </p>
-                  </motion.div>
+                  {isLoaded && (
+                    <>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        className="relative"
+                      >
+                        <Quote className="absolute -top-8 left-1/2 -translate-x-1/2 text-primary/20 h-8 w-8" />
+                        <blockquote className="text-2xl md:text-3xl text-foreground mb-6 leading-snug italic">
+                          &ldquo;{testimonialsData[current].quote}&rdquo;
+                        </blockquote>
+                      </motion.div>
+                      <motion.div 
+                        className="mt-6 flex flex-col items-center"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                      >
+                        <p className="text-foreground font-semibold text-lg">
+                          {testimonialsData[current].author}
+                        </p>
+                        <p className="text-muted-foreground text-sm">
+                          {testimonialsData[current].position}
+                        </p>
+                      </motion.div>
+                    </>
+                  )}
                 </motion.div>
               </AnimatePresence>
 
@@ -241,8 +254,8 @@ export default function Testimonials() {
                   <motion.button 
                     onClick={() => paginate(-1)} 
                     className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-2 rounded-full hover:bg-primary hover:text-white hover:shadow-md transition-all duration-200 z-20 backdrop-blur-sm"
-                    // whileHover={{ scale: 1.1 }}
-                    // whileTap={{ scale: 0.95 }}
+                    whileHover={isLoaded ? { scale: 1.1 } : {}}
+                    whileTap={isLoaded ? { scale: 0.95 } : {}}
                     aria-label="Previous testimonial"
                   >
                     <ChevronLeft className="h-5 w-5" />
@@ -250,8 +263,8 @@ export default function Testimonials() {
                   <motion.button 
                     onClick={() => paginate(1)} 
                     className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-2 rounded-full hover:bg-primary hover:text-white hover:shadow-md transition-all duration-200 z-20 backdrop-blur-sm"
-                    // whileHover={{ scale: 1.1 }}
-                    // whileTap={{ scale: 0.95 }}
+                    whileHover={isLoaded ? { scale: 1.1 } : {}}
+                    whileTap={isLoaded ? { scale: 0.95 } : {}}
                     aria-label="Next testimonial"
                   >
                     <ChevronRight className="h-5 w-5" />
@@ -265,7 +278,7 @@ export default function Testimonials() {
                           `w-2.5 h-2.5 rounded-full transition-all duration-300 ease-out`,
                           current === index ? 'bg-primary' : 'bg-muted-foreground/50'
                         )}
-                        whileHover={{ scale: 1.3 }}
+                        whileHover={isLoaded ? { scale: 1.3 } : {}}
                         aria-label={`Go to testimonial ${index + 1}`}
                       />
                     ))}
