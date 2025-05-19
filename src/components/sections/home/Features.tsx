@@ -19,7 +19,7 @@ const snapshotFeatures: SnapshotItem[] = [
 
 export default function Features() {
   const [isMobile, setIsMobile] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  // const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -28,7 +28,7 @@ export default function Features() {
     
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
-    setIsLoaded(true);
+    // setIsLoaded(true);
     
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
