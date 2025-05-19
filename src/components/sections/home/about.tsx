@@ -103,6 +103,13 @@ export default function ServicesSection() {
 
   // Desktop version with animations
   return (
+     <motion.section
+              //  ref={ref}
+               initial="hidden"
+              //  animate={isInView ? "visible" : "hidden"}
+              //  variants={containerVariants}
+               className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mb-2 items-center  p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+             >
     <div className={`${geist.className} relative w-full -mb-1 overflow-hidden ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
       {/* Background elements */}
       <div className="absolute inset-0 bg-background z-10">
@@ -293,5 +300,6 @@ export default function ServicesSection() {
         className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-blue-500 blur-[100px] z-0"
       />
     </div>
+    </motion.section>
   );
 }

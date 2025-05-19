@@ -86,7 +86,13 @@ export default function AboutUsSection() {
   // const variants = getVariants();
 
   return (
-    <section className='bg-background z-10 -mt-1'>
+     <motion.section
+              //  ref={ref}
+               initial="hidden"
+              //  animate={isInView ? "visible" : "hidden"}
+              //  variants={containerVariants}
+               className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mb-2 items-center  p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+             >
       <motion.section 
         id="about-us" 
         className="py-24 md:py-32 bg-background z-10 border-y border-border overflow-hidden relative"
@@ -242,6 +248,6 @@ export default function AboutUsSection() {
           </motion.div>
         </div>
       </motion.section>
-    </section>
+    </motion.section>
   );
 }

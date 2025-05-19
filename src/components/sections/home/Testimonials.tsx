@@ -48,7 +48,13 @@ export default function Testimonials() {
   // Mobile version without animations
   if (isMobile) {
     return (
-      <section className="relative py-16 bg-background border-y border-border">
+     <motion.section
+          //  ref={ref}
+           initial="hidden"
+          //  animate={isInView ? "visible" : "hidden"}
+          //  variants={containerVariants}
+           className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mb-2 items-center  p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+         >
         <div className="container mx-auto px-4">
           <div className="w-full">
             {/* Header */}
@@ -110,7 +116,7 @@ export default function Testimonials() {
             </div>
           </div>
         </div>
-      </section>
+       </motion.section>
     );
   }
 

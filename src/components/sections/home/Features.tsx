@@ -36,10 +36,13 @@ export default function Features() {
   // Simplified mobile version without any animations
   if (isMobile) {
     return (
-      <section 
-        id="features" 
-        className="py-24 bg-background z-20 border-y border-border relative"
-      >
+      <motion.section
+              //  ref={ref}
+               initial="hidden"
+              //  animate={isInView ? "visible" : "hidden"}
+              //  variants={containerVariants}
+               className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mb-2 items-center  p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+             >
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Header */}
@@ -71,16 +74,19 @@ export default function Features() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
     );
   }
 
   // Desktop version with animations
   return (
-    <section 
-      id="features" 
-      className={`py-24 md:py-32 bg-background z-20 border-y border-border relative ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-    >
+    <motion.section
+              //  ref={ref}
+               initial="hidden"
+              //  animate={isInView ? "visible" : "hidden"}
+              //  variants={containerVariants}
+               className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mb-2 items-center  p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+             >
       {/* Background decorative elements */}
       <motion.div 
         initial={{ opacity: 0, scale: 0.8 }}
@@ -252,6 +258,6 @@ export default function Features() {
           </motion.div>
         </motion.div>
       </div>
-    </section>
+   </motion.section>
   );
 }

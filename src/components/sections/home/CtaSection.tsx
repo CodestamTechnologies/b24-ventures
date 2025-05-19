@@ -155,7 +155,13 @@ export default function CtaSection() {
   // const MotionOrSection = isMobile ? 'section' : motion.section;
 
   return (
-    <section className="relative -mt-1 py-24 md:py-32 min-h-[60vh] border-t border-border overflow-hidden">
+    <motion.section
+              //  ref={ref}
+               initial="hidden"
+              //  animate={isInView ? "visible" : "hidden"}
+              //  variants={containerVariants}
+               className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mt-1 items-center  p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+             >
       {/* Background Elements */}
       <div className="absolute inset-0 bg-background z-0">
         {isMobile ? (
@@ -384,6 +390,6 @@ export default function CtaSection() {
           </motion.div>
         )}
       </div>
-    </section>
+    </motion.section>
   );
 }
