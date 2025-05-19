@@ -111,7 +111,7 @@ const HeroSection = () => {
       />
 
       {/* Mobile Content */}
-      <div className='lg:hidden flex flex-col items-center justify-center w-full p-6 relative z-10'>
+      <div className='lg:hidden flex flex-col items-center justify-center w-full p-6 relative '>
         {/* Animated circular background */}
         <motion.div 
           className='absolute inset-0 z-0 flex items-center justify-center'
@@ -137,7 +137,7 @@ const HeroSection = () => {
 
         {/* Logo with floating animation */}
         <motion.div 
-          className="relative z-10 mb-8"
+          className="relative mb-8"
           variants={scaleUp}
           initial="hidden"
           whileInView="visible"
@@ -165,7 +165,7 @@ const HeroSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="text-center w-full max-w-2xl px-4 relative z-10"
+          className="text-center w-full max-w-2xl px-4 relative "
         >
           <motion.h1 
             className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 leading-tight"
@@ -214,7 +214,7 @@ const HeroSection = () => {
                 }}
                 whileTap={{ scale: 0.97 }}
               >
-                <span className="relative z-10">JOIN COMMUNITY</span>
+                <span className="relative ">JOIN COMMUNITY</span>
                 <motion.div 
                   className="absolute inset-0 bg-gradient-to-r from-black to-gray-800 opacity-0 hover:opacity-100 transition-opacity"
                   initial={{ opacity: 0 }}
@@ -231,7 +231,7 @@ const HeroSection = () => {
                 }}
                 whileTap={{ scale: 0.97 }}
               >
-                <span className="relative z-10">Get featured</span>
+                <span className="relative ">Get featured</span>
                 <motion.div 
                   className="absolute inset-0 bg-gradient-to-r from-brand-maroon to-red-800 opacity-0 hover:opacity-100 transition-opacity"
                   initial={{ opacity: 0 }}
@@ -321,7 +321,7 @@ const HeroSection = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
-            className="absolute top-2 2xl:mt-3 2xl:ml-28 left-36 w-48 h-48 2xl:w-52 2xl:h-52 z-20"
+            className="absolute top-2 2xl:mt-3 2xl:ml-28 left-36 w-48 h-48 2xl:w-52 2xl:h-52 "
           >
             <motion.div variants={scaleUp}>
               <Image
@@ -329,7 +329,7 @@ const HeroSection = () => {
                 alt="Logo"
                 width={208}
                 height={208}
-                className="rounded-lg z-50 object-contain"
+                className="rounded-lg  object-contain"
               />
             </motion.div>
           </motion.div>
@@ -343,7 +343,7 @@ const HeroSection = () => {
           >
             {/* Main 3D Model */}
             {/* Main 3D Model */}
-            <div className='absolute top-56 2xl:top-48 2xl:left-96 2xl:ml-4 left-60 transform -translate-x-1/2 -translate-y-1/2 w-52 h-64 2xl:w-64 2xl:h-80 z-20'>
+            <div className='absolute top-56 2xl:top-48 2xl:left-96 2xl:ml-4 left-60 transform -translate-x-1/2 -translate-y-1/2 w-52 h-64 2xl:w-64 2xl:h-80 '>
               <Image 
                 src="/main.webp" 
                 alt="Main model" 
@@ -357,7 +357,7 @@ const HeroSection = () => {
             <motion.div 
               variants={itemFadeLeft}
               transition={{ delay: 0.2 }}
-              className='absolute top-72 2xl:top-44 left-96  z-10 2xl:ml-32 mr-10 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white shadow-lg flex justify-center items-center'
+              className='absolute top-72 2xl:top-44 left-96   2xl:ml-32 mr-10 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white shadow-lg flex justify-center items-center'
               whileHover={{ 
                 y: -5,
                 rotate: 2,
@@ -380,7 +380,7 @@ const HeroSection = () => {
             <motion.div 
               variants={itemFadeLeft}
               transition={{ delay: 0.4 }}
-              className='absolute 2xl:top-80 2xl:mt-20 top-96 mt-14 2xl:ml-12 left-60 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white z-10 shadow-lg flex flex-col justify-center items-center p-4'
+              className='absolute 2xl:top-80 2xl:mt-20 top-96 mt-14 2xl:ml-12 left-60 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white  shadow-lg flex flex-col justify-center items-center p-4'
               whileHover={{ 
                 y: -5,
                 rotate: -2,
@@ -411,7 +411,7 @@ const HeroSection = () => {
             <motion.div 
               variants={itemFadeLeft}
               transition={{ delay: 0.2 }}
-              className='absolute top-[26rem] 2xl:top-[24rem] left-96 2xl:ml-36 2xl:mt-2 ml-5 w-20 h-20 2xl:w-32 2xl:h-32 z-0'
+              className='absolute top-[26rem] 2xl:top-[24rem] left-96 2xl:ml-36 2xl:mt-2 ml-5 w-20 h-20 2xl:w-32 2xl:h-32 '
               whileHover={{ rotate: 10 }}
             >
               <CircularDiv/>
@@ -501,13 +501,13 @@ const HeroSection = () => {
                     whileHover={{ scale: 1.1 }}
                   >
                     <motion.div 
-                      className="w-10 h-10 4k:w-11 4k:h-11 rounded-full bg-black flex items-center justify-center text-white z-10 text-lg"
+                      className="w-10 h-10 4k:w-11 4k:h-11 rounded-full bg-black flex items-center justify-center text-white  text-lg"
                       whileHover={{ rotate: 90 }}
                     >
                       ⬡
                     </motion.div>
                     <motion.div 
-                      className="w-10 h-10 4k:w-11 4k:h-11 rounded-full bg-brand-maroon flex items-center justify-center text-white z-10 text-lg"
+                      className="w-10 h-10 4k:w-11 4k:h-11 rounded-full bg-brand-maroon flex items-center justify-center text-white text-lg"
                       whileHover={{ rotate: -90 }}
                     >
                       ✴

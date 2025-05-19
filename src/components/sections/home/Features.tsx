@@ -29,10 +29,10 @@ export default function Features() {
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
     
-    // Set loaded state after a small delay to ensure everything is ready
+    // Set loaded state after component mounts
     const timer = setTimeout(() => {
       setIsLoaded(true);
-    }, 100);
+    }, 50);
     
     return () => {
       window.removeEventListener('resize', checkIfMobile);
@@ -43,9 +43,7 @@ export default function Features() {
   // Simplified mobile version without any animations
   if (isMobile) {
     return (
-      <motion.section
-        className={`relative flex flex-col lg:flex-row justify-center bg-background z-50 -mb-2 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
-      >
+      <section className="relative bg-background z-50 w-full py-12 md:py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Header */}
@@ -77,16 +75,16 @@ export default function Features() {
             </div>
           </div>
         </div>
-      </motion.section>
+      </section>
     );
   }
 
   // Desktop version with animations
   return (
-    <motion.section
-      initial="hidden"
-      className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mb-2 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
-    >
+    <section className="relative bg-background z-50 w-full py-12 md:py-16 overflow-hidden">
+      {/* Solid background to cover hero section */}
+      <div className="absolute inset-0 bg-background z-0" />
+      
       {/* Background decorative elements - only visible when loaded */}
       {isLoaded && (
         <>
@@ -94,18 +92,18 @@ export default function Features() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 0.05, scale: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
-            className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon blur-[100px] pointer-events-none"
+            className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-maroon blur-[100px] pointer-events-none z-10"
           />
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 0.05, scale: 1 }}
             transition={{ duration: 1, delay: 0.7 }}
-            className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-blue-500 blur-[120px] pointer-events-none"
+            className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-blue-500 blur-[120px] pointer-events-none z-10"
           />
         </>
       )}
 
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 relative z-20">
         <motion.div
           className="max-w-4xl mx-auto"
           initial="hidden"
@@ -262,6 +260,6 @@ export default function Features() {
           </motion.div>
         </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 }
