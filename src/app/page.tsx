@@ -11,11 +11,12 @@ import ServicesSection from "@/components/sections/home/about";
 export default function HomePage() {
   return (
     <>
-     
+  
       <Hero />
       <CustomerSegmentation/>
       {/* Subtle Divider Example */}
 
+    
       <ServicesSection/>
       <Features />
       <AboutUsSection />
