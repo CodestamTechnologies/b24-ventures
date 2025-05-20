@@ -88,7 +88,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className='sticky top-0 '>
+    <section className='relative top-0 '>
     <motion.div 
       className='relative bg-background  overflow-hidden min-h-[90vh] flex items-center justify-center'
       initial={{ opacity: 0 }}
