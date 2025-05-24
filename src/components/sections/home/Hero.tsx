@@ -197,7 +197,7 @@ const HeroSection = () => {
             className="text-sm sm:text-base text-gray-600 mb-8 leading-relaxed max-w-lg mx-auto"
             variants={itemFadeUp}
           >
-            Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
+            Get curated venture news, smart insights, and essential market trends built for founders and investors in emerging, fast-growing startup markets.
           </motion.p>
           
           {/* Animated buttons */}
@@ -412,7 +412,7 @@ const HeroSection = () => {
               variants={itemFadeLeft}
               transition={{ delay: 0.2 }}
               className='absolute top-[26rem] 2xl:top-[24rem] left-96 2xl:ml-36 2xl:mt-2 ml-5 w-20 h-20 2xl:w-32 2xl:h-32 '
-              whileHover={{ rotate: 10 }}
+              // whileHover={{ rotate: 10 }}
             >
               <CircularDiv/>
             </motion.div>
@@ -468,7 +468,7 @@ const HeroSection = () => {
                   className="text-base 2xl:text-lg text-gray-600 mt-4 leading-relaxed"
                   variants={itemFadeRight}
                 >
-                  Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
+                 Get curated venture news, smart insights, and essential market trends built for founders and investors in emerging, fast-growing startup markets.
                 </motion.p>
 
                 <motion.div 
