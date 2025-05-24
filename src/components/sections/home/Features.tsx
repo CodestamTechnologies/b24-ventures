@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ListChecks, TrendingUp, DollarSign, Bookmark, Users, Bell, LucideIcon } from "lucide-react";
+import { LucideIcon, BarChart2, UserCircle, PieChart, Activity, Upload } from "lucide-react";
 
 interface SnapshotItem {
   name: string;
@@ -9,12 +9,26 @@ interface SnapshotItem {
 }
 
 const snapshotFeatures: SnapshotItem[] = [
-  { name: "Personalized Feed", icon: ListChecks },
-  { name: "Trending Stories", icon: TrendingUp },
-  { name: "Funding Analysis", icon: DollarSign },
-  { name: "Smart Bookmarks", icon: Bookmark },
-  { name: "Team Collaboration", icon: Users },
-  { name: "Topic Alerts", icon: Bell },
+  { 
+    name: "Funding Reports", 
+    icon: BarChart2 
+  },
+  { 
+    name: "Founder Spotlights", 
+    icon: UserCircle 
+  },
+  { 
+    name: "Market Deep-Dives", 
+    icon: PieChart 
+  },
+  { 
+    name: "Trend Signals", 
+    icon: Activity 
+  },
+  { 
+    name: "Submit Your Startup", 
+    icon: Upload 
+  },
 ];
 
 export default function Features() {
@@ -57,7 +71,7 @@ export default function Features() {
                 Delivered Daily
               </p>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
+              Get curated venture news, smart insights, and essential market trends built for founders and investors in emerging, fast-growing startup markets.
               </p>
             </div>
 
@@ -187,7 +201,7 @@ export default function Features() {
               }}
               className="text-muted-foreground max-w-2xl mx-auto"
             >
-              Cut through the noise. Get curated venture news, smart insights, and essential market trends built for founders and investors.
+           Get curated venture news, smart insights, and essential market trends built for founders and investors in emerging, fast-growing startup markets.
             </motion.p>
           </motion.div>
 

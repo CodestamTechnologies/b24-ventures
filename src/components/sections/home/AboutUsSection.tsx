@@ -142,7 +142,7 @@ export default function AboutUsSection() {
                 variants={isMobile || prefersReducedMotion ? noAnimation : itemFadeUp} 
                 className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed"
               >
-                Brown24 Ventures cuts through the noise, delivering curated startup intelligence and smart insights directly to decision-makers.
+                Brown24 Ventures, delivering curated startup intelligence and smart insights directly to decision-makers.
               </motion.p>
               
               <motion.div 

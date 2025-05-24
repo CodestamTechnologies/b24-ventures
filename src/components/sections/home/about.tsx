@@ -1,31 +1,31 @@
-"use client"
+'use client'
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Inter } from 'next/font/google';
 
 const geist = Inter({ subsets: ['latin'] });
 
-const services = [
+const reasons = [
   {
-    title: "Curated For You",
-    description: "delivers meticulously selected news, timely funding updates, and cutting-edge tech breakthroughs tailored precisely to your interests. Stay informed with our carefully curated content, ensuring you're always ahead in the latest developments that matter most to you."
+    title: "Global Entrepreneurial Coverage",
+    description: "Traditional media and platforms focus on Silicon Valley, Delhi, and London leaving out 90% of the world's entrepreneurial energy. We bring visibility to underdog founders everywhere."
   },
   {
-    title: "Intelligent Engine",
-    description: "Our advanced recommendation engine continuously learns from your preferences, behaviors, and areas of interest to deliver personalized insights that truly matter. By analyzing your engagement patterns, it surfaces the most relevant updates, emerging trends, and must-know developments—ensuring you stay focused, informed, and ahead in your field."
+    title: "Actionable Funding Insights",
+    description: "Most funding news is cluttered and insight-light, providing little tactical value. We deliver contextual, actionable insights—not clickbait—to help you make informed decisions."
   },
   {
-    title: "Global Reach, Local Focus",
-    description: "Access a unified, real-time feed that captures the pulse of startup ecosystems and investment trends from around the world. Whether it's a breakthrough in Silicon Valley, a funding surge in Bangalore, or an emerging trend in Berlin, our platform filters the noise to deliver insights tailored to your interests—giving you a global perspective with a local lens."
+    title: "Underdog Founder Spotlights",
+    description: "Underdog founders everywhere are missing out on visibility and strategic trends. We fix that with sharp spotlights on grassroots founders and their innovations."
   },
   {
-    title: "Community & Collaboration",
-    description: "Engage with a vibrant network of founders, investors, and innovators through thoughtful discussions and shared insights. Exchange perspectives, collaborate on ideas, and build meaningful relationships that fuel growth, spark innovation, and keep you connected to the pulse of the startup and investment world."
+    title: "Real-time Funding Intelligence",
+    description: "Get real-time, relevant startup funding news with global and regional funding trend breakdowns. Stay ahead with data-driven insights tailored for investors and founders."
   },
 ];
 
 export default function ServicesSection() {
-  const [activeService, setActiveService] = useState(0);
+  const [activeReason, setActiveReason] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -37,7 +37,6 @@ export default function ServicesSection() {
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
     
-    // Set loaded to true after component mounts
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 50);
@@ -48,20 +47,20 @@ export default function ServicesSection() {
     };
   }, []);
 
-  // Simplified mobile version without any animations
+  // Simplified mobile version
   if (isMobile) {
     return (
       <motion.section
-             className={`${geist.className} relative flex flex-col lg:flex-row justify-center bg-background z-50 -mb-2 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
-           >
+        className={`${geist.className} relative flex flex-col lg:flex-row justify-center bg-background z-50 -mb-2 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
+      >
         <div className="relative z-10 w-full py-12 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
             <div className='mb-8 text-center max-w-3xl mx-auto'>
               <h2 className={`text-3xl font-bold mb-4 text-gray-900`}>
-                Why <span className="text-brand-maroon">Brown24</span>?
+                Why <span className="text-brand-maroon">B24</span>?
               </h2>
               <p className='text-lg text-gray-600'>
-                We combine expert curation with smart technology to deliver the startup intelligence you need, without the noise.
+                We shine a light on the 90% of entrepreneurial energy that traditional media ignores.
               </p>
             </div>
             
@@ -69,32 +68,32 @@ export default function ServicesSection() {
               {/* Content */}
               <div className="bg-white p-6 rounded-xl shadow-sm h-full border border-gray-200">
                 <h3 className={`text-2xl font-bold mb-4 text-black`}>
-                  {services[activeService].title}
+                  {reasons[activeReason].title}
                 </h3>
                 <p className="text-base text-gray-600 leading-relaxed">
-                  {services[activeService].description}
+                  {reasons[activeReason].description}
                 </p>
               </div>
               
               {/* Navigation */}
               <div className="space-y-4">
-                {services.map((service, index) => (
+                {reasons.map((reason, index) => (
                   <div
                     key={index}
                     className={`cursor-pointer p-5 rounded-lg relative ${
-                      activeService === index 
+                      activeReason === index 
                         ? 'bg-brand-maroon text-white shadow-lg' 
                         : 'bg-white text-gray-500 hover:bg-gray-50 border border-gray-200 shadow-md'
                     }`}
-                    onClick={() => setActiveService(index)}
+                    onClick={() => setActiveReason(index)}
                   >
                     <div className="relative z-10">
                       <h3 className={`text-xl font-semibold ${
-                        activeService === index ? 'text-white' : 'text-gray-900'
+                        activeReason === index ? 'text-white' : 'text-gray-900'
                       }`}>
-                        {service.title}
+                        {reason.title}
                       </h3>
-                      {activeService === index && (
+                      {activeReason === index && (
                         <div className="mt-2 h-1 w-8 bg-white rounded-full" />
                       )}
                     </div>
@@ -113,9 +112,7 @@ export default function ServicesSection() {
     <motion.section
       className={`relative flex flex-col lg:flex-row justify-center bg-background z-10 -mb-2 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
     >
-      {/* Main container with opacity control based on loading state */}
-  <div className={`relative py-16 md:py-32 bg-background  border-y border-border transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-        {/* Background elements - only shown when loaded */}
+      <div className={`relative py-16 md:py-32 bg-background border-y border-border transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
         {isLoaded && (
           <>
             <div className="absolute inset-0 bg-background z-10">
@@ -131,7 +128,6 @@ export default function ServicesSection() {
               </motion.div>
             </div>
 
-            {/* Floating animated elements in background */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.05 }}
@@ -169,11 +165,11 @@ export default function ServicesSection() {
                   transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
                   className="inline-block"
                 >
-                  Brown24
+                  B24
                 </motion.span>?
               </h2>
               <p className='text-lg md:text-xl text-gray-600'>
-                We combine expert curation with smart technology to deliver the startup intelligence you need, without the noise.
+                We shine a light on the 90% of entrepreneurial energy that traditional media ignores.
               </p>
             </motion.div>
             
@@ -194,7 +190,7 @@ export default function ServicesSection() {
               >
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={activeService}
+                    key={activeReason}
                     initial={{ opacity: 0, x: -100, rotateY: 30 }}
                     animate={isLoaded ? { opacity: 1, x: 0, rotateY: 0 } : {}}
                     exit={{ opacity: 0, x: 100, rotateY: -30 }}
@@ -229,7 +225,7 @@ export default function ServicesSection() {
                       animate={isLoaded ? { opacity: 1, y: 0 } : {}}
                       transition={{ delay: 0.3 }}
                     >
-                      {services[activeService].title}
+                      {reasons[activeReason].title}
                     </motion.h3>
                     <motion.p 
                       className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed md:leading-relaxed"
@@ -237,7 +233,7 @@ export default function ServicesSection() {
                       animate={isLoaded ? { opacity: 1 } : {}}
                       transition={{ delay: 0.5 }}
                     >
-                      {services[activeService].description}
+                      {reasons[activeReason].description}
                     </motion.p>
                   </motion.div>
                 </AnimatePresence>
@@ -258,15 +254,15 @@ export default function ServicesSection() {
                 viewport={{ once: true, margin: "-100px" }}
               >
                 <div className="space-y-4 sm:space-y-5 md:space-y-6">
-                  {services.map((service, index) => (
+                  {reasons.map((reason, index) => (
                     <motion.div
                       key={index}
                       className={`cursor-pointer p-5 sm:p-6 md:p-7 rounded-lg relative overflow-hidden ${
-                        activeService === index 
+                        activeReason === index 
                           ? 'bg-brand-maroon text-white shadow-lg' 
                           : 'bg-white/80 backdrop-blur-sm text-gray-500 hover:bg-gray-50 border border-gray-200/50 shadow-md'
                       }`}
-                      onClick={() => setActiveService(index)}
+                      onClick={() => setActiveReason(index)}
                       whileHover={isLoaded ? { 
                         y: -5,
                         boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
@@ -286,15 +282,15 @@ export default function ServicesSection() {
                       <div className="relative z-10">
                         <motion.h3 
                           className={`text-xl sm:text-2xl font-semibold ${
-                            activeService === index ? 'text-white' : 'text-gray-900'
+                            activeReason === index ? 'text-white' : 'text-gray-900'
                           }`}
-                          layoutId={`service-title-${index}`}
+                          layoutId={`reason-title-${index}`}
                         >
-                          {service.title}
+                          {reason.title}
                         </motion.h3>
-                        {activeService === index && (
+                        {activeReason === index && (
                           <motion.div
-                            layoutId="service-indicator"
+                            layoutId="reason-indicator"
                             className="mt-2 h-1 w-8 bg-white rounded-full"
                             initial={{ scaleX: 0 }}
                             animate={isLoaded ? { scaleX: 1 } : {}}

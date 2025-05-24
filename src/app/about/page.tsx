@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Target, Lightbulb, Zap, BarChart2, ArrowRight } from "lucide-react";
+import { Users,  BarChart2, ArrowRight, Clock, Globe, User } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -244,8 +244,9 @@ export default function WhyClayPage() {
                   <h2 className={`text-2xl md:text-3xl ${geist.className}`}>Who We Are</h2>
                 </div>
                 <div className="space-y-4 text-gray-600">
-                  <p>Brown24 Ventures was founded by a team of experienced VCs, startup operators, and technologists who saw a critical need for focused, actionable intelligence in the venture ecosystem.</p>
-                  <p>We combine our smart engine with expert human insight to filter out the noise and deliver the signals that truly matter for strategic decision-making.</p>
+                  <p>B24 Ventures is a real-time funding intelligence and discovery platform built for founders and investors in emerging, overlooked, and fast-growing startup markets across the world.</p>
+                  <p> From Tier 2/3 cities in India to rising ecosystems in Africa, Latin America, Southeast Asia, and beyond.</p>
+                  <p> We go beyond headlines to deliver clarity, context, and visibility to those building where no one’s watching.</p>
                 </div>
               </Card>
             </motion.div>
@@ -285,7 +286,7 @@ export default function WhyClayPage() {
           whileInView="visible"
           viewport={{ once: true }}
           variants={staggerContainer}
-          className="max-w-4xl mx-auto mb-24"
+          className="max-w-4xl mx-auto mb-24 "
         >
           <motion.div variants={textPopIn} className="text-center mb-12">
             <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${geist.className}`}>Our Approach</h2>
@@ -296,28 +297,29 @@ export default function WhyClayPage() {
 
           <div className="grid sm:grid-cols-3 gap-6">
             {[
-              { 
-                icon: Lightbulb, 
-                title: "Strategic", 
-                description: "Co-founder involvement ensures high-level thinking",
-                color: "text-brand-maroon",
-                delay: 0.2
-              },
-              { 
-                icon: Target, 
-                title: "Focused", 
-                description: "Senior teams dedicated to your success",
-                color: "text-brand-maroon",
-                delay: 0.4
-              },
-              { 
-                icon: Zap, 
-                title: "Integrated", 
-                description: "Cross-disciplinary expertise in every team",
-                color: "text-brand-maroon",
-                delay: 0.6
-              }
-            ].map((value, index) => (
+  { 
+    icon: Clock, 
+    title: "Real-time Funding News", 
+    description: "Get the most relevant startup funding updates as they happen",
+    color: "text-brand-maroon",
+    delay: 0.2
+  },
+  { 
+    icon: Globe, 
+    title: "Funding Trend Analysis", 
+    description: "Global and regional funding trend breakdowns to spot opportunities",
+    color: "text-brand-maroon",
+    delay: 0.4
+  },
+  { 
+    icon: User, 
+    title: "Grassroots Founder Spotlights", 
+    description: "Sharp spotlights on under-the-radar founders changing the game",
+    color: "text-brand-maroon",
+    delay: 0.6
+  },
+
+].map((value, index) => (
               <motion.div 
                 key={value.title}
                 variants={boxPopIn}
@@ -327,9 +329,10 @@ export default function WhyClayPage() {
                 transition={{ delay: value.delay }}
                 whileHover="hover"
                 custom={index}
+               
               >
                 <motion.div variants={cardHover}>
-                  <Card className="p-6 h-full text-center rounded-xl bg-white hover:bg-gray-50 transition-colors">
+                  <Card className="p-6    h-full text-center rounded-xl bg-white hover:bg-gray-50 transition-colors">
                     <motion.div 
                       className={`${value.color} w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4`}
                       variants={iconHover}

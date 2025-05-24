@@ -8,13 +8,14 @@ import Image from "next/image";
 import { Roboto } from "next/font/google";
 import { useRef } from "react";
 
+
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"] });
 
 const segments = [
   {
     id: 2,
     title:
-      "Prime customers, that have access to bank credit and are not satisfied with the current service",
+      "Investors, analysts, and ecosystem builders looking to discover the next wave of bold startups outside the usual hubs.",
     image: "/pot2.webp",
     label: "Know more",
     color: "bg-blue-400",
@@ -22,12 +23,14 @@ const segments = [
   {
     id: 3,
     title:
-      "Customers from near-prime and sub-prime segments with no access to bank credit",
+      "Researchers and operators seeking deep startup market intelligence with global-local nuance.",
     image: "/pot3.webp",
     label: "Know more",
     color: "bg-lime-400",
   },
+  
 ];
+
 
 const containerVariants = {
   hidden: {},
@@ -85,7 +88,6 @@ const arrowHover = {
     transition: { type: "spring", stiffness: 500, damping: 10 },
   },
 };
-
 export default function CustomerSegmentation() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -111,12 +113,11 @@ export default function CustomerSegmentation() {
         </motion.div>
 
         <motion.h1 className="text-3xl md:text-5xl font-bold mb-4">
-          Prospective customer segmentation
+          Founders in underserved regions
         </motion.h1>
 
         <motion.p className="text-gray-600 text-lg md:text-xl max-w-xl mx-auto mb-6">
-          Depending on customer satisfaction and access to banking products,
-          potential target audience can be divided into three groups.
+        From Ranchi to Kigali, Ho Chi Minh to Bogotá - who are building real ventures away from the VC spotlight.
         </motion.p>
 
         {/* Animated icon */}
@@ -138,7 +139,11 @@ export default function CustomerSegmentation() {
             ease: "easeInOut",
           }}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M7 7h10v10" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M7 17L17 7M7 7h10v10"
+          />
         </motion.svg>
       </motion.div>
 

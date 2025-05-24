@@ -11,8 +11,8 @@ interface Testimonial {
 }
 
 const testimonialsData: Testimonial[] = [
-  { quote: "As a VC, Brown24 has become my daily briefing. It saves hours of scanning multiple sites.", author: "Arjun Mehta", position: "General Partner, WestCap" },
-  { quote: "It feels like a Bloomberg Terminal for the startup world. The insights are incredibly focused.", author: "Nidhi Roy", position: "Startup Founder" },
+  { quote: "Finally, a funding platform not just made for Delhi & S.F.", author: "Angel from Nepal", position: "" },
+  { quote: "The clarity I needed as a Ranchi-based founder.", author: "Beta User", position: "Beta User" },
 ];
 
 export default function Testimonials() {
@@ -254,8 +254,8 @@ export default function Testimonials() {
                   <motion.button 
                     onClick={() => paginate(-1)} 
                     className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-2 rounded-full hover:bg-primary hover:text-white hover:shadow-md transition-all duration-200 z-20 backdrop-blur-sm"
-                    whileHover={isLoaded ? { scale: 1.1 } : {}}
-                    whileTap={isLoaded ? { scale: 0.95 } : {}}
+                    // whileHover={isLoaded ? { scale: 1.1 } : {}}
+                    // whileTap={isLoaded ? { scale: 0.95 } : {}}
                     aria-label="Previous testimonial"
                   >
                     <ChevronLeft className="h-5 w-5" />
@@ -263,8 +263,8 @@ export default function Testimonials() {
                   <motion.button 
                     onClick={() => paginate(1)} 
                     className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 bg-background/80 text-muted-foreground p-2 rounded-full hover:bg-primary hover:text-white hover:shadow-md transition-all duration-200 z-20 backdrop-blur-sm"
-                    whileHover={isLoaded ? { scale: 1.1 } : {}}
-                    whileTap={isLoaded ? { scale: 0.95 } : {}}
+                    // whileHover={isLoaded ? { scale: 1.1 } : {}}
+                    // whileTap={isLoaded ? { scale: 0.95 } : {}}
                     aria-label="Next testimonial"
                   >
                     <ChevronRight className="h-5 w-5" />
