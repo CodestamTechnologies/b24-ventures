@@ -7,7 +7,10 @@ import { Mail, Rocket } from "lucide-react";
 import { motion, useAnimation } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useInView } from "react-intersection-observer";
+import { db } from "@/lib/firebase";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
+// Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -45,6 +48,25 @@ const successVariants = {
   }
 };
 
+const rocketVariants = {
+  float: {
+    y: [0, -5, 0],
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  },
+  launch: {
+    y: -100,
+    opacity: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeIn"
+    }
+  }
+};
+
 export default function CtaSection() {
   const [email, setEmail] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -56,6 +78,7 @@ export default function CtaSection() {
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
+  // Check if mobile and set loaded state
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -64,7 +87,6 @@ export default function CtaSection() {
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
     
-    // Mark as loaded after component mounts
     const loadTimer = setTimeout(() => setIsLoaded(true), 50);
     
     return () => {
@@ -73,18 +95,27 @@ export default function CtaSection() {
     };
   }, []);
 
+  // Animation controls
   useEffect(() => { 
     if (inView && !isMobile && isLoaded) { 
       controls.start("visible"); 
     } 
   }, [controls, inView, isMobile, isLoaded]);
 
+  // Handle email input changes
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => { 
     setEmail(e.target.value); 
   };
 
+  // Validate email format
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
     if (!isValidEmail(email)) {
       toast({ 
         title: "Invalid Email", 
@@ -98,17 +129,14 @@ export default function CtaSection() {
     if (!isMobile) setIsRocketLaunching(true);
 
     try {
-      const response = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+      // Add to Firestore waitlist collection
+      await addDoc(collection(db, "joinwaitlist"), {
+        email: email.toLowerCase().trim(),
+        createdAt: serverTimestamp(),
+        status: "pending",
+        source: "website-cta",
+        userAgent: typeof window !== 'undefined' ? navigator.userAgent : null
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to join waitlist');
-      }
 
       setIsSubmitted(true);
       toast({ 
@@ -130,10 +158,7 @@ export default function CtaSection() {
     }
   };
 
-  const isValidEmail = (email: string) => {
-    return /\S+@\S+\.\S+/.test(email);
-  };
-
+  // Animation variant for fade up effect
   const itemFadeUp = { 
     hidden: { opacity: 0, y: 20 }, 
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } 
@@ -143,7 +168,7 @@ export default function CtaSection() {
     <motion.section
       className={`relative flex flex-col lg:flex-row justify-center bg-background z-50 -mt-1 items-center p-6 md:p-12 max-w-7xl mx-auto gap-12 overflow-hidden`}
     >
-      {/* Background Elements - only shown after load */}
+      {/* Background Elements */}
       {isLoaded && (
         <div className="absolute inset-0 bg-background z-0">
           {isMobile ? (
@@ -191,12 +216,21 @@ export default function CtaSection() {
 
             {isSubmitted ? (
               <div className="p-6 bg-primary/10 rounded-xl border border-primary/20 relative z-10">
-                <h3 className="text-2xl font-bold text-primary mb-2">
-                  Welcome aboard!
-                </h3>
-                <p className="text-muted-foreground">
-                  We have added <span className="font-semibold text-primary">{email}</span> to our waitlist.
-                </p>
+                <div className="flex flex-col items-center text-center space-y-2">
+                  <div className="flex items-center justify-center mb-2">
+                    
+                    <h3 className="text-lg font-bold text-green-600">
+                      Successfully submitted!
+                    </h3>
+                  </div>
+                  <p className="text-muted-foreground text-sm">
+                    We have added{" "}
+                    <span className="block font-semibold text-primary mt-1 break-all">
+                      {email}
+                    </span>{" "}
+                    to our waitlist.
+                  </p>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="relative z-10">
@@ -228,7 +262,7 @@ export default function CtaSection() {
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground mt-3">
-               {`  Your privacy is important to us. We'll never spam you.`}
+                {`  Your privacy is important to us. We'll never spam you.`}
                 </p>
               </form>
             )}
@@ -290,27 +324,41 @@ export default function CtaSection() {
 
             <motion.div variants={itemVariants}>
               {isSubmitted ? (
-                <motion.div
-                  variants={successVariants}
-                  className="p-6 bg-primary/10 rounded-xl border border-primary/20 relative z-10"
+                <div
+                  // variants={successVariants}
+                  className="p-6 bg-primary/10 rounded-xl border border-primary/20 relative z-10 w-full max-w-xs sm:max-w-sm mx-auto"
                 >
-                  <motion.h3 
-                    className="text-2xl font-bold text-primary mb-2"
+                  <motion.div 
+                    className="flex flex-col items-center text-center space-y-2"
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    Welcome aboard!
-                  </motion.h3>
-                  <motion.p 
-                    className="text-muted-foreground"
-                    initial={{ y: 10, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                  >
-                    We have added <span className="font-semibold text-primary">{email}</span> to our waitlist.
-                  </motion.p>
-                </motion.div>
+                    <motion.div 
+                      className="flex items-center justify-center mb-2"
+                      initial={{ scale: 0.9 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      
+                      <h3 className="text-lg font-bold text-green-600">
+                        Successfully submitted!
+                      </h3>
+                    </motion.div>
+                    <motion.p 
+                      className="text-muted-foreground text-sm"
+                      initial={{ y: 10, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                    >
+                      We have added{" "}
+                      <span className="block font-semibold text-primary mt-1 break-all text-xs">
+                        {email}
+                      </span>{" "}
+                      to our waitlist.
+                    </motion.p>
+                  </motion.div>
+                </div>
               ) : (
                 <motion.form 
                   onSubmit={handleSubmit}
@@ -346,6 +394,7 @@ export default function CtaSection() {
                           Join Waitlist{" "}
                           <motion.span
                             animate={isRocketLaunching ? "launch" : "float"}
+                            variants={rocketVariants}
                             className="inline-block ml-2"
                           >
                             <Rocket className="h-5 w-5" />
@@ -354,14 +403,7 @@ export default function CtaSection() {
                       )}
                     </Button>
                   </div>
-                  <motion.p 
-                    className="text-xs text-muted-foreground mt-3"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.1 }}
-                  >
-                  {`  Your privacy is important to us. We'll never spam you.`}`
-                  </motion.p>
+                 
                 </motion.form>
               )}
             </motion.div>

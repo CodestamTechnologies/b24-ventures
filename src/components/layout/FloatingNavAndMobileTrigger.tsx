@@ -2,15 +2,15 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence, Variants, useAnimationControls } from 'framer-motion';
 import { Home, Info, Mail, Rocket, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-interface NavItem { 
-  href: string; 
-  label: string; 
-  icon?: React.ElementType; 
+interface NavItem {
+  href: string;
+  label: string;
+  icon?: React.ElementType;
 }
 
 const mainNavLinks: NavItem[] = [
@@ -19,10 +19,10 @@ const mainNavLinks: NavItem[] = [
   { href: "/contact", label: "Contact", icon: Mail },
 ];
 
-const ctaLink: NavItem = { 
-  href: "/#waitlist", 
-  label: "Join Waitlist", 
-  icon: Rocket 
+const ctaLink: NavItem = {
+  href: "/#waitlist",
+  label: "Join Waitlist",
+  icon: Rocket
 };
 
 const FloatingNavAndMobileTrigger = () => {
@@ -31,39 +31,40 @@ const FloatingNavAndMobileTrigger = () => {
   const [isRocketLaunching, setIsRocketLaunching] = useState(false);
   const footerRef = useRef<HTMLElement | null>(null);
   const pathname = usePathname();
+  const router = useRouter();
   const rocketControls = useAnimationControls();
   const trailControls = useAnimationControls();
 
   // Find footer on initial render
-  useEffect(() => { 
-    footerRef.current = document.getElementById('site-footer') || document.querySelector('footer'); 
+  useEffect(() => {
+    footerRef.current = document.getElementById('site-footer') || document.querySelector('footer');
   }, []);
 
   // Hide nav when footer is visible
-  useEffect(() => { 
-    const footerElement = footerRef.current; 
-    
-    if (!footerElement) { 
-      setIsNavVisible(true); 
-      return; 
+  useEffect(() => {
+    const footerElement = footerRef.current;
+
+    if (!footerElement) {
+      setIsNavVisible(true);
+      return;
     }
-    
+
     const observer = new IntersectionObserver(
-      ([entry]) => { 
-        setIsNavVisible(!entry.isIntersecting); 
-      }, 
-      { 
-        root: null, 
-        rootMargin: '0px 0px -50px 0px', 
-        threshold: 0 
+      ([entry]) => {
+        setIsNavVisible(!entry.isIntersecting);
+      },
+      {
+        root: null,
+        rootMargin: '0px 0px -50px 0px',
+        threshold: 0
       }
-    ); 
-    
-    observer.observe(footerElement); 
-    
-    return () => { 
-      if (footerElement) observer.unobserve(footerElement); 
-    }; 
+    );
+
+    observer.observe(footerElement);
+
+    return () => {
+      if (footerElement) observer.unobserve(footerElement);
+    };
   }, []);
 
   const toggleMobileMenu = (e: React.MouseEvent) => {
@@ -75,36 +76,18 @@ const FloatingNavAndMobileTrigger = () => {
   const handleRocketClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (isRocketLaunching) return;
-    
+
     setIsRocketLaunching(true);
-    
+
     // Get the rocket's starting position
     const rocketButton = e.currentTarget as HTMLElement;
     const rect = rocketButton.getBoundingClientRect();
     const startX = rect.left + rect.width / 2;
     const startY = rect.top + rect.height / 2;
 
-    // Get the waitlist section position
-    const waitlistSection = document.getElementById('waitlist');
-    let endX = window.innerWidth / 2;
-    let endY = window.innerHeight / 2;
-    
-    if (waitlistSection) {
-      const waitlistRect = waitlistSection.getBoundingClientRect();
-      endX = waitlistRect.left + waitlistRect.width / 2;
-      endY = waitlistRect.top + waitlistRect.height / 2;
-    }
-
     // First phase: Rocket goes up to the top of the screen
     const topY = 50; // 50px from top
     const topX = window.innerWidth / 2; // Center horizontally
-    
-    // Second phase: Rocket comes down to the target
-    // const controlX = (topX + endX) / 2 + (Math.random() * 100 - 50);
-    // const controlY = (topY + endY) / 2 - 100;
-
-    // Define the rocket's path for the trail
-    // const path = `M${startX},${startY} L${topX},${topY} Q${controlX},${controlY} ${endX},${endY}`;
 
     // First animation: Rocket goes up
     await rocketControls.start({
@@ -118,12 +101,22 @@ const FloatingNavAndMobileTrigger = () => {
       }
     });
 
-    // Start scrolling to the section while rocket is at the top
+    // If we're not on the home page, navigate there first
+    if (pathname !== '/') {
+      router.push('/');
+      // Wait for navigation to complete (approximate)
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+
+    // Get the waitlist section position after potential navigation
+    const waitlistSection = document.getElementById('waitlist');
+    let endX = window.innerWidth / 2;
+    let endY = window.innerHeight / 2;
+
     if (waitlistSection) {
-      waitlistSection.scrollIntoView({ behavior: 'smooth' });
-      
-      // Wait for scroll to complete (approximately)
-      await new Promise(resolve => setTimeout(resolve, 800));
+      const waitlistRect = waitlistSection.getBoundingClientRect();
+      endX = waitlistRect.left + waitlistRect.width / 2;
+      endY = waitlistRect.top + waitlistRect.height / 2;
     }
 
     // Second animation: Rocket comes down to the target
@@ -137,6 +130,11 @@ const FloatingNavAndMobileTrigger = () => {
         ease: [0.65, 0, 0.35, 1]
       }
     });
+
+    // Scroll to waitlist section if we're on home page
+    if (pathname === '/' && waitlistSection) {
+      waitlistSection.scrollIntoView({ behavior: 'smooth' });
+    }
 
     // Show explosion effect at the end
     await Promise.all([
@@ -160,66 +158,66 @@ const FloatingNavAndMobileTrigger = () => {
     setIsRocketLaunching(false);
   };
 
-  // Animation variants
-  const navVariants: Variants = { 
-    hidden: { y: "110%", opacity: 0 }, 
-    visible: { y: "0%", opacity: 1, transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] } }, 
-    exit: { y: "110%", opacity: 0, transition: { duration: 0.3, ease: [0.5, 0, 0.75, 0] } } 
-  };
   
+  // Animation variants
+  const navVariants: Variants = {
+    hidden: { y: "110%", opacity: 0 },
+    visible: { y: "0%", opacity: 1, transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] } },
+    exit: { y: "110%", opacity: 0, transition: { duration: 0.3, ease: [0.5, 0, 0.75, 0] } }
+  };
+
   // Menu item animation variants
-  const menuItemVariants: Variants = { 
-    hidden: { scale: 0.8, opacity: 0 }, 
-    visible: (i) => ({ 
-      scale: 1, 
+  const menuItemVariants: Variants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: (i) => ({
+      scale: 1,
       opacity: 1,
-      transition: { 
+      transition: {
         delay: i * 0.05,
         type: "spring",
         stiffness: 350,
         damping: 25
-      } 
+      }
     }),
-    exit: (i) => ({ 
-      scale: 0.8, 
+    exit: (i) => ({
+      scale: 0.8,
       opacity: 0,
-      transition: { 
+      transition: {
         delay: i * 0.03,
-        duration: 0.2 
+        duration: 0.2
       }
     })
   };
-
   return (
     <>
       {/* Floating Navigation Bar */}
       <AnimatePresence>
         {isNavVisible && (
-          <motion.nav 
-            key="floating-nav" 
-            variants={navVariants} 
-            initial="hidden" 
-            animate="visible" 
-            exit="exit" 
+          <motion.nav
+            key="floating-nav"
+            variants={navVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             className="fixed bottom-4 md:bottom-5 right-4 z-[99]"
           >
             <div className="inline-flex items-center justify-between bg-background/85 backdrop-blur-lg border border-border shadow-lg rounded-full p-1.5">
               {/* Desktop Navigation */}
               <div className="hidden lg:flex items-center space-x-1.5">
-                {mainNavLinks.map((item) => { 
-                  const isActive = (item.href === '/' && pathname === '/') || 
-                    (item.href !== '/' && !item.href.startsWith('/#') && pathname.startsWith(item.href)); 
-                  
+                {mainNavLinks.map((item) => {
+                  const isActive = (item.href === '/' && pathname === '/') ||
+                    (item.href !== '/' && !item.href.startsWith('/#') && pathname.startsWith(item.href));
+
                   return (
-                    <Link 
-                      key={`desktop-${item.href}`} 
-                      href={item.href} 
-                      aria-current={isActive ? 'page' : undefined} 
-                      title={item.label} 
+                    <Link
+                      key={`desktop-${item.href}`}
+                      href={item.href}
+                      aria-current={isActive ? 'page' : undefined}
+                      title={item.label}
                       className={cn(
                         "flex items-center justify-center px-4 h-9 rounded-full transition-colors duration-200 text-sm font-medium whitespace-nowrap",
-                        isActive 
-                          ? "bg-foreground text-background" 
+                        isActive
+                          ? "bg-foreground text-background"
                           : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                       )}
                     >
@@ -232,10 +230,10 @@ const FloatingNavAndMobileTrigger = () => {
                   animate={rocketControls}
                   style={{ position: 'relative' }}
                 >
-                  <Link 
-                    href={ctaLink.href} 
+                  <Link
+                    href={ctaLink.href}
                     onClick={handleRocketClick}
-                    aria-label={ctaLink.label} 
+                    aria-label={ctaLink.label}
                     className={cn(
                       "flex items-center justify-center px-3.5 h-9 rounded-full transition-colors duration-200",
                       "bg-primary text-primary-foreground hover:bg-brand-maroon-dark",
@@ -255,11 +253,11 @@ const FloatingNavAndMobileTrigger = () => {
                   </Link>
                 </motion.div>
               </div>
-              
+
               {/* Mobile Menu Button */}
               <div className="lg:hidden flex items-center">
-                <button 
-                  onClick={toggleMobileMenu} 
+                <button
+                  onClick={toggleMobileMenu}
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   className="flex items-center justify-center h-9 w-9 rounded-full text-muted-foreground hover:bg-secondary hover:text-primary transition-colors z-[101]"
                 >
@@ -267,29 +265,29 @@ const FloatingNavAndMobileTrigger = () => {
                 </button>
               </div>
             </div>
-            
+
             {/* Floating Menu Items */}
             <AnimatePresence>
               {mobileMenuOpen && (
                 <div className="absolute bottom-full right-0 mb-4 flex flex-col-reverse items-end space-y-reverse space-y-3 lg:hidden">
                   {/* CTA Button */}
                   <motion.div
-                    key="mobile-cta" 
+                    key="mobile-cta"
                     custom={0}
                     variants={menuItemVariants}
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    className="flex items-center"
+                    className="flex flex-row items-center whitespace-nowrap"
                   >
-                    <span className="mr-3 bg-background/85 backdrop-blur-lg px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+                    <span className="mr-3 bg-primary text-white backdrop-blur-lg px-10 py-2 rounded-full text-sm font-medium shadow-lg whitespace-nowrap">
                       {ctaLink.label}
                     </span>
                     <motion.div
                       animate={rocketControls}
                       style={{ position: 'relative' }}
                     >
-                      <Link 
+                      <Link
                         href={ctaLink.href}
                         onClick={(e) => {
                           handleRocketClick(e);
@@ -316,9 +314,9 @@ const FloatingNavAndMobileTrigger = () => {
                   
                   {/* Navigation Links */}
                   {mainNavLinks.map((link, i) => {
-                    const isActive = (link.href === '/' && pathname === '/') || 
+                    const isActive = (link.href === '/' && pathname === '/') ||
                       (link.href !== '/' && !link.href.startsWith('/#') && pathname.startsWith(link.href));
-                    
+
                     return (
                       <motion.div
                         key={`mobile-${link.href}`}
@@ -329,7 +327,7 @@ const FloatingNavAndMobileTrigger = () => {
                         exit="exit"
                         className="flex items-center"
                       >
-                        <span className="mr-3 bg-background/85 backdrop-blur-lg px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+                        <span className="mr-3 bg-primary text-white backdrop-blur-lg px-4 py-2 rounded-full text-sm font-medium shadow-lg">
                           {link.label}
                         </span>
                         <Link
@@ -337,8 +335,8 @@ const FloatingNavAndMobileTrigger = () => {
                           onClick={() => setMobileMenuOpen(false)}
                           className={cn(
                             "flex items-center justify-center h-12 w-12 rounded-full shadow-lg",
-                            isActive 
-                              ? "bg-foreground text-background" 
+                            isActive
+                              ? "bg-foreground text-background"
                               : "bg-secondary/90 text-foreground hover:bg-secondary"
                           )}
                         >
@@ -374,7 +372,7 @@ const FloatingNavAndMobileTrigger = () => {
                 strokeWidth="2"
                 fill="none"
                 initial={{ pathLength: 0 }}
-                animate={{ 
+                animate={{
                   pathLength: 1,
                   transition: { duration: 1.5, ease: [0.65, 0, 0.35, 1] }
                 }}
@@ -387,13 +385,13 @@ const FloatingNavAndMobileTrigger = () => {
                 </linearGradient>
               </defs>
             </svg>
-            
+
             {/* Particle effects */}
             {[...Array(20)].map((_, i) => (
               <motion.div
                 key={`particle-${i}`}
                 className={`absolute w-2 h-2 rounded-full ${i % 3 === 0 ? 'bg-yellow-400' : i % 3 === 1 ? 'bg-orange-400' : 'bg-red-400'}`}
-                initial={{ 
+                initial={{
                   x: 0,
                   y: 0,
                   opacity: 1,
@@ -412,10 +410,10 @@ const FloatingNavAndMobileTrigger = () => {
                 }}
               />
             ))}
-            
+
             {/* Explosion effect at destination */}
             <motion.div
-              initial={{ 
+              initial={{
                 scale: 0,
                 opacity: 0
               }}

@@ -5,13 +5,19 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from "@/hooks/use-toast";
-import { motion, AnimatePresence } from "framer-motion";
-import { Send, Mail, ChevronRight, MailIcon } from 'lucide-react';
+import { motion } from "framer-motion";
+import { Send, Mail, MailIcon } from 'lucide-react';
 import { Inter } from "next/font/google";
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const geist = Inter({ subsets: ['latin'] });
 
-interface FormData { name: string; email: string; message: string; }
+interface FormData { 
+  name: string; 
+  email: string; 
+  message: string; 
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -100,36 +106,16 @@ const buttonHover = {
 };
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState<FormData>({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState<FormData>({ 
+    name: '', 
+    email: '', 
+    message: '' 
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [showTerminal, setShowTerminal] = useState<boolean>(false);
-  const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
   const { toast } = useToast();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.id]: e.target.value }));
-  };
-
-  const simulateTerminal = async () => {
-    setTerminalOutput([]);
-    setShowTerminal(true);
-    
-    const messages = [
-      "> Initializing contact protocol...",
-      "> Establishing secure connection...",
-      "> Encrypting message contents...",
-      "> Routing through secure channels...",
-      "> Message transmission in progress...",
-      "> Connection established with recipient..."
-    ];
-
-    for (let i = 0; i < messages.length; i++) {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setTerminalOutput(prev => [...prev, messages[i]]);
-    }
-
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setShowTerminal(false);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -137,21 +123,37 @@ export default function ContactPage() {
     if (isLoading) return;
 
     if (!formData.name || !formData.email || !formData.message || !/\S+@\S+\.\S+/.test(formData.email)) {
-      toast({ title: "Missing Information", description: "Please fill in all fields with a valid email.", variant: "destructive" });
+      toast({ 
+        title: "Missing Information", 
+        description: "Please fill in all fields with a valid email.", 
+        variant: "destructive" 
+      });
       return;
     }
 
     setIsLoading(true);
-    await simulateTerminal();
 
     try {
+      // Store submission in Firestore
+      const docRef = await addDoc(collection(db, 'contactSubmissions'), {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        createdAt: serverTimestamp(),
+        status: 'new',
+        read: false
+      });
+
+      console.log("Submission stored with ID: ", docRef.id);
+
+      // Optional: Send email via API route
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) throw new Error('Failed to send message');
+      if (!response.ok) throw new Error('Failed to send email');
 
       toast({
         title: "Message Sent!",
@@ -199,7 +201,6 @@ export default function ContactPage() {
                 }
               }}
               variants={floatingVariants}
-              // animate="float"
             >
               <Mail className="h-12 w-12 mx-auto mb-4 text-brand-maroon opacity-80"/>
             </motion.div>
@@ -254,7 +255,6 @@ export default function ContactPage() {
                   </p>
                 </div>
                 <motion.div 
-                  // whileHover="hover"
                   whileTap="tap"
                   variants={buttonHover}
                 >
@@ -314,242 +314,140 @@ export default function ContactPage() {
               animate="visible"
               variants={formVariants}
             >
-              <AnimatePresence mode="wait">
-                {showTerminal ? (
-                  <motion.div
-                    key="terminal"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ 
-                      opacity: 1, 
-                      scale: 1,
-                      transition: { 
-                        type: "spring",
-                        stiffness: 100
-                      }
-                    }}
-                    exit={{ 
-                      opacity: 0, 
-                      scale: 0.95,
-                      transition: { 
-                        duration: 0.3 
-                      }
-                    }}
-                    className="bg-gray-900 rounded-lg p-6 font-mono text-sm h-full"
+              <motion.form 
+                onSubmit={handleSubmit} 
+                className="space-y-6"
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: 1,
+                  transition: { 
+                    delay: 0.5,
+                    duration: 0.8
+                  }
+                }}
+              >
+                <motion.div 
+                  className="space-y-2"
+                  initial={{ x: 20, opacity: 0 }}
+                  animate={{ 
+                    x: 0, 
+                    opacity: 1,
+                    transition: { 
+                      delay: 0.6,
+                      duration: 0.8
+                    }
+                  }}
+                >
+                  <Label htmlFor="name">Name</Label>
+                  <Input 
+                    id="name" 
+                    type="text" 
+                    placeholder="Your Name" 
+                    value={formData.name} 
+                    onChange={handleChange} 
+                    required 
+                    disabled={isLoading}
+                    className="bg-white hover:border-brand-maroon/50 focus:border-brand-maroon transition-colors"
+                  />
+                </motion.div>
+                <motion.div 
+                  className="space-y-2"
+                  initial={{ x: 20, opacity: 0 }}
+                  animate={{ 
+                    x: 0, 
+                    opacity: 1,
+                    transition: { 
+                      delay: 0.7,
+                      duration: 0.8
+                    }
+                  }}
+                >
+                  <Label htmlFor="email">Email Address</Label>
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    placeholder="you@example.com" 
+                    value={formData.email} 
+                    onChange={handleChange} 
+                    required 
+                    disabled={isLoading}
+                    className="bg-white hover:border-brand-maroon/50 focus:border-brand-maroon transition-colors"
+                  />
+                </motion.div>
+                <motion.div 
+                  className="space-y-2"
+                  initial={{ x: 20, opacity: 0 }}
+                  animate={{ 
+                    x: 0, 
+                    opacity: 1,
+                    transition: { 
+                      delay: 0.8,
+                      duration: 0.8
+                    }
+                  }}
+                >
+                  <Label htmlFor="message">Message</Label>
+                  <Textarea 
+                    id="message" 
+                    placeholder="How can we help?" 
+                    rows={6} 
+                    value={formData.message} 
+                    onChange={handleChange} 
+                    required 
+                    disabled={isLoading}
+                    className="bg-white hover:border-brand-maroon/50 focus:border-brand-maroon transition-colors"
+                  />
+                </motion.div>
+                <motion.div 
+                  className="pt-4"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ 
+                    y: 0, 
+                    opacity: 1,
+                    transition: { 
+                      delay: 0.9,
+                      type: "spring",
+                      stiffness: 100
+                    }
+                  }}
+                >
+                  <Button 
+                    type="submit" 
+                    disabled={isLoading} 
+                    size="lg" 
+                    className="w-full md:w-auto bg-brand-maroon hover:bg-brand-maroon/90"
                   >
-                    <div className="flex items-center gap-2 mb-4">
-                      <motion.div 
-                        className="w-3 h-3 rounded-full bg-red-500"
-                        animate={{ 
-                          scale: [1, 1.1, 1],
+                    {isLoading ? (
+                      <motion.span
+                        animate={{
+                          opacity: [0.6, 1, 0.6],
                           transition: { 
-                            duration: 2,
+                            duration: 1.5,
                             repeat: Infinity
                           }
                         }}
-                      />
-                      <motion.div 
-                        className="w-3 h-3 rounded-full bg-yellow-500"
-                        animate={{ 
-                          scale: [1, 1.1, 1],
-                          transition: { 
-                            delay: 0.2,
-                            duration: 2,
-                            repeat: Infinity
-                          }
-                        }}
-                      />
-                      <motion.div 
-                        className="w-3 h-3 rounded-full bg-green-500"
-                        animate={{ 
-                          scale: [1, 1.1, 1],
-                          transition: { 
-                            delay: 0.4,
-                            duration: 2,
-                            repeat: Infinity
-                          }
-                        }}
-                      />
-                      <span className="text-gray-400 ml-2">terminal</span>
-                    </div>
-                    <div className="space-y-2 text-gray-300">
-                      {terminalOutput.map((line, i) => (
-                        <motion.div 
-                          key={i} 
-                          className="flex items-start"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ 
-                            opacity: 1, 
-                            x: 0,
-                            transition: { 
-                              delay: i * 0.1,
-                              type: "spring",
-                              stiffness: 100
-                            }
-                          }}
-                        >
-                          <ChevronRight className="h-4 w-4 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                          <span>{line}</span>
-                        </motion.div>
-                      ))}
-                      {terminalOutput.length === 6 && (
-                        <motion.div
-                          className="text-green-400 mt-4"
-                          initial={{ opacity: 0 }}
-                          animate={{ 
-                            opacity: 1,
-                            transition: { 
-                              delay: 0.5,
-                              type: "spring"
-                            }
-                          }}
-                        >
-                          ✓ Message sent successfully!
-                        </motion.div>
-                      )}
-                    </div>
-                  </motion.div>
-                ) : (
-                  <motion.form 
-                    key="form"
-                    onSubmit={handleSubmit} 
-                    className="space-y-6"
-                    initial={{ opacity: 0 }}
-                    animate={{ 
-                      opacity: 1,
-                      transition: { 
-                        delay: 0.5,
-                        duration: 0.8
-                      }
-                    }}
-                    exit={{ opacity: 0 }}
-                  >
-                    <motion.div 
-                      className="space-y-2"
-                      initial={{ x: 20, opacity: 0 }}
-                      animate={{ 
-                        x: 0, 
-                        opacity: 1,
-                        transition: { 
-                          delay: 0.6,
-                          duration: 0.8
-                        }
-                      }}
-                    >
-                      <Label htmlFor="name">Name</Label>
-                      <Input 
-                        id="name" 
-                        type="text" 
-                        placeholder="Your Name" 
-                        value={formData.name} 
-                        onChange={handleChange} 
-                        required 
-                        disabled={isLoading}
-                        className="bg-white hover:border-brand-maroon/50 focus:border-brand-maroon transition-colors"
-                      />
-                    </motion.div>
-                    <motion.div 
-                      className="space-y-2"
-                      initial={{ x: 20, opacity: 0 }}
-                      animate={{ 
-                        x: 0, 
-                        opacity: 1,
-                        transition: { 
-                          delay: 0.7,
-                          duration: 0.8
-                        }
-                      }}
-                    >
-                      <Label htmlFor="email">Email Address</Label>
-                      <Input 
-                        id="email" 
-                        type="email" 
-                        placeholder="you@example.com" 
-                        value={formData.email} 
-                        onChange={handleChange} 
-                        required 
-                        disabled={isLoading}
-                        className="bg-white hover:border-brand-maroon/50 focus:border-brand-maroon transition-colors"
-                      />
-                    </motion.div>
-                    <motion.div 
-                      className="space-y-2"
-                      initial={{ x: 20, opacity: 0 }}
-                      animate={{ 
-                        x: 0, 
-                        opacity: 1,
-                        transition: { 
-                          delay: 0.8,
-                          duration: 0.8
-                        }
-                      }}
-                    >
-                      <Label htmlFor="message">Message</Label>
-                      <Textarea 
-                        id="message" 
-                        placeholder="How can we help?" 
-                        rows={6} 
-                        value={formData.message} 
-                        onChange={handleChange} 
-                        required 
-                        disabled={isLoading}
-                        className="bg-white hover:border-brand-maroon/50 focus:border-brand-maroon transition-colors"
-                      />
-                    </motion.div>
-                    <motion.div 
-                      className="pt-4"
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ 
-                        y: 0, 
-                        opacity: 1,
-                        transition: { 
-                          delay: 0.9,
-                          type: "spring",
-                          stiffness: 100
-                        }
-                      }}
-                    >
-                      <Button 
-                        type="submit" 
-                        disabled={isLoading} 
-                        size="lg" 
-                        className="w-full md:w-auto bg-brand-maroon hover:bg-brand-maroon/90"
-                        // whileHover="hover"
-                        // whileTap="tap"
-                        // variants={buttonHover}
                       >
-                        {isLoading ? (
-                          <motion.span
-                            animate={{
-                              opacity: [0.6, 1, 0.6],
-                              transition: { 
-                                duration: 1.5,
-                                repeat: Infinity
-                              }
-                            }}
-                          >
-                            Sending...
-                          </motion.span>
-                        ) : (
-                          <>
-                            Send Message
-                            <motion.span
-                              animate={{
-                                x: [0, 4, 0],
-                                transition: { 
-                                  duration: 1.5,
-                                  repeat: Infinity
-                                }
-                              }}
-                            >
-                              <Send className="ml-2 h-4 w-4" />
-                            </motion.span>
-                          </>
-                        )}
-                      </Button>
-                    </motion.div>
-                  </motion.form>
-                )}
-              </AnimatePresence>
+                        Sending...
+                      </motion.span>
+                    ) : (
+                      <>
+                        Send Message
+                        <motion.span
+                          animate={{
+                            x: [0, 4, 0],
+                            transition: { 
+                              duration: 1.5,
+                              repeat: Infinity
+                            }
+                          }}
+                        >
+                          <Send className="ml-2 h-4 w-4" />
+                        </motion.span>
+                      </>
+                    )}
+                  </Button>
+                </motion.div>
+              </motion.form>
             </motion.div>
           </div>
         </motion.div>
