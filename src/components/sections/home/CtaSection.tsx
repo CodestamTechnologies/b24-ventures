@@ -36,17 +36,7 @@ const itemVariants = {
   }
 };
 
-// const successVariants = {
-//   hidden: { scale: 0.8, opacity: 0 },
-//   visible: {
-//     scale: 1,
-//     opacity: 1,
-//     transition: {
-//       type: "spring",
-//       stiffness: 100
-//     }
-//   }
-// };
+
 
 const rocketVariants = {
   float: {
@@ -77,6 +67,7 @@ export default function CtaSection() {
   const { toast } = useToast();
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+   const [message, setMessage] = useState<{text: string; type: 'success' | 'error'} | null>(null);
 
   // Check if mobile and set loaded state
   useEffect(() => {
@@ -127,6 +118,32 @@ export default function CtaSection() {
     
     setIsLoading(true);
     if (!isMobile) setIsRocketLaunching(true);
+     try {
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        setMessage({ text: data.message, type: 'success' });
+        setEmail(''); // Clear form on success
+        // Optional: Redirect after delay
+      } else {
+        throw new Error(data.message || 'Failed to join waitlist');
+      }
+    } catch (error) {
+      setMessage({
+        text: error instanceof Error ? error.message : 'An unexpected error occurred',
+        type: 'error'
+      });
+    } finally {
+      setIsLoading(false);
+    }
 
     try {
       // Add to Firestore waitlist collection

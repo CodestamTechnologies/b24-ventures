@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { CheckCircle, Rocket, Loader2 } from 'lucide-react';
+import { getActiveAdmins } from '@/lib/firestore/admin-utils';
 
 type FormData = {
   name: string;
@@ -146,63 +147,99 @@ export default function SubmitStartupForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
+  e.preventDefault();
+  
+  if (!validateForm()) return;
 
-    const emailExists = await checkEmailExists(formData.email);
-    if (emailExists) {
-      setErrors(prev => ({ ...prev, email: 'This email has already been used to submit a startup' }));
-      return;
-    }
+  const emailExists = await checkEmailExists(formData.email);
+  if (emailExists) {
+    setErrors(prev => ({ ...prev, email: 'This email has already been used to submit a startup' }));
+    return;
+  }
 
-    setIsSubmitting(true);
-    try {
-      await addDoc(collection(db, 'startupSubmissions'), {
-        ...formData,
-        submittedAt: new Date().toISOString(),
-      });
+  setIsSubmitting(true);
+  try {
+    // Save to Firestore
+    await addDoc(collection(db, 'startupSubmissions'), {
+      ...formData,
+      submittedAt: new Date().toISOString(),
+    });
 
-      // Send confirmation emails (simplified for example)
-      await Promise.all([
-        fetch('/api/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: formData.email,
-            subject: 'Your Startup Submission Confirmation',
-            text: `Thank you for submitting your startup "${formData.name}".`,
-          }),
-        }),
-        fetch('/api/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: process.env.NEXT_PUBLIC_ADMIN_EMAIL,
-            subject: 'New Startup Submission',
-            text: `New submission: ${formData.name}`,
-          }),
-        })
-      ]);
+    // Prepare email content
+    const userEmailContent = {
+      to: formData.email,
+      subject: 'Your Startup Submission Confirmation',
+      text: `Thank you for submitting your startup "${formData.name}". We'll review your submission and get back to you soon.`,
+      html: `<p>Thank you for submitting your startup <strong>${formData.name}</strong>. We'll review your submission and get back to you soon.</p>`
+    };
 
-      setIsSuccess(true);
-      setFormData({
-        name: '',
-        email: '',
-        website: '',
-        problemSolution: '',
-        sector: '',
-        fundingStage: '',
-        region: ''
-      });
-    } catch (error) {
-      console.error('Submission error:', error);
-      setErrors(prev => ({ ...prev, form: 'An error occurred while submitting. Please try again.' }));
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    const adminEmailContent = {
+      to: '', // Will be set below
+      subject: 'New Startup Submission',
+      text: `New submission received:\n\nStartup Name: ${formData.name}\nEmail: ${formData.email}\nWebsite: ${formData.website}\nSector: ${formData.sector}\nFunding Stage: ${formData.fundingStage}\nRegion: ${formData.region}\n\nProblem/Solution:\n${formData.problemSolution}`,
+      html: `
+        <h2>New submission received:</h2>
+        <p><strong>Startup Name:</strong> ${formData.name}</p>
+        <p><strong>Email:</strong> ${formData.email}</p>
+        <p><strong>Website:</strong> ${formData.website}</p>
+        <p><strong>Sector:</strong> ${formData.sector}</p>
+        <p><strong>Funding Stage:</strong> ${formData.fundingStage}</p>
+        <p><strong>Region:</strong> ${formData.region}</p>
+        <h3>Problem/Solution:</h3>
+        <p>${formData.problemSolution}</p>
+      `
+    };
 
+    // Send emails in parallel
+    await Promise.all([
+      // Send confirmation to user
+      fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userEmailContent),
+      }),
+      
+      // Send notification to all active admins
+      (async () => {
+        try {
+          const activeAdmins = await getActiveAdmins();
+          const adminEmails = activeAdmins.map(admin => admin.email);
+          
+          // Send to each admin
+          await Promise.all(adminEmails.map(email => 
+            fetch('/api/send-email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                ...adminEmailContent,
+                to: email
+              }),
+            })
+          ));
+        } catch (error) {
+          console.error('Error sending admin notifications:', error);
+          // Don't fail the whole submission if admin notifications fail
+        }
+      })()
+    ]);
+
+    setIsSuccess(true);
+    setFormData({
+      name: '',
+      email: '',
+      website: '',
+      problemSolution: '',
+      sector: '',
+      fundingStage: '',
+      region: ''
+    });
+  } catch (error) {
+    console.error('Submission error:', error);
+    setErrors(prev => ({ ...prev, form: 'An error occurred while submitting. Please try again.' }));
+  } finally {
+    setIsSubmitting(false);
+  }
+};
   return (
     <div className="max-w-2xl mx-auto p-4">
       <motion.div

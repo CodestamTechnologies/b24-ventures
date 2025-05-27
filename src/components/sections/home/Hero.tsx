@@ -231,7 +231,7 @@ const HeroSection = () => {
                 }}
                 whileTap={{ scale: 0.97 }}
               >
-                <span className="relative ">Get featured</span>
+                <span className="relative ">GET FEATURED</span>
                 <motion.div 
                   className="absolute inset-0 bg-gradient-to-r from-brand-maroon to-red-800 opacity-0 hover:opacity-100 transition-opacity"
                   initial={{ opacity: 0 }}
@@ -491,7 +491,7 @@ const HeroSection = () => {
                         whileHover={{ scale: 1.05, boxShadow: "0 5px 15px rgba(128,0,32,0.3)" }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        Get featured
+                        GET FEATURED
                       </motion.button>
                     </Link>
                   </div>

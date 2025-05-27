@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { sendMail } from '@/lib/mail';
 
 export async function POST(request: Request) {
   try {
@@ -12,26 +12,12 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create transporter directly in the API route
-    const transporter = nodemailer.createTransport({
-      service: 'gmail', // or your email service
-      auth: {
-        user: process.env.EMAIL_SERVER_USER,
-        pass: process.env.EMAIL_SERVER_PASSWORD,
-      },
-    });
-
-    // Define mail options
-    const mailOptions = {
-      from: process.env.EMAIL_SERVER_USER,
+    await sendMail({
       to,
       subject,
       text,
-      html: html || text,
-    };
-
-    // Send email
-    await transporter.sendMail(mailOptions);
+      html: html || text
+    });
 
     return NextResponse.json(
       { message: 'Email sent successfully' },
@@ -40,7 +26,10 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Email sending error:', error);
     return NextResponse.json(
-      { error: 'Failed to send email' },
+      { 
+        error: 'Failed to send email',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
