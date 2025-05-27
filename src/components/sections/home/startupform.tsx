@@ -146,7 +146,7 @@ export default function SubmitStartupForm() {
     return !querySnapshot.empty;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   
   if (!validateForm()) return;
@@ -159,11 +159,13 @@ export default function SubmitStartupForm() {
 
   setIsSubmitting(true);
   try {
-    // Save to Firestore
-    await addDoc(collection(db, 'startupSubmissions'), {
+    // 1. First save to Firestore
+    console.log('Saving to Firestore...');
+    const docRef = await addDoc(collection(db, 'startupSubmissions'), {
       ...formData,
       submittedAt: new Date().toISOString(),
     });
+    console.log('Saved to Firestore with ID:', docRef.id);
 
     // Prepare email content
     const userEmailContent = {
@@ -190,38 +192,55 @@ export default function SubmitStartupForm() {
       `
     };
 
-    // Send emails in parallel
-    await Promise.all([
-      // Send confirmation to user
-      fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userEmailContent),
-      }),
+    // 2. Send user confirmation email
+    console.log('Sending user confirmation email to:', formData.email);
+    const userEmailResponse = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userEmailContent),
+    });
+    
+    if (!userEmailResponse.ok) {
+      const errorData = await userEmailResponse.json();
+      console.error('User email failed:', errorData);
+      throw new Error('Failed to send user confirmation email');
+    }
+    console.log('User email sent successfully');
+
+    // 3. Send admin notifications
+    console.log('Fetching active admins...');
+    try {
+      const activeAdmins = await getActiveAdmins();
+      console.log(`Found ${activeAdmins.length} active admins`);
       
-      // Send notification to all active admins
-      (async () => {
-        try {
-          const activeAdmins = await getActiveAdmins();
-          const adminEmails = activeAdmins.map(admin => admin.email);
-          
-          // Send to each admin
-          await Promise.all(adminEmails.map(email => 
-            fetch('/api/send-email', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                ...adminEmailContent,
-                to: email
-              }),
-            })
-          ));
-        } catch (error) {
-          console.error('Error sending admin notifications:', error);
-          // Don't fail the whole submission if admin notifications fail
-        }
-      })()
-    ]);
+      if (activeAdmins.length > 0) {
+        const adminEmails = activeAdmins.map(admin => admin.email);
+        console.log('Sending admin notifications to:', adminEmails);
+        
+        const adminEmailPromises = adminEmails.map(email => 
+          fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ...adminEmailContent,
+              to: email
+            }),
+          }).then(async response => {
+            if (!response.ok) {
+              const errorData = await response.json();
+              console.error(`Admin email to ${email} failed:`, errorData);
+            }
+            return response;
+          })
+        );
+
+        await Promise.all(adminEmailPromises);
+        console.log('All admin notifications sent');
+      }
+    } catch (adminError) {
+      console.error('Admin notification error (non-critical):', adminError);
+      // Continue even if admin notifications fail
+    }
 
     setIsSuccess(true);
     setFormData({
@@ -235,7 +254,10 @@ export default function SubmitStartupForm() {
     });
   } catch (error) {
     console.error('Submission error:', error);
-    setErrors(prev => ({ ...prev, form: 'An error occurred while submitting. Please try again.' }));
+    setErrors(prev => ({ 
+      ...prev, 
+      form: error instanceof Error ? error.message : 'An error occurred while submitting. Please try again.' 
+    }));
   } finally {
     setIsSubmitting(false);
   }
