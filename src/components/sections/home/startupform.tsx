@@ -150,14 +150,15 @@ export default function SubmitStartupForm() {
   e.preventDefault();
   
   if (!validateForm()) return;
-
+  
+  setIsSubmitting(true);
   const emailExists = await checkEmailExists(formData.email);
   if (emailExists) {
+    setIsSubmitting(false);
     setErrors(prev => ({ ...prev, email: 'This email has already been used to submit a startup' }));
     return;
   }
 
-  setIsSubmitting(true);
   try {
     // 1. First save to Firestore
     console.log('Saving to Firestore...');
