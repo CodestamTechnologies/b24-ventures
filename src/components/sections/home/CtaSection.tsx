@@ -137,7 +137,7 @@ export default function CtaSection() {
         throw new Error(data.message || 'Failed to join waitlist');
       }
     } catch (error) {
-      console.log("error occured")
+      console.log("error is ",error)
     } finally {
       setIsLoading(false);
     }
