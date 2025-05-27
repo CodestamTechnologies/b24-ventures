@@ -41,6 +41,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           inter.variable,
           playfair.variable
         )}
+        
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           {/* Use LazyMotion to properly load Framer Motion features */}
