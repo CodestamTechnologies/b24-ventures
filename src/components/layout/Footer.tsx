@@ -138,10 +138,18 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-primary/20 pt-8 text-gray-500 text-sm flex flex-col md:flex-row justify-center items-center gap-4">
+        <div className="  border-t border-primary/20 pt-8 text-gray-500 text-sm flex flex-col md:flex-row justify-center items-center gap-4">
+        <div className="flex flex-col gap-2 justify-center items-center">
+
           <div className="order-2 md:order-1 text-center md:text-left font-inter">
             © {currentYear} Brown24 Ventures. All rights reserved.
           </div>
+          <div className="order-2 md:order-1 text-center md:text-left font-inter">
+          <a href="https://www.codestam.com/">
+           <i> Designed and Developed by Codestam</i>
+          </a>
+          </div>
+        </div>
         </div>
       </div>
 

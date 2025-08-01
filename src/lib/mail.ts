@@ -1,4 +1,3 @@
-// lib/mail.ts
 import nodemailer from 'nodemailer';
 
 // Ensure required environment variables are set
@@ -16,7 +15,6 @@ if (!emailUser || !emailPass || !emailHost || !emailPort || !emailFromAddress) {
 }
 
 // Create a reusable transporter object
-// Configure based on your provider (this is a generic SMTP example)
 const transporter = nodemailer.createTransport({
     host: emailHost,
     port: parseInt(emailPort || '587'), // Default to 587
@@ -25,7 +23,7 @@ const transporter = nodemailer.createTransport({
         user: emailUser,
         pass: emailPass,
     },
-    // Add TLS options if required by your provider (e.g., some need 'ignoreTLS: true' or specific ciphers)
+    // Add TLS options if required by your provider
     // tls: { rejectUnauthorized: false } // Use with caution for local testing if needed
 });
 
@@ -38,14 +36,14 @@ interface SendMailOptions {
 
 // Function to send an email
 export async function sendMail({ to, subject, text, html }: SendMailOptions) {
-    if (!emailUser || !emailPass || !emailHost) { // Check if transporter was configured
+    if (!emailUser || !emailPass || !emailHost) {
          console.error("Email transporter not configured due to missing env variables.");
          throw new Error("Email service is not configured.");
     }
 
     const mailOptions = {
-        from: `"${emailFromName}" <${emailFromAddress}>`, // Formatted sender
-        to, // Recipient address
+        from: `"${emailFromName}" <${emailFromAddress}>`,
+        to,
         subject,
         text,
         html,
@@ -57,7 +55,6 @@ export async function sendMail({ to, subject, text, html }: SendMailOptions) {
         return { success: true, messageId: info.messageId };
     } catch (error) {
         console.error('Error sending email:', error);
-        // Rethrow or handle specific errors if needed
         throw new Error(`Failed to send email: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
 }

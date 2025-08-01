@@ -134,8 +134,8 @@ export default function AboutUsSection() {
                     delay: 0.4
                   }}
                 >
-                  Venture Economy
-                </motion.span>.
+                  Venture Economy.
+                </motion.span>
               </motion.h2>
               
               <motion.p 

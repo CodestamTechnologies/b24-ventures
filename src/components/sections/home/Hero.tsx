@@ -231,7 +231,7 @@ const HeroSection = () => {
                 }}
                 whileTap={{ scale: 0.97 }}
               >
-                <span className="relative ">Get featured</span>
+                <span className="relative ">GET FEATURED</span>
                 <motion.div 
                   className="absolute inset-0 bg-gradient-to-r from-brand-maroon to-red-800 opacity-0 hover:opacity-100 transition-opacity"
                   initial={{ opacity: 0 }}
@@ -357,7 +357,7 @@ const HeroSection = () => {
             <motion.div 
               variants={itemFadeLeft}
               transition={{ delay: 0.2 }}
-              className='absolute top-72 2xl:top-44 left-96   2xl:ml-32 mr-10 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white shadow-lg flex justify-center items-center'
+              className='absolute top-72 2xl:top-44 left-96 z-50   2xl:ml-32 mr-10 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white shadow-lg flex justify-center items-center'
               whileHover={{ 
                 y: -5,
                 rotate: 2,
@@ -380,7 +380,7 @@ const HeroSection = () => {
             <motion.div 
               variants={itemFadeLeft}
               transition={{ delay: 0.4 }}
-              className='absolute 2xl:top-80 2xl:mt-20 top-96 mt-14 2xl:ml-12 left-60 w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white  shadow-lg flex flex-col justify-center items-center p-4'
+              className='absolute 2xl:top-80 2xl:mt-20 top-96 mt-14 2xl:ml-12 left-60  w-36 h-36 2xl:w-52 2xl:h-52 rounded-3xl bg-white  shadow-lg flex flex-col justify-center items-center p-4'
               whileHover={{ 
                 y: -5,
                 rotate: -2,
@@ -491,7 +491,7 @@ const HeroSection = () => {
                         whileHover={{ scale: 1.05, boxShadow: "0 5px 15px rgba(128,0,32,0.3)" }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        Get featured
+                        GET FEATURED
                       </motion.button>
                     </Link>
                   </div>

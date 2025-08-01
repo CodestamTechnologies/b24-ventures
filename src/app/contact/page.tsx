@@ -251,7 +251,7 @@ export default function ContactPage() {
                 <div className="text-gray-600 mb-6">
                   For all general inquiries and media-related matters, please reach out using the button below.
                   <p className="flex flex-row gap-2 mt-2"> 
-                    <MailIcon/> privacy@brown24.ventures
+                    <MailIcon/> connect@brown24ventures.com
                   </p>
                 </div>
                 <motion.div 
@@ -259,7 +259,7 @@ export default function ContactPage() {
                   variants={buttonHover}
                 >
                   <Button asChild variant="outline" className="rounded-full gap-2 bg-brand-maroon text-white border-none hover:bg-brand-maroon/90">
-                    <a href="mailto:privacy@brown24.ventures">
+                    <a href="mailto:connect@brown24ventures.com">
                       <Mail className="h-4 w-4" />
                       Contact us via e-mail
                     </a>
