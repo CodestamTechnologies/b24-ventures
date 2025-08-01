@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
         // Verify subscription status 
         const subscription = await razorpay.subscriptions.fetch(razorpay_subscription_id)
         console.log(subscription)
-        if (subscription.status === 'created') {
+        if (subscription.status) {
             return NextResponse.json({
                 success: true,
                 subscriptionId: razorpay_subscription_id,

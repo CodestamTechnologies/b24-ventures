@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
             planId,
             planName,
             amount: paymentAmount,
-            status: subscription.status
+            status: subscription.status,
         })
         console.log('✅ Payment history saved')
 

@@ -22,7 +22,11 @@ export const ActivateSubscriptionSchema = z.object({
     planName: z.string(),
 })
 
+// Cancel subscription schema (only requires access token)
+export const CancelSubscriptionSchema = z.object({})
+
 // TypeScript types
 export type CreateSubscriptionRequest = z.infer<typeof CreateSubscriptionSchema>
 export type VerifyPaymentRequest = z.infer<typeof VerifyPaymentSchema>
 export type ActivateSubscriptionRequest = z.infer<typeof ActivateSubscriptionSchema>
+export type CancelSubscriptionRequest = z.infer<typeof CancelSubscriptionSchema>
