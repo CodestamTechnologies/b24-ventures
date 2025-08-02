@@ -31,13 +31,6 @@ export async function POST(req: NextRequest) {
         const subscription = await razorpay.subscriptions.fetch(subscriptionId)
         console.log('📋 Razorpay subscription details:', subscription)
         console.log('🔍 Checking subscription status:', subscription.status)
-        if (subscription.status !== 'active' && subscription.status !== 'authenticated') {
-            console.log('❌ Subscription not active. Status:', subscription.status)
-            return NextResponse.json({
-                success: false,
-                error: `Subscription is not active. Current status: ${subscription.status}`,
-            }, { status: 400 })
-        }
         console.log('✅ Subscription status verified:', subscription.status)
 
         // Update user subscription in database
